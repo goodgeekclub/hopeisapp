@@ -5,7 +5,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from '@angular/fire/auth';
-import { AuthDecorator } from '../decorators/auth.decorator';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -19,19 +18,33 @@ export class AuthService {
     this.googleAuthProvider = new GoogleAuthProvider();
   }
 
-  public async register(): Promise<User | null> {
-    const user = await signInWithPopup(this.auth, this.googleAuthProvider)
+  public async register(): Promise<User> {
+    const registeredUser = await signInWithPopup(
+      this.auth,
+      this.googleAuthProvider
+    )
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
 
-        const user = AuthDecorator.formatUser(result.user, credential);
-        
+        const user: User = {
+          displayName: result?.user?.displayName || '',
+          email: result?.user?.email || '',
+          phoneNumber: result?.user?.phoneNumber || undefined,
+          photoURL: result?.user?.photoURL || undefined,
+          token: credential?.accessToken || '',
+        };
+
         return user;
       })
       .catch((error) => {
         console.error('AuthService.register', error.message);
-        return null;
+        const user: User = {
+          displayName: '',
+          email: '',
+          token: '',
+        };
+        return user;
       });
-      return user
+    return registeredUser;
   }
 }

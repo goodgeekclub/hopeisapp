@@ -4,23 +4,27 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../services';
 import { User } from '../../models/user.model';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, SharedModule],
+  imports: [RouterLink, SharedModule, CommonModule, NgOptimizedImage],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit{
-  public user: User | null = null;
+export class HomeComponent implements OnInit {
+  public user: User = {
+    displayName: '',
+    email: '',
+    token: '',
+  };
+
   constructor(private readonly authService: AuthService) {}
 
-  ngOnInit() {
-    this.register();
-  }
+  ngOnInit() {}
 
-  private async register(): Promise<User | null> {
+  public async register(): Promise<User> {
     const user = await this.authService.register();
     this.user = user;
     console.log(this.user);

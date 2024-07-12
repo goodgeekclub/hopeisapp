@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
@@ -26,7 +26,7 @@ export class QuizesService {
     return quiz.save();
   }
 
-  async update(id: string, data: UpdateQuizDto) {
-    return this.model.findById(id);
+  update(id: string, data: UpdateQuizDto) {
+    return this.model.updateOne({ _id: id }, data).then((_) => this.get(id));
   }
 }

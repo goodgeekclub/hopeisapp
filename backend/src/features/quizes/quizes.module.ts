@@ -4,7 +4,7 @@ import { QuizesController } from './quizes.controller';
 import { QuizesService } from './quizes.service';
 
 @Module({
-  imports: [ mongooseConnection.questions ],
+  imports: [ mongooseConnection.quizes ],
   controllers: [QuizesController],
   providers: [QuizesService]
 })

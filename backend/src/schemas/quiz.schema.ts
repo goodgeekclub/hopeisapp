@@ -1,4 +1,4 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export class Choice {
@@ -13,15 +13,18 @@ export class Question {
 
   choices: Choice[];
 
-  next: number;
+  next?: number;
 }
 
+@Schema({
+  timestamps: true
+})
 export class Quiz {
-  @Prop()
+  @Prop({ unique: true })
   name: string;
 
   @Prop({ required: false })
-  description: string;
+  description?: string;
 
   @Prop({ type: [Question] })
   questions: Question[];

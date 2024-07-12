@@ -15,7 +15,7 @@ export const mongooseConnection = {
     }),
     inject: [ConfigService],
   }),
-  questions: MongooseModule.forFeature([
+  quizes: MongooseModule.forFeature([
     { name: COLLECTION_NAME.QUIZ, schema: QuizSchema }
   ])
 }

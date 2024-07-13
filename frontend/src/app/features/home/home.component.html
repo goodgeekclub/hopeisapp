@@ -5,6 +5,7 @@
     <div *ngIf="user.token">
         <p>{{user?.displayName}}</p>
         <p>{{user?.email}}</p>
+        <p>{{user?.token}}</p>
         <img ngSrc="{{user?.photoURL}}" [alt]="user?.displayName" width="100" height="100" />
     </div>
 </div>

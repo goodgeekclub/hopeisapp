@@ -9,12 +9,13 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule, AuthModule],
+      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get('MONGODB_CONNECTION_STRING'),
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
 
   controllers: [AppController],

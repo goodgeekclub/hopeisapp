@@ -8,6 +8,7 @@ export class AuthController {
     testLogin() {
         return "Login test successful";
     }
+    
     @UseGuards(FirebaseAuthGuard)
     @Get('auth-test')
     getAuth(@Req() req: any): void {

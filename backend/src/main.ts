@@ -1,16 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { initializeApp } from 'firebase-admin/app';
+import { config } from './firebase-config/config';
 
 async function bootstrap() {
-//   const config = {
-//     apiKey: '***',
-//     authDomain: '***.firebaseapp.com',
-//     databaseURL: 'https://***.firebaseio.com',
-//     projectId: '***',
-//     storageBucket: '***.appspot.com',
-//     messagingSenderId: '***',
-//     credential: credential.cert(***)
-// };
+  initializeApp(config);
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
 }

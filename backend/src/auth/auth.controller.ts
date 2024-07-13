@@ -1,5 +1,6 @@
 import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 import { FirebaseAuthGuard } from "./strategies/firebase-auth.guard";
+import { AuthGuard } from "src/firebase/guards/auth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -9,7 +10,6 @@ export class AuthController {
         return "Login test successful";
     }
     
-    @UseGuards(FirebaseAuthGuard)
     @Get('auth-test')
     getAuth(@Req() req: any): void {
       // user info can get by `req.user`

@@ -1,0 +1,11 @@
+# For local development only, no password required
+# connection string:
+# mongodb://localhost:27017
+# docker compose up -d
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017

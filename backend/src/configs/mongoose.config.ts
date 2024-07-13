@@ -1,9 +1,12 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QuizSchema } from 'src/schemas/quiz.schema';
+import { profile } from 'console';
+import { ProfileSchema } from 'src/schemas/profile.schema';
 
 export const COLLECTION_NAME = {
   QUIZ: 'quizes',
+  PROFILE: 'profiles',
 };
 
 
@@ -17,5 +20,8 @@ export const mongooseConnection = {
   }),
   quizes: MongooseModule.forFeature([
     { name: COLLECTION_NAME.QUIZ, schema: QuizSchema }
-  ])
+  ]),
+  profiles: MongooseModule.forFeature([
+    { name: COLLECTION_NAME.PROFILE, schema: ProfileSchema }
+  ]),
 }

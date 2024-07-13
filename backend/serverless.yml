@@ -1,0 +1,35 @@
+service: hopeisapp
+
+# params:
+#   default:
+#     domain: ""
+
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  region: ap-southeast-1
+  runtime: nodejs20.x
+  memorySize: 512
+  timeout: 10
+  architecture: x86_64
+  deploymentMethod: direct
+  environment:
+    Project: hopeisapp
+    Environment: ${sls:stage}
+  stackTags:
+    Project: hopeisapp
+    Environment: ${sls:stage}
+  deploymentBucket:
+    # Name of an existing bucket to use. Optional. (default: created by serverless)
+    name: ""
+  apiName: ${sls:service}-${sls:stage}-api
+  apiGateway:
+    apiKeys:
+      - ${sls:service}-${sls:stage}-key
+    trics: true
+
+functions:
+  api:
+    handler: src.lambda
+    events:
+      - http: "*"

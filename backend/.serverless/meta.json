@@ -1,0 +1,84 @@
+{
+  "/root/youth/hopeisapp/backend": {
+    "versionSfCore": null,
+    "versionFramework": "4.1.12",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeServiceName": null,
+    "servicePath": "/root/youth/hopeisapp/backend",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "hopeisapp",
+      "provider": {
+        "name": "aws",
+        "stage": "dev",
+        "region": "ap-southeast-1",
+        "runtime": "nodejs20.x",
+        "memorySize": 512,
+        "timeout": 10,
+        "architecture": "x86_64",
+        "deploymentMethod": "direct",
+        "environment": {
+          "Project": "hopeisapp",
+          "Environment": "${sls:stage}"
+        },
+        "stackTags": {
+          "Project": "hopeisapp",
+          "Environment": "${sls:stage}"
+        },
+        "deploymentBucket": {
+          "name": ""
+        },
+        "apiName": "${sls:service}-${sls:stage}-api",
+        "apiGateway": {
+          "apiKeys": "<REDACTED>",
+          "trics": true
+        }
+      },
+      "functions": {
+        "api": {
+          "handler": "src.lambda",
+          "events": [
+            {
+              "http": "*"
+            }
+          ]
+        }
+      }
+    },
+    "serviceRawFile": "service: hopeisapp\n\n# params:\n#   default:\n#     domain: \"\"\n\nprovider:\n  name: aws\n  stage: ${opt:stage, \"dev\"}\n  region: ap-southeast-1\n  runtime: nodejs20.x\n  memorySize: 512\n  timeout: 10\n  architecture: x86_64\n  deploymentMethod: direct\n  environment:\n    Project: hopeisapp\n    Environment: ${sls:stage}\n  stackTags:\n    Project: hopeisapp\n    Environment: ${sls:stage}\n  deploymentBucket:\n    # Name of an existing bucket to use. Optional. (default: created by serverless)\n    name: \"\"\n  apiName: ${sls:service}-${sls:stage}-api\n  apiGateway:\n    apiKeys:\n      - ${sls:service}-${sls:stage}-key\n    trics: true\n\nfunctions:\n  api:\n    handler: src.lambda\n    events:\n      - http: \"*\"",
+    "command": [
+      "dev"
+    ],
+    "options": {},
+    "error": {
+      "message": "request to https://core.serverless.com/api/bff/ failed, reason: ",
+      "stack": "Error: request to https://core.serverless.com/api/bff/ failed, reason: \n    at Authentication.getClientDataFromAccessKey (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:912:17054)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async Authentication.getAuthenticatedData (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:912:3687)\n    at async Authentication.resolverAuthenticate (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:912:20540)\n    at async _Meta.authenticateAndResolve (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:920:10906)\n    at async route (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:920:15996)\n    at async Object.run2 [as run] (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:920:16444)\n    at async run3 (file:///root/.serverless/releases/4.1.12/package/dist/sf-core.js:920:17704)"
+    },
+    "machineId": "29dc0da3678b72b66cece4173ce3c737",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  },
+  "unknown": {
+    "versionSfCore": null,
+    "versionFramework": "4.1.12",
+    "isWithinCompose": false,
+    "composeOrgName": null,
+    "composeServiceName": null,
+    "command": [
+      "login"
+    ],
+    "options": {},
+    "error": null,
+    "machineId": "29dc0da3678b72b66cece4173ce3c737",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

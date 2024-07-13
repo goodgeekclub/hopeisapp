@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { StorageService } from '../../services/storage.service';
 import { FormsModule } from '@angular/forms';
+
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-name-input',
@@ -13,10 +14,10 @@ import { FormsModule } from '@angular/forms';
 export class NameInputComponent {
   inputNameValue: string = '';
 
-  constructor(private storageService: StorageService, private router: Router) {}
+  constructor(private profileService: ProfileService, private router: Router) {}
 
   saveToLocalStorage() {
-    this.storageService.set('userName', this.inputNameValue);
+    this.profileService.createProfile(this.inputNameValue);
     // this.storageService.clear();
     // this.router.navigate(['/']);
   }

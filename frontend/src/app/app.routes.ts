@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'name-input',
+    path: 'test-name-input',
     component: NameInputComponent,
   }
 ];

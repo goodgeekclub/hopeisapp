@@ -6,7 +6,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, SharedModule, CommonModule, NgOptimizedImage, ],
+  imports: [RouterLink, SharedModule, CommonModule, NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

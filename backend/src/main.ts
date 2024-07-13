@@ -4,10 +4,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { initializeApp } from 'firebase-admin/app';
-import { config } from './firebase/firebase-config/config';
+import { firebaseConfig } from './firebase/firebase-config/config';
 
 async function bootstrap() {
-  initializeApp(config);
+  initializeApp(firebaseConfig);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new MongooseInterceptor());

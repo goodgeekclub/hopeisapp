@@ -4,7 +4,7 @@ import { Strategy, ExtractJwt } from 'passport-firebase-jwt';
 import { auth } from 'firebase-admin';
 
 @Injectable()
-export class FirebaseAuthStrategy extends PassportStrategy(Strategy) {
+export class FirebaseAuthStrategy extends PassportStrategy(Strategy, 'firebase-jwt') {
 
     constructor() {
         super({
@@ -13,12 +13,13 @@ export class FirebaseAuthStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(token: string) {
+        console.log(token);
         try {
             return await auth()
                 .verifyIdToken(token, true);
         } catch (err) {
             console.log(err);
-            throw new UnauthorizedException();
+            // throw new UnauthorizedException();
         }
     }
 }

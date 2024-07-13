@@ -23,7 +23,6 @@ export class LoginTestComponent {
   public async register(): Promise<User> {
     const user = await this.authService.register();
     this.user = user;
-    console.log(this.user);
     return user;
   }
 }

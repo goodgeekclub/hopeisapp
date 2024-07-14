@@ -5,7 +5,7 @@ import { MemberTestComponent } from './features/test/member-test/member-test.com
 import { TestComponent } from './features/test/test.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
-import { NameInputComponent } from './features/name-input/name-input.component';
+import { NameInputComponent } from './features/test/name-input/name-input.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +26,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'test-name-input',
+        path: 'name-input',
         component: NameInputComponent,
       },
     ],

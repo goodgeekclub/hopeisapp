@@ -1,0 +1,14 @@
+<section>
+    <div class="h-dvh flex flex-col justify-center items-center">
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+                <span class="label-text">What is your name?</span>
+            </div>
+            <input type="text" [(ngModel)]="inputNameValue" placeholder="Type here"
+                class="input input-bordered w-full max-w-xs" />
+            <div class="label"></div>
+        </label>
+        <button class="btn btn-outline" (click)="saveToLocalStorage()">Save</button>
+        <!-- <button class="btn btn-outline" (click)="retrieveFromLocalStorage()">Retrieve</button> -->
+    </div>
+</section>

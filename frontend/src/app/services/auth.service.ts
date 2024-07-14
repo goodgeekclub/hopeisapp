@@ -24,6 +24,7 @@ export class AuthService {
       this.googleAuthProvider
     )
       .then((result) => {
+        console.log('Result', result)
         const credential = GoogleAuthProvider.credentialFromResult(result);
 
         const user: User = {
@@ -48,3 +49,16 @@ export class AuthService {
     return registeredUser;
   }
 }
+
+// {
+//   "Effect": "Allow",
+//   "Principal": {
+//     "Federated": "arn:aws:iam::907877978309:oidc-provider/securetoken.google.com/520520413022"
+//   },
+//   "Action": "sts:AssumeRoleWithWebIdentity",
+//   "Condition": {
+//     "StringEquals": {
+//       "securetoken.google.com/520520413022:aud": "520520413022"
+//     }
+//   }
+// },

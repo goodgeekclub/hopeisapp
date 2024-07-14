@@ -1,8 +1,9 @@
-import { Controller, Get, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Request } from "@nestjs/common";
+import { Anonymous } from "./strategies/firebase-auth.guard";
 
-import { AuthGuard } from "src/firebase/guards/auth.guard";
-import { FirebaseAuthStrategy } from "./strategies/firebase.strategy";
-import { Anonymous, FirebaseJwtAccessTokenAuthGuard } from "./strategies/firebase-auth.guard";
+class SignInBody {
+  token: string;
+}
 
 @Controller("auth")
 export class AuthController {
@@ -14,9 +15,9 @@ export class AuthController {
     
     // @UseGuards(FirebaseJwtAccessTokenAuthGuard)
     @Anonymous()
-    @Get('auth-test')
-    getAuth(@Req() req: any): void {
+    @Post('signIn')
+    getAuth(@Body() body: SignInBody): void {
       // user info can get by `req.user`
-      console.log(req.user); 
+      console.log(body); 
     }
 }

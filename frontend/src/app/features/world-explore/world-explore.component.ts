@@ -18,22 +18,15 @@ export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
   users: User[] = [];
 
-  constructor() {
-
-    // (for testing)
-    const numberOfUsers = 1000; // test Number of user
-    for (let i = 1; i <= numberOfUsers; i++) {
-      this.users.push({ id: i, name: `User ${i}` });
-    }
-  }
-
   
-
 
 
   async ngOnInit() {
 
-    
+    const numberOfUsers = 1000; // test Number of user
+    for (let i = 1; i <= numberOfUsers; i++) {
+      this.users.push({ id: i, name: `User ${i}` });
+    }
 
     if (typeof window !== 'undefined') {
       
@@ -45,11 +38,14 @@ export class WorldExploreComponent implements OnInit {
 
       
       document.body.appendChild(app.canvas);
-
+      
+      if(numberOfUsers >= 0 && numberOfUsers <= 1000){
       this.users.forEach(user => {
         const star = this.createStar(app, user);
         this.stars.push(star);
       });
+    }
+    
     }
   }
 

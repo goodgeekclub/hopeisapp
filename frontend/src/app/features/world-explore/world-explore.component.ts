@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as PIXI from 'pixi.js';
 
+
+interface User {
+  id: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-world-explore',
   standalone: true,
@@ -10,7 +16,25 @@ import * as PIXI from 'pixi.js';
 })
 export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
+  users: User[] = [];
+
+  constructor() {
+
+    // (for testing)
+    const numberOfUsers = 1000; // test Number of user
+    for (let i = 1; i <= numberOfUsers; i++) {
+      this.users.push({ id: i, name: `User ${i}` });
+    }
+  }
+
+  
+
+
+
   async ngOnInit() {
+
+    
+
     if (typeof window !== 'undefined') {
       
       
@@ -22,19 +46,19 @@ export class WorldExploreComponent implements OnInit {
       
       document.body.appendChild(app.canvas);
 
-      for (let i = 0; i < 1000; i++) {
-        const star = this.createStar(app);
+      this.users.forEach(user => {
+        const star = this.createStar(app, user);
         this.stars.push(star);
-      }
+      });
     }
   }
 
-  createStar(app: PIXI.Application): PIXI.Graphics {
+  createStar(app: PIXI.Application, user:User): PIXI.Graphics {
     
     const star = new PIXI.Graphics();
 
     
-    const size = Math.random() * 2 + 1;
+    const size = Math.random() * 5 + 1;
 
    
     const color = Math.random() * 0xffffff;
@@ -58,4 +82,9 @@ export class WorldExploreComponent implements OnInit {
     return star;
       
     }
+
+
+    
+
+    
   }

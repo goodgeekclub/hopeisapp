@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -6,46 +6,32 @@ import {
   Router,
 } from '@angular/router';
 import { Auth, idToken } from '@angular/fire/auth';
-import { catchError, from, map, of, Subscription } from 'rxjs';
+import { catchError, from, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, OnDestroy {
-  private isLoggedInSubscriber: Subscription = new Subscription();
-
+export class AuthGuard implements CanActivate {
   constructor(
     private readonly router: Router,
     private readonly angularFireAuth: Auth
   ) {}
 
-  ngOnDestroy(): void {
-    this.isLoggedInSubscriber.unsubscribe();
-  }
-
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    const firebaseUser = from(idToken(this.angularFireAuth));
-
-    const isLoggedInObservable = firebaseUser.pipe(
+  ) {
+    return from(idToken(this.angularFireAuth)).pipe(
       map((token: string | null) => {
-        return token !== null;
+        if (token === null) {
+          throw new Error('token is null');
+        }
+        return true;
       }),
       catchError((error) => {
         console.error('AuthGuard.canActivate: ', error);
-        return of(false);
+        return this.router.navigate(['/test/login']);
       })
     );
-
-    this.isLoggedInSubscriber = isLoggedInObservable.subscribe({
-      next: (isLoggedIn) => {
-        if (!isLoggedIn) {
-          this.router.navigate(['/test/login']);
-        }
-      },
-    });
-    return true;
   }
 }

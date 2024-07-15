@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -6,35 +6,46 @@ import {
   Router,
 } from '@angular/router';
 import { Auth, idToken } from '@angular/fire/auth';
+import { catchError, from, map, of, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, OnDestroy {
+  private isLoggedInSubscriber: Subscription = new Subscription();
+
   constructor(
     private readonly router: Router,
     private readonly angularFireAuth: Auth
   ) {}
 
+  ngOnDestroy(): void {
+    this.isLoggedInSubscriber.unsubscribe();
+  }
+
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    try {
-      const firebaseUser = idToken(this.angularFireAuth);
+    const firebaseUser = from(idToken(this.angularFireAuth));
 
-      return firebaseUser.subscribe((token: string | null) => {
-        if (token !== null) {
-          return true;
-        } else {
+    const isLoggedInObservable = firebaseUser.pipe(
+      map((token: string | null) => {
+        return token !== null;
+      }),
+      catchError((error) => {
+        console.error('AuthGuard.canActivate: ', error);
+        return of(false);
+      })
+    );
+
+    this.isLoggedInSubscriber = isLoggedInObservable.subscribe({
+      next: (isLoggedIn) => {
+        if (!isLoggedIn) {
           this.router.navigate(['/test/login']);
-          throw new Error('Token not found');
         }
-      });
-    } catch (error) {
-      this.router.navigate(['/test/login']);
-      console.error('AuthGuard.canActivate', error);
-      return false;
-    }
+      },
+    });
+    return true;
   }
 }

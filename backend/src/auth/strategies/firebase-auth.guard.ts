@@ -8,7 +8,7 @@ export const Anonymous = () => {
     return SetMetadata(ANONYMOUS_KEY, true)
 };
 @Injectable()
-export class FirebaseJwtAccessTokenAuthGuard extends AuthGuard('firebase-jwt') {
+export class FireBaseAuthGuard extends AuthGuard('firebase-jwt') {
 
     constructor(
         private reflector: Reflector,
@@ -22,7 +22,6 @@ export class FirebaseJwtAccessTokenAuthGuard extends AuthGuard('firebase-jwt') {
         // transform the ExecutionContext from Graphql to one Nestjs/Passport can read
         // this.logger.debug(`context: ${context}`);
         const ctx = GqlExecutionContext.create(context);
-        console.log(ctx.getContext().req);
         return ctx.getContext().req;
     }
 

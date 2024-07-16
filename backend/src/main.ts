@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { initializeApp } from 'firebase-admin/app';
-import { firebaseConfig } from './firebase/firebase-config/config';
+import { firebaseConfig } from './configs/firebase.config';
 
 async function bootstrap() {
   initializeApp(firebaseConfig);

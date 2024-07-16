@@ -31,9 +31,8 @@ export class AuthService {
           email: result?.user?.email || '',
           phoneNumber: result?.user?.phoneNumber || undefined,
           photoURL: result?.user?.photoURL || undefined,
-          token: credential?.accessToken || '',
+          token: credential?.idToken || '',
         };
-
         return user;
       })
       .catch((error) => {

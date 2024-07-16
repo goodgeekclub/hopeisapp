@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ProfileService } from '../../../services';
 
-import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-name-input',
@@ -19,7 +19,7 @@ export class NameInputComponent {
   saveToLocalStorage() {
     if (this.inputNameValue && this.inputNameValue.trim() !== '') {
       this.profileService.createProfile(this.inputNameValue);
-      this.router.navigate(['/start-quiz']);
+      this.router.navigate(['/test/start-quiz']);
     }
   }
 }

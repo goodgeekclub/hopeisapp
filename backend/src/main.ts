@@ -3,8 +3,11 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { initializeApp } from 'firebase-admin/app';
+import { firebaseConfig } from './configs/firebase.config';
 
 async function bootstrap() {
+  initializeApp(firebaseConfig);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new MongooseInterceptor());

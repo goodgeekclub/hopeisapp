@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services';
-import { User } from '../../../models';
+import { User } from 'firebase/auth';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 
@@ -12,17 +12,15 @@ import { SharedModule } from '../../../shared/shared.module';
   styleUrl: './login-test.component.css',
 })
 export class LoginTestComponent {
-  public user: User = {
-    displayName: '',
-    email: '',
-    token: '',
-  };
+  public user?: User;
 
   constructor(private readonly authService: AuthService) {}
 
-  public async register(): Promise<User> {
+  public async register(): Promise<User | null> {
     const user = await this.authService.register();
-    this.user = user;
+    if (user) {
+      this.user = user;
+    }
     return user;
   }
 }

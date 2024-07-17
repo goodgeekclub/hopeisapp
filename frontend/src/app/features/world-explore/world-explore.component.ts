@@ -18,12 +18,13 @@ export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
   users: User[] = [];
   batchSize: number = 1; // Number of stars to create per batch
+  displayLimit: number = 1000; //limit user display
   
 
 
   async ngOnInit() {
 
-    const numberOfUsers = 1000; // test Number of user
+    const numberOfUsers = 100000; // test Number of user
     for (let i = 1; i <= numberOfUsers; i++) {
       this.users.push({ id: i, name: `User ${i}` });
     }
@@ -41,12 +42,14 @@ export class WorldExploreComponent implements OnInit {
       
       let batchIndex = 0;
       const createNextBatch = () => {
-        if (batchIndex < this.users.length) {
+        if (batchIndex < this.users.length && this.stars.length < this.displayLimit) {
           const endIndex = Math.min(batchIndex + this.batchSize, this.users.length);
           for (let i = batchIndex; i < endIndex; i++) {
-            const user = this.users[i];
-            const star = this.createStar(app, user);
-            this.stars.push(star);
+            if (this.stars.length < this.displayLimit) {
+              const user = this.users[i];
+              const star = this.createStar(app, user);
+              this.stars.push(star);
+            }
           }
           batchIndex += this.batchSize;
           requestAnimationFrame(createNextBatch);

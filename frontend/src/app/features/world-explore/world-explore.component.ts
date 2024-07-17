@@ -61,21 +61,32 @@ export class WorldExploreComponent implements OnInit {
 
   createStar(app: PIXI.Application, user: User): PIXI.Graphics {
     const star = new PIXI.Graphics();
-
-    const size = Math.random() * 5 + 1;
+    const size = Math.random() * 5 + 3;
     const color = Math.random() * 0xffffff;
-    const x = Math.random() * app.renderer.width;
-    const y = Math.random() * app.renderer.height;
-
+  
+    let x: number;
+    let y: number;
+    let overlap: boolean;
+  
+    do {
+      x = Math.random() * app.renderer.width;
+      y = Math.random() * app.renderer.height;
+      overlap = this.stars.some(existingStar => {
+        const distance = Math.sqrt((existingStar.x - x) ** 2 + (existingStar.y - y) ** 2);
+        return distance < size * 2; // Ensure no overlap, adjust the multiplier as needed
+      });
+    } while (overlap);
+  
     star.beginFill(color);
     star.drawStar(0, 0, 5, size);
     star.endFill();
-
+  
     star.x = x;
     star.y = y;
-
+  
     app.stage.addChild(star);
-
+  
     return star;
   }
+  
 }

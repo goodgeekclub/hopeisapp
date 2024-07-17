@@ -6,6 +6,7 @@ import { TestComponent } from './features/test/test.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { NameInputComponent } from './features/test/name-input/name-input.component';
 import { AuthGuard } from './auth.guard';
+import { QuizStartComponent } from './features/quiz-start/quiz-start.component';
 
 export const routes: Routes = [
   {
@@ -30,8 +31,13 @@ export const routes: Routes = [
         path: 'name-input',
         component: NameInputComponent,
       },
+      {
+        path: 'start-quiz',
+        component: QuizStartComponent,
+      },
     ],
   },
+
   {
     path: '**',
     component: PageNotFoundComponent,

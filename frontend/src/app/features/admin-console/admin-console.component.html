@@ -1,0 +1,27 @@
+<section>
+    <div class="flex flex-wrap">
+        <table class="table-auto">
+            <thead>
+                <th class="">Name</th>
+                <th>Email</th>
+                <th>Token</th>
+                <th>Phonenumber</th>
+            </thead>
+            <tbody>
+                @for (user of users; track $index){
+                    <tr>
+                        <td>{{user.displayName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.token}}</td>
+                        <td>{{user.phoneNumber}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="m-4 flex flex-wrap">
+        <button class="bg-white">Previous</button>
+        <h2>#</h2>
+        <button class="bg-white">Next</button>
+    </div>
+</section>

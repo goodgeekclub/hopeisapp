@@ -11,6 +11,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
 
+import {authInjectInterceptor } from './services/http.service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -18,5 +21,8 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
+    provideHttpClient(
+      withInterceptors([authInjectInterceptor])
+    ),
   ],
 };

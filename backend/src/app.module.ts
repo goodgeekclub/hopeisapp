@@ -7,6 +7,7 @@ import { QuizesModule } from './features/quizes/quizes.module';
 import { AuthModule } from './auth/auth.module';
 
 import { ProfilesModule } from './features/profiles/profiles.module';
+import { DataModule } from './features/data/data.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -14,6 +15,7 @@ import { ProfilesModule } from './features/profiles/profiles.module';
     QuizesModule,
     AuthModule,
     ProfilesModule,
+    DataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

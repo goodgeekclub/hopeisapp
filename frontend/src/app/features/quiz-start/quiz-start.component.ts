@@ -19,7 +19,7 @@ export class QuizStartComponent {
 
   confirmStart() {
     this.showModal = false;
-    this.router.navigate(['/quiz']);
+    this.router.navigate(['/question/1']);
   }
 
   cancelStart() {

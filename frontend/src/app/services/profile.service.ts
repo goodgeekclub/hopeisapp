@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './localstorage.service';
+import { QuestionService } from './question.service';
 
 interface Profile {
   user: string;
+  answers: string[];
 }
 
 @Injectable({
@@ -11,10 +13,18 @@ interface Profile {
 export class ProfileService {
   private profileKey = 'profile';
 
-  constructor(private storageService: LocalStorageService) {}
+  constructor(
+    private storageService: LocalStorageService,
+    private questionService: QuestionService
+  ) {}
 
   createProfile(userName: string): void {
-    const profile: Profile = { user: userName };
+    const numberOfQuestions = this.questionService.getTotalQuestions();
+
+    const profile: Profile = {
+      user: userName,
+      answers: new Array(numberOfQuestions).fill(''),
+    };
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
 
@@ -25,5 +35,13 @@ export class ProfileService {
 
   updateProfile(profile: Profile): void {
     this.storageService.set(this.profileKey, JSON.stringify(profile));
+  }
+
+  saveAnswer(questionId: number, answer: string): void {
+    const profile = this.getProfile();
+    if (profile) {
+      profile.answers[questionId - 1] = answer;
+      this.updateProfile(profile);
+    }
   }
 }

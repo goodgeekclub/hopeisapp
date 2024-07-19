@@ -19,7 +19,7 @@ export class NameInputComponent {
   saveToLocalStorage() {
     if (this.inputNameValue && this.inputNameValue.trim() !== '') {
       this.profileService.createProfile(this.inputNameValue);
-      this.router.navigate(['/test/start-quiz']);
+      this.router.navigate(['/start-quiz']);
     }
   }
 }

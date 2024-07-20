@@ -1,28 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  // Get a value from local storage
-  get(key: string) {
-    return localStorage.getItem(key);
-  }
-  
-  // Set a value in local storage
-  set(key: string, value: string) {
-    localStorage.setItem(key, value);
+  private getStorage(): Storage | null {
+    return isPlatformBrowser(this.platformId) ? window.localStorage : null;
   }
 
-  // Remove a value from local storage
+  get(key: string): string | null {
+    const storage = this.getStorage();
+    return storage ? storage.getItem(key) : null;
+  }
+
+  set(key: string, value: string): void {
+    const storage = this.getStorage();
+    if (storage) {
+      storage.setItem(key, value);
+    }
+  }
+
   remove(key: string): void {
-    localStorage.removeItem(key);
+    const storage = this.getStorage();
+    if (storage) {
+      storage.removeItem(key);
+    }
   }
 
-  // Clear all items from local storage
   clear(): void {
-    localStorage.clear();
+    const storage = this.getStorage();
+    if (storage) {
+      storage.clear();
+    }
   }
 }

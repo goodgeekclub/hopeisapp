@@ -5,6 +5,7 @@ import { QuestionService } from './question.service';
 interface Profile {
   user: string;
   answers: string[];
+  currentQuestionId: number;
 }
 
 @Injectable({
@@ -24,6 +25,7 @@ export class ProfileService {
     const profile: Profile = {
       user: userName,
       answers: new Array(numberOfQuestions).fill(''),
+      currentQuestionId: 1,
     };
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
@@ -43,5 +45,18 @@ export class ProfileService {
       profile.answers[questionId - 1] = answer;
       this.updateProfile(profile);
     }
+  }
+
+  setCurrentQuestionId(questionId: number): void {
+    const profile = this.getProfile();
+    if (profile) {
+      profile.currentQuestionId = questionId;
+      this.updateProfile(profile);
+    }
+  }
+
+  getCurrentQuestionId(): number {
+    const profile = this.getProfile();
+    return profile ? profile.currentQuestionId : 1;
   }
 }

@@ -13,4 +13,19 @@
             Save
         </button>
     </div>
+
+    @if (showModal) {
+    <div class="fixed inset-0 flex items-center justify-center z-50" *ngIf="showModal">
+        <div class="modal modal-open">
+            <div class="modal-box">
+                <h2 class="text-lg font-bold">Resume Quiz?</h2>
+                <p class="py-4">You have an ongoing quiz session. Do you want to resume it or start a new one?</p>
+                <div class="modal-action">
+                    <button class="btn" (click)="resumeQuiz()">Resume</button>
+                    <button class="btn btn-error" (click)="startNewSession()">Start New</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
 </section>

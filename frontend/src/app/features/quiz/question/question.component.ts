@@ -1,34 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Question, QuestionService } from '../../services/question.service';
-import { ProfileService } from '../../services/profile.service';
-import { LocalStorageService } from '../../services/localstorage.service';
+import { ProfileService } from '../../../services/profile.service';
+import { LocalStorageService } from '../../../services/localstorage.service';
+import { Question, QuestionService } from '../../../services/question.service';
 
 @Component({
   selector: 'app-question',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
 })
 export class QuestionComponent implements OnInit {
   @Input()
   set id(questionId: string) {
-    this.question$ = this.service.getQuestion(questionId);
+    this.question$ = this.questionService.getQuestion(questionId);
   }
 
   question$!: Observable<Question>;
   currentQuestionId!: number;
   totalQuestions: number;
+  selectedOption: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private service: QuestionService,
     private profileService: ProfileService,
     private localStorageService: LocalStorageService,
     private questionService: QuestionService
@@ -51,18 +52,28 @@ export class QuestionComponent implements OnInit {
       .subscribe();
   }
 
+  getOptionSize(index: number): number {
+    const sizes = [45, 35, 28, 35, 45];
+    return sizes[index % sizes.length];
+  }
+
   answerQuestion(answer: string) {
     this.profileService.saveAnswer(this.currentQuestionId, answer);
-    this.goToNextQuestion();
+    setTimeout(() => {
+      this.goToNextQuestion();
+    }, 1000);
   }
 
   goToNextQuestion() {
-    if (this.currentQuestionId === this.totalQuestions) {
+    const nextQuestionId = this.currentQuestionId + 1;
+
+    if (nextQuestionId > this.totalQuestions) {
       // this.localStorageService.clear();
-      this.router.navigate(['/']);
+      this.router.navigate(['/quiz/enter-your-name']);
     } else {
-      const nextQuestionId = this.currentQuestionId + 1;
-      this.router.navigate(['/question', nextQuestionId]);
+      this.profileService.setCurrentQuestionId(nextQuestionId);
+      this.selectedOption = '';
+      this.router.navigate(['/quiz/question', nextQuestionId]);
     }
   }
 }

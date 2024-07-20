@@ -1,0 +1,21 @@
+<div *ngIf="question$ | async as question" class="mx-4 flex flex-col items-center justify-center h-dvh">
+    <h2 class="text-xl text-center font-bold mb-6">{{ question.text }}</h2>
+    <div class="gap-6 flex-col md:flex-row flex items-center">
+        <div class="hidden md:flex">Strongly Agree</div>
+        <ul class="gap-3 flex items-center">
+            <li *ngFor="let option of question.options; let i = index" class="">
+                <label class="label cursor-pointer">
+                    <input type="radio" [name]="'questionOptions' + question.id" [(ngModel)]="selectedOption"
+                        [value]="option" (change)="answerQuestion(option)"
+                        [ngStyle]="{ 'width.px': getOptionSize(i), 'height.px': getOptionSize(i) }"
+                        class="radio checked:bg-blue-500" />
+                </label>
+            </li>
+        </ul>
+        <div class="hidden md:flex">Strongly Disagree</div>
+        <div class="md:hidden w-full flex justify-between">
+            <div>Strongly Agree</div>
+            <div>Strongly Disagree</div>
+        </div>
+    </div>
+</div>

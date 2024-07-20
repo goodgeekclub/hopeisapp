@@ -13,12 +13,11 @@ export class UploadFileComponent {
   file?: File | null;
   limit = {
     types: ['image/jpeg', 'images/png'],
-    size: 1 * 1024 * 1024,
+    size: 2 * 1024 * 1024,
   }
   imageUrl: string | ArrayBuffer | null = null;
 
   constructor(private s3Service: S3Service) {
-    this.s3Service.assumeRole().subscribe();
   }
 
   changeUpload(event: Event) {
@@ -32,6 +31,11 @@ export class UploadFileComponent {
         reader.onload = (e) => {
           this.imageUrl = e.target!.result;
         }
+        this.s3Service.upload(`test/${file.name}`,file).subscribe(res => {
+          console.log(res)
+        }, err => {
+          console.log(err)
+        })
       }
     }
   }

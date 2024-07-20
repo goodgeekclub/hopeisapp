@@ -17,8 +17,9 @@ export class NameInputComponent {
   constructor(private profileService: ProfileService, private router: Router) {}
 
   saveToLocalStorage() {
-    this.profileService.createProfile(this.inputNameValue);
-    // this.storageService.clear();
-    // this.router.navigate(['/']);
+    if (this.inputNameValue && this.inputNameValue.trim() !== '') {
+      this.profileService.createProfile(this.inputNameValue);
+      this.router.navigate(['/test/start-quiz']);
+    }
   }
 }

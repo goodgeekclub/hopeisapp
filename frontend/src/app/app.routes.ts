@@ -34,6 +34,10 @@ export const routes: Routes = [
         path: 'name-input',
         component: NameInputComponent,
       },
+      {
+        path: 'result',
+        component: ResultTestComponent,
+      },
     ],
   },
   {
@@ -47,10 +51,6 @@ export const routes: Routes = [
       {
         path: 'start',
         component: QuizStartComponent,
-      },
-      {
-        path: 'result',
-        component: ResultTestComponent,
       },
       {
         path: 'question/:id',

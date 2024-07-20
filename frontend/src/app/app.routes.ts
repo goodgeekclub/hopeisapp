@@ -6,7 +6,6 @@ import { TestComponent } from './features/test/test.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { NameInputComponent } from './features/test/name-input/name-input.component';
 import { AuthGuard } from './auth.guard';
-import { QuizStartComponent } from './features/quiz-start/quiz-start.component';
 import { ResultTestComponent } from './features/test/result-test/result-test.component';
 import { QuizStartComponent } from './features/quiz/quiz-start/quiz-start.component';
 import { QuestionComponent } from './features/quiz/question/question.component';
@@ -54,9 +53,9 @@ export const routes: Routes = [
         component: ResultTestComponent,
       },
       {
-      path: 'question/:id',
-      component: QuestionComponent,
-      }
+        path: 'question/:id',
+        component: QuestionComponent,
+      },
     ],
   },
 

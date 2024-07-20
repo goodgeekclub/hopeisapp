@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { S3Service } from '../../../services/s3.service';
 
 @Component({
   selector: 'app-upload-file',
@@ -15,6 +16,10 @@ export class UploadFileComponent {
     size: 1 * 1024 * 1024,
   }
   imageUrl: string | ArrayBuffer | null = null;
+
+  constructor(private s3Service: S3Service) {
+    this.s3Service.assumeRole().subscribe();
+  }
 
   changeUpload(event: Event) {
     if (event.target) {

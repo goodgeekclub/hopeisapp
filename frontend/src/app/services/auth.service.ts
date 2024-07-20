@@ -1,9 +1,12 @@
+import { map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  authState,
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  user,
 } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
 
@@ -13,7 +16,6 @@ import { User } from 'firebase/auth';
 export class AuthService {
   private googleAuthProvider: GoogleAuthProvider;
   constructor(private readonly auth: Auth) {
-    this.auth = getAuth();
     this.googleAuthProvider = new GoogleAuthProvider();
   }
 
@@ -30,6 +32,20 @@ export class AuthService {
         return null;
       });
     return registeredUser;
+  }
+
+  getCurrentUser(): User | null {
+    return this.auth.currentUser;
+  }
+
+  getUserState() {
+    return authState(this.auth);
+  }
+
+  getAccessToken(): Observable<string> {
+    return authState(this.auth).pipe(
+      map((auth: any) => auth!.accessToken)
+    );
   }
 }
 

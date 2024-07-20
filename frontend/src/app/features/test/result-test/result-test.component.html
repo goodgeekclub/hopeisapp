@@ -1,25 +1,50 @@
-<p>จริง ๆ แล้ว</p>
-<p>แสงแห่งความหวัง</p>
-<p>เปล่งประกายขึ้นมา</p>
-<p>ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้</p>
-<p>ให้ดีขึ้นแล้วล่ะ</p>
+<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="flex flex-col items-center justify-center w-screen h-screen"
+    (click)="showResult()">
+    <p class="text-center">จริง ๆ แล้ว</p>
+    <p class="text-center">แสงแห่งความหวัง</p>
+    <p class="text-center">เปล่งประกายขึ้นมา</p>
+    <p class="text-center">ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้</p>
+    <p class="text-center">ให้ดีขึ้นแล้วล่ะ</p>
 
-<div>
-    ประกายดาว
-</div>
+    <div class="w-[128px] h-[128px] bg-yellow-500">
+        ประกายดาว
+    </div>
 
-<p>มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน</p>
+    <p>มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน</p>
+</section>
+<ng-template #result>
+    <section class="flex flex-col items-center justify-center w-screen h-screen">
+        <p class="bg-lime-500">Character Name</p>
+        <p class="bg-green-500 h-[200px] w-[200px]">Character</p>
+        <p class="bg-purple-400">quote</p>
+        <p class="bg-pink-300">description</p>
+        <p class="bg-blue-300">YouthTalk</p>
+        <p>Represented by</p>
+        <div class="flex flex-row justify-center items-center">    
+            <img src="images/goodgeeklogo-256.png" alt="GoodGeek Club" width="100px">
+            <p>YNS</p>
+            <p>Sponsor</p>
+        </div>
+        <div class="flex flex-row bg-slate-800">
+            <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+            <svg-icon src="icons/download.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+            <svg-icon src="icons/facebook.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+            <svg-icon src="icons/Instagram_Glyph_Gradient.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+            <svg-icon src="icons/x.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
 
-<p>Character Name</p>
-<p>Character</p>
-<p>quote</p>
-<p>description</p>
-<p>YouthTalk</p>
-<p>Represented by</p>
-<p>Goodgeek YNS Sponsor</p>
-<div class="flex flex-row">
-    <p>save</p>
-    <p>fb</p>
-    <p>ig</p>
-    <p>x</p>
-</div>
+
+        </div>
+        <p>12700 คน</p>
+        <p>กำลังปฏิบัตภารกิจเพื่อทำอะไรสักอย่างไม่รู้</p>
+        <app-button>Join Us</app-button>
+        <p> เล่นมิชชันสะสม coins กับเรา
+            เพื่อสร้างอะไรสักอย่าง</p>
+        <div class="bg-yellow-600 w-[200px] h-[100px]">Poster Project</div>
+        <div class="bg-pink-300 w-[50px] h-[100px]">poster</div>
+        <p>ฟังเสียงแห่งความหวัง
+            จากแสงทีออกเดินทางจริง
+            ณ หอศิลป์ฯ (BACC)</p>
+        <app-button>Buy ticket</app-button>
+        <p>Goodgeek YNS Sponsor</p>
+    </section>
+</ng-template>

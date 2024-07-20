@@ -1,1 +1,9 @@
-<p>upload-file works!</p>
+<h2>Single File Upload</h2>
+
+<picture >
+    <source media='(min-width:0px)' [srcset]="imageUrl">
+    <img [src]="imageUrl"  alt="preview-image">
+  </picture>
+
+<input type="file" class="file-upload" (change)="changeUpload($event)">
+

@@ -45,6 +45,16 @@ resource "aws_cloudfront_distribution" "distribution" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
+  dynamic "custom_error_response" {
+    for_each = local.cloudfront_error_response
+    content {
+      error_code            = custom_error_response.value
+      error_caching_min_ttl = 10
+      response_code         = 200
+      response_page_path    = "/index.html"
+    }
+  }
+
   tags = local.common_tags
 
   depends_on = [aws_s3_bucket_website_configuration.configs]

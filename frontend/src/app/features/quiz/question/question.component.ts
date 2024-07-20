@@ -60,7 +60,7 @@ export class QuestionComponent implements OnInit {
   }
 
   answerQuestion(answer: Choice) {
-    this.profileService.saveAnswer(this.currentQuestionId, answer);
+    this.profileService.saveAnswer(this.currentQuestionId, answer.title);
     setTimeout(() => {
       this.goToNextQuestion();
     }, 1000);
@@ -70,7 +70,7 @@ export class QuestionComponent implements OnInit {
     const nextQuestionId = this.currentQuestionId + 1;
 
     if (this.currentQuestionId === this.totalQuestions) {
-      this.localStorageService.clear();
+      // this.localStorageService.clear();
       this.router.navigate(['/quiz/enter-your-name']);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);

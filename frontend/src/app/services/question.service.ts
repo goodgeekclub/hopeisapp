@@ -30,7 +30,8 @@ export class QuestionService {
     },
     {
       id: '2',
-      title: 'You often get so lost in thoughts that you ignore or forget your surroundings.',
+      title:
+        'You often get so lost in thoughts that you ignore or forget your surroundings.',
       choices: [
         { title: 'Strongly Agree', score: 5 },
         { title: 'Agree', score: 4 },
@@ -41,7 +42,8 @@ export class QuestionService {
     },
     {
       id: '3',
-      title: 'You try to respond to your emails as soon as possible and cannot stand a messy inbox.',
+      title:
+        'You try to respond to your emails as soon as possible and cannot stand a messy inbox.',
       choices: [
         { title: 'Strongly Agree', score: 5 },
         { title: 'Agree', score: 4 },
@@ -52,7 +54,8 @@ export class QuestionService {
     },
     {
       id: '4',
-      title: 'You find it easy to stay relaxed and focused even when there is some pressure.',
+      title:
+        'You find it easy to stay relaxed and focused even when there is some pressure.',
       choices: [
         { title: 'Strongly Agree', score: 5 },
         { title: 'Agree', score: 4 },
@@ -64,61 +67,6 @@ export class QuestionService {
     {
       id: '5',
       title: 'You do not usually initiate conversations.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '6',
-      title: 'You rarely do something just out of sheer curiosity.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '7',
-      title: 'You feel superior to other people.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '8',
-      title: 'Being organized is more important to you than being adaptable.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '9',
-      title: 'You are usually highly motivated and energetic.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '10',
-      title: 'Winning a debate matters less to you than making sure no one gets upset.',
       choices: [
         { title: 'Strongly Agree', score: 5 },
         { title: 'Agree', score: 4 },

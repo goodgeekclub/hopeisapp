@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './localstorage.service';
-import { QuestionService, Choice } from './question.service';
+import { QuestionService } from './question.service';
+
+interface Answer {
+  questionId: number;
+  questionTitle: string;
+  choice: string;
+  score: number;
+}
 
 interface Profile {
   user: string;
-  answers: { questionId: number; choice: Choice; questionTitle: string }[];
+  answers: Answer[];
   currentQuestionId: number;
 }
 
@@ -37,7 +44,7 @@ export class ProfileService {
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
 
-  async saveAnswer(questionId: number, choice: Choice): Promise<void> {
+  async saveAnswer(questionId: number, choice: string): Promise<void> {
     const profile = this.getProfile();
     if (profile) {
       try {
@@ -46,22 +53,24 @@ export class ProfileService {
           .toPromise();
 
         if (question) {
+          const choiceScore =
+            question.choices.find((c) => c.title === choice)?.score || 0;
+
           const existingAnswerIndex = profile.answers.findIndex(
             (answer) => answer.questionId === questionId
           );
 
+          const answer: Answer = {
+            questionId,
+            questionTitle: question.title,
+            choice,
+            score: choiceScore,
+          };
+
           if (existingAnswerIndex >= 0) {
-            profile.answers[existingAnswerIndex] = {
-              questionId,
-              choice,
-              questionTitle: question.title,
-            };
+            profile.answers[existingAnswerIndex] = answer;
           } else {
-            profile.answers.push({
-              questionId,
-              choice,
-              questionTitle: question.title,
-            });
+            profile.answers.push(answer);
           }
 
           this.updateProfile(profile);

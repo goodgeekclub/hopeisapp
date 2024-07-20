@@ -1,0 +1,38 @@
+import { Routes } from "@angular/router";
+import { TestComponent } from "./test.component";
+import { LoginTestComponent } from "./login-test/login-test.component";
+import { MemberTestComponent } from "./member-test/member-test.component";
+import { NameInputComponent } from "./name-input/name-input.component";
+import { AuthGuard } from "../../auth.guard";
+import { QuizStartComponent } from "../quiz-start/quiz-start.component";
+import { UploadFileComponent } from "./upload-file/upload-file.component";
+
+export const testRoutes: Routes = [
+  {
+    path: 'test',
+    component: TestComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginTestComponent,
+      },
+      {
+        path: 'member',
+        component: MemberTestComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'name-input',
+        component: NameInputComponent,
+      },
+      {
+        path: 'start-quiz',
+        component: QuizStartComponent,
+      },
+      {
+        path: 'upload-file',
+        component: UploadFileComponent,
+      },
+    ],
+  },
+];

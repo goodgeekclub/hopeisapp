@@ -22,24 +22,8 @@ export class AuthService {
       this.auth,
       this.googleAuthProvider
     )
-<<<<<<< HEAD
       .then(async (result) => {
         return this.auth.currentUser;
-=======
-      .then((result) => {
-        console.log('Result', result)
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-
-        const user: User = {
-          displayName: result?.user?.displayName || '',
-          email: result?.user?.email || '',
-          phoneNumber: result?.user?.phoneNumber || undefined,
-          photoURL: result?.user?.photoURL || undefined,
-          token: credential?.accessToken || '',
-        };
-
-        return user;
->>>>>>> 72fcec1 (feat: setup test script assume oidc)
       })
       .catch((error) => {
         console.error('AuthService.register', error.message);

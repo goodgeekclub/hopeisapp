@@ -23,4 +23,6 @@ locals {
     web   = "hopeis-website-${var.environment}"
   }
 
+  cloudfront_error_response = [400, 403, 404, 405, 500, 502, 503, 504]
+
 }

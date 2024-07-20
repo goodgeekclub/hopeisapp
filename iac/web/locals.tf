@@ -25,4 +25,22 @@ locals {
 
   cloudfront_error_response = [400, 403, 404, 405, 500, 502, 503, 504]
 
+  route53_records = {
+    asset = {
+      name = var.environment == "prod" ? "media" : "${var.environment}-media"
+      distribution = aws_cloudfront_distribution.distribution["asset"]
+      create = true
+    }
+    web = {
+      name = var.environment == "prod" ? "www" : var.environment
+      distribution = aws_cloudfront_distribution.distribution["web"]
+      create = true
+    }
+    root = {
+      name = ""
+      distribution = aws_cloudfront_distribution.distribution["web"]
+      create = var.environment == "prod" ? true : false
+    }
+  }
+
 }

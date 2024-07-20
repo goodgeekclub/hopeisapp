@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-
+import { Observable, switchMap } from 'rxjs';
 import { ProfileService } from '../../../services/profile.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
-import { Question, QuestionService } from '../../../services/question.service';
+import { Question, QuestionService, Choice } from '../../../services/question.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-question',
@@ -25,7 +23,7 @@ export class QuestionComponent implements OnInit {
   question$!: Observable<Question>;
   currentQuestionId!: number;
   totalQuestions: number;
-  selectedOption: string = '';
+  selectedOption!: Choice;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +36,9 @@ export class QuestionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.currentQuestionId = this.profileService.getCurrentQuestionId();
+    this.id = this.currentQuestionId.toString();
+
     this.route.paramMap
       .pipe(
         switchMap((params) => {
@@ -45,6 +46,7 @@ export class QuestionComponent implements OnInit {
           if (id) {
             this.currentQuestionId = +id;
             this.id = id;
+            this.profileService.setCurrentQuestionId(this.currentQuestionId);
           }
           return this.question$;
         })
@@ -57,7 +59,7 @@ export class QuestionComponent implements OnInit {
     return sizes[index % sizes.length];
   }
 
-  answerQuestion(answer: string) {
+  answerQuestion(answer: Choice) {
     this.profileService.saveAnswer(this.currentQuestionId, answer);
     setTimeout(() => {
       this.goToNextQuestion();
@@ -67,12 +69,12 @@ export class QuestionComponent implements OnInit {
   goToNextQuestion() {
     const nextQuestionId = this.currentQuestionId + 1;
 
-    if (nextQuestionId > this.totalQuestions) {
-      // this.localStorageService.clear();
+    if (this.currentQuestionId === this.totalQuestions) {
+      this.localStorageService.clear();
       this.router.navigate(['/quiz/enter-your-name']);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
-      this.selectedOption = '';
+      this.selectedOption = { title: '', score: 0 };
       this.router.navigate(['/quiz/question', nextQuestionId]);
     }
   }

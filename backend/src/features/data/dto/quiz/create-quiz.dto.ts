@@ -1,9 +1,17 @@
 import { ApiExtraModels, ApiProperty, PartialType } from '@nestjs/swagger';
 import { Data, DataType } from 'src/schemas/data.schema';
-import { IsString, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  ValidateNested,
+  IsObject,
+  Equals,
+} from 'class-validator';
+import { Quiz } from 'src/models/quiz.model';
+import { Type } from 'class-transformer';
 
 @ApiExtraModels(Data)
-export class CreateDataDto extends PartialType(Data) {
+export class CreateQuizDto extends PartialType(Data) {
   @IsString()
   @ApiProperty({ example: 'My Name' })
   name: string;
@@ -13,11 +21,13 @@ export class CreateDataDto extends PartialType(Data) {
   @ApiProperty({ example: 'A description' })
   description?: string;
 
-  @IsString()
+  @Equals('QUIZ')
   @ApiProperty({ example: 'STAT' })
-  type: DataType;
+  type: DataType.quizes;
 
-  @IsOptional()
   @ApiProperty()
-  data?: any;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => Quiz)
+  data: Quiz;
 }

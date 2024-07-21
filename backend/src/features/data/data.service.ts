@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
-import { Data } from 'src/schemas/data.schema';
+import { Data, DataType } from 'src/schemas/data.schema';
 import { CreateDataDto } from './dto/create-data.dto';
 import { UpdateDataDto } from './dto/update-data.dto';
 import { from } from 'rxjs';
@@ -18,8 +18,8 @@ export class DataService {
     return from(data.save());
   }
 
-  findAll() {
-    const allData = this.model.find().exec();
+  findAll(type?: DataType) {
+    const allData = this.model.find({ type }).exec();
     return from(allData);
   }
 

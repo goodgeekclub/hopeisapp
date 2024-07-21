@@ -1,6 +1,5 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { QuizSchema } from 'src/schemas/quiz.schema';
 import { ProfileSchema } from 'src/schemas/profile.schema';
 import { DataSchema } from 'src/schemas/data.schema';
 
@@ -18,9 +17,6 @@ export const mongooseConnection = {
     }),
     inject: [ConfigService],
   }),
-  quizes: MongooseModule.forFeature([
-    { name: COLLECTION_NAME.QUIZ, schema: QuizSchema },
-  ]),
   profiles: MongooseModule.forFeature([
     { name: COLLECTION_NAME.PROFILE, schema: ProfileSchema },
   ]),

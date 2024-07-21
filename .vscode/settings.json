@@ -1,0 +1,13 @@
+{
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "[terraform]": {
+        "editor.tabSize": 2,
+    },
+    "[javascript]": {
+        "editor.tabSize": 2,
+    },
+    "[typescript]": {
+        "editor.tabSize": 2,
+    }
+}

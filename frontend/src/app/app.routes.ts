@@ -31,15 +31,17 @@ export const routes: Routes = [
         path: 'question/:id',
         component: QuestionComponent,
       },
+      
     ],
-  },
-
-  {
-    path: '**',
-    component: PageNotFoundComponent,
   },
   {
     path: 'world-explore',
     component: WorldExploreComponent
-  }
+  },
+  {
+    
+    path: '**',
+    component: PageNotFoundComponent,
+  },
+  
 ];

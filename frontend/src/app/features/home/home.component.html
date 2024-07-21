@@ -2,9 +2,9 @@
     <p>This is home page</p>
     <p>Click to register</p>
     <app-button (click)="register()" />
-    <div *ngIf="user.token">
-        <p>{{user?.displayName}}</p>
-        <p>{{user?.email}}</p>
-        <img ngSrc="{{user?.photoURL}}" [alt]="user?.displayName" width="100" height="100" />
+    <div *ngIf="user">
+        <p>{{user.displayName}}</p>
+        <p>{{user.email}}</p>
+        <img ngSrc="{{user.photoURL}}" [alt]="user.displayName" width="100" height="100" />
     </div>
 </div>

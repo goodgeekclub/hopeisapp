@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { SharedModule } from '../../shared/shared.module';
-import { AuthService } from '../../services';
-import { User } from '../../models/user.model';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { User } from 'firebase/auth';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'app-home',
@@ -14,20 +13,16 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  public user: User = {
-    displayName: '',
-    email: '',
-    token: '',
-  };
+  public user?: User;
 
   constructor(private readonly authService: AuthService) {}
 
   ngOnInit() {}
 
-  public async register(): Promise<User> {
+  public async register(): Promise<void> {
     const user = await this.authService.register();
-    this.user = user;
-    console.log(this.user);
-    return user;
+    if (user) {
+      this.user = user;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 import * as PIXI from 'pixi.js';
 
 interface User {
@@ -20,16 +20,18 @@ export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
   users: User[] = [];
   batchSize: number = 1; // Number of stars to create per batch
-  displayLimit: number = 100; //limit user display
+  displayLimit: number = 0; //limit user display
 
   async ngOnInit() {
     const app = new PIXI.Application();
+    this.app = app;
     const numberOfUsers = 100000; // test Number of user
     for (let i = 1; i <= numberOfUsers; i++) {
       this.users.push({ id: i, name: `User ${i}` });
     }
 
     app.init({ resizeTo: window }).then(() => {
+
       // Append the application canvas to the document body
       document.body.appendChild(app.canvas);
 
@@ -64,14 +66,26 @@ export class WorldExploreComponent implements OnInit {
         this.sprite.y = app.screen.height / 2;
 
          // Scale the sprite
-         this.sprite.scale.set(0.25, 0.25); 
+         if (window.innerWidth < 768) { 
+          this.sprite.scale.set(0.4, 0.4); // Scale down for mobile
+        } else {
+          this.sprite.scale.set(0.6, 0.6);
+        }
 
-        // Optionally, set the anchor point to the center of the sprite
-        this.sprite.anchor.set(0.5);
+       
+        this.sprite.anchor.set(0.65,0.65);
 
-        // Add the sprite to the stage
+
+       
+    this.sprite.x = app.screen.width;
+    this.sprite.y = app.screen.height;
+
+
+
         app.stage.addChild( this.sprite);
+
       });
+
 
       let batchIndex = 0;
       const createNextBatch = () => {
@@ -89,7 +103,10 @@ export class WorldExploreComponent implements OnInit {
         }
       };
       createNextBatch();
-    });
+      
+    }
+  );
+
   }
 
   createStar(app: PIXI.Application, user: User): PIXI.Graphics {

@@ -48,16 +48,3 @@ export class AuthService {
     );
   }
 }
-
-// {
-//   "Effect": "Allow",
-//   "Principal": {
-//     "Federated": "arn:aws:iam::907877978309:oidc-provider/securetoken.google.com/520520413022"
-//   },
-//   "Action": "sts:AssumeRoleWithWebIdentity",
-//   "Condition": {
-//     "StringEquals": {
-//       "securetoken.google.com/520520413022:aud": "520520413022"
-//     }
-//   }
-// },

@@ -4,8 +4,9 @@ import { UpdateQuizResultDto } from './dto/update-quiz-result.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
 import { Model } from 'mongoose';
-import { QuizResult } from 'src/schemas/quiz-reult.schema';
+import { QuizResult } from 'src/schemas/quiz-result.schema';
 import { from } from 'rxjs';
+import { QueryOptionsDto } from 'src/dto/query-options.dto';
 
 @Injectable()
 export class QuizResultsService {
@@ -13,11 +14,15 @@ export class QuizResultsService {
     @InjectModel(COLLECTION_NAME.QUIZ_RESULT) private model: Model<QuizResult>
   ) {}
   create(createQuizResultDto: CreateQuizResultDto) {
+    // const quizResult = new this.model(createQuizResultDto);
     const quizResult = new this.model(createQuizResultDto);
     return from(quizResult.save());
   }
 
-  findAll() {
+  findAll(options?: QueryOptionsDto) {
+    const find = this.model.find();
+    find.limit(options.limit);
+    find.skip(options.skip);
     return this.model.find().exec();
   }
 

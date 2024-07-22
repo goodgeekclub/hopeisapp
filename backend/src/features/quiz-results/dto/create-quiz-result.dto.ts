@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsMongoId, IsNumber, IsObject, IsString, ValidateNested } from "class-validator";
 import { Character } from "src/models/character";
-import { QuizResult } from "src/schemas/quiz-reult.schema";
+import { QuizResult } from "src/schemas/quiz-result.schema";
 
 export class CreateQuizResultDto extends PartialType(QuizResult) {
   @ApiProperty()

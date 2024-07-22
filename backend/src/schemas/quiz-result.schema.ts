@@ -1,7 +1,7 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
 import { Character } from "src/models/character";
-import { Schema as mSchema } from "mongoose";
+import { HydratedDocument, Schema as mSchema } from "mongoose";
 import { Profile } from "./profile.schema";
 
 @Schema({
@@ -24,3 +24,7 @@ export class QuizResult {
   @ApiProperty()
   profile: string | Profile
 }
+
+export type QuizResultDocument = HydratedDocument<QuizResult>;
+
+export const QuizResultSchema = SchemaFactory.createForClass(QuizResult);

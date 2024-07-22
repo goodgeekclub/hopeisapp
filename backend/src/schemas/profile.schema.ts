@@ -1,6 +1,7 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
+import { Character, CharacterSchema } from './character.schema';
 
 @Schema()
 class MetaData {
@@ -13,24 +14,14 @@ class MetaData {
   missionSuccess: number;
 }
 
-@Schema()
-class Character {
-  @Prop({ required: true })
-  @ApiProperty({ example: 'id' })
-  id: string;
+const MetaDataSchema = SchemaFactory.createForClass(MetaData);
 
-  @Prop({ required: true })
-  @ApiProperty({ example: 'name' })
-  name: string;
-
-  @Prop({ required: true })
-  @ApiProperty({ example: 'photo_url' })
-  photoUrl: string;
-
-  @Prop({ required: true })
-  @ApiProperty({ example: 'detail' })
-  detail: string;
+enum Gender {
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+  OTHER = 'OTHER',
 }
+
 @Schema({
   timestamps: true,
 })
@@ -41,46 +32,44 @@ export class Profile {
 
   @Prop()
   @ApiProperty({ example: 'first_name' })
-  firstName: string;
+  firstName?: string;
 
   @Prop()
   @ApiProperty({ example: 'last_name' })
-  lastName: string;
+  lastName?: string;
 
   @Prop()
   @ApiProperty({ example: 'example@mail.com' })
-  email: string;
+  email?: string;
 
-  @Prop()
-  @ApiProperty({ example: 'female' })
-  gender: string;
-
-  @Prop()
-  @ApiProperty({ example: new Date() })
-  birthday: Date;
+  @Prop({ enum: Gender })
+  @ApiProperty({ example: 'FEMALE', enum: Gender })
+  gender?: Gender;
 
   @Prop()
   @ApiProperty({ example: new Date() })
-  createdAt: Date;
+  birthday?: Date;
 
   @Prop()
   @ApiProperty({ example: new Date() })
-  updatedAt: Date;
+  createdAt?: Date;
 
-  @Prop({ required: true })
-  // @ApiProperty({ example: 'metadata' })
+  @Prop()
+  @ApiProperty({ example: new Date() })
+  updatedAt?: Date;
+
+  @Prop({ type: MetaDataSchema, required: true })
   metadata: MetaData;
 
   @Prop()
   @ApiProperty({ example: 'photo_url' })
-  photoUrl: string;
+  photoUrl?: string;
 
   @Prop()
   @ApiProperty({ example: 'firebase_id' })
-  firebaseId: string;
+  firebaseId?: string;
 
-  @Prop({ required: true })
-  // @ApiProperty({ example: 'character' })
+  @Prop({ type: CharacterSchema, required: true })
   character: Character;
 }
 

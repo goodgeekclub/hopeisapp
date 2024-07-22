@@ -1,6 +1,8 @@
 import { ApiExtraModels, ApiProperty } from '@nestjs/swagger';
 import { Profile } from 'src/schemas/profile.schema';
 import {
+  IsDateString,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -35,6 +37,13 @@ class CharacterDTO {
   @ApiProperty({ example: 'detail' })
   detail: string;
 }
+
+enum Gender {
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+  OTHER = 'OTHER',
+}
+
 @ApiExtraModels(Profile)
 export class CreateProfileDto {
   @IsString()
@@ -44,24 +53,24 @@ export class CreateProfileDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'first_name' })
-  firstName: string;
+  firstName?: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'last_name' })
-  lastName: string;
+  lastName?: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'example@mail.com' })
-  email: string;
+  email?: string;
 
-  @IsString()
+  @IsEnum(Gender)
   @IsOptional()
-  @ApiProperty({ example: 'female' })
-  gender: string;
+  @ApiProperty({ example: 'FEMALE', enum: Gender })
+  gender?: Gender;
 
-  @IsString()
+  @IsDateString()
   @IsOptional()
   @ApiProperty({ example: new Date() })
   birthday: Date;

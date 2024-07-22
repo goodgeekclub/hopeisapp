@@ -1,6 +1,6 @@
 #!/bin/bash
 unset $AWS_SESSION_TOKEN
-ROLE_ARN="arn:aws:iam::907877978309:role/hopeisapp-test-role"
+ROLE_ARN="arn:aws:iam::907877978309:role/hopeisapp-federated-role-dev"
 TIME=3600
 NAME="araiva"
 AWS_CREDENTIAL=$(aws sts assume-role-with-web-identity \
@@ -18,6 +18,10 @@ echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
 echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
 echo "AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}"
 
+<<<<<<< HEAD
 aws s3 ls
+=======
+aws s3 ls s3://dev-media.hopeis.us
+>>>>>>> main
 
 aws sts get-caller-identity

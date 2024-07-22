@@ -4,10 +4,10 @@ plugins:
   - serverless-offline
 
 package:
+  individually: true
   patterns:
-    - '!node_modules/**'
-    - '!src/**'
-    - '!sls-templates/**'
+    - '!test/**'
+    - '!*.md'
 
 provider:
   name: aws
@@ -30,13 +30,31 @@ provider:
   apiGateway:
     apiKeys:
       - ${self:service}-apikey-${sls:stage}
-    usagePlan:
+    usagePlan: ${self:custom.usagePlans.${sls:stage}}
+
+custom:
+  usagePlans:
+    dev:
       quota:
-          limit: 5000
-          period: MONTH
+        limit: 5000
+        period: MONTH
       throttle:
         burstLimit: 200
         rateLimit: 100
+    uat:
+      quota:
+        limit: 5000
+        period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
+    prod:
+      quota:
+        limit: 50000
+        period: MONTH
+      throttle:
+        burstLimit: 2000
+        rateLimit: 1000
 
 functions:
   - ${file(sls-templates/data-function.yml)}

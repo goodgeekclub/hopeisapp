@@ -4,11 +4,11 @@ quizes:
   events:
     - http:
         method: GET
-        path: /
+        path: /quizes
         private: true
     - http:
         method: POST
-        path: /
+        path: /quizes
         private: true
     - http:
         method: ANY

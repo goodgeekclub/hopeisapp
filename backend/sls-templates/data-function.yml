@@ -4,11 +4,11 @@ data:
   events:
     - http:
         method: GET
-        path: /
+        path: /data
         private: true
     - http:
         method: POST
-        path: /
+        path: /data
         private: true
     - http:
         method: ANY

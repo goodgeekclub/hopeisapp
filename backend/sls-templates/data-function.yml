@@ -1,0 +1,16 @@
+data:
+  name: ${self:service}-data-${sls:stage}
+  handler: dist/lambda.handler
+  events:
+    - http:
+        method: GET
+        path: /data
+        private: true
+    - http:
+        method: POST
+        path: /data
+        private: true
+    - http:
+        method: ANY
+        path: /data/{proxy+}
+        private: true

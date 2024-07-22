@@ -1,0 +1,62 @@
+service: hopeisapp
+
+plugins:
+  - serverless-offline
+
+package:
+  individually: true
+  patterns:
+    - '!test/**'
+    - '!*.md'
+
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  region: ap-southeast-1
+  runtime: nodejs20.x
+  memorySize: 512
+  timeout: 10
+  architecture: x86_64
+  deploymentMethod: direct
+  environment:
+    Project: hopeisapp
+    Environment: ${sls:stage}
+  stackTags:
+    Project: hopeisapp
+    Environment: ${sls:stage}
+  deploymentBucket:
+    name: hopeisapp-sls-deployment
+  apiName: ${self:service}-api-${sls:stage}
+  apiGateway:
+    apiKeys:
+      - ${self:service}-apikey-${sls:stage}
+    usagePlan: ${self:custom.usagePlans.${sls:stage}}
+
+custom:
+  usagePlans:
+    dev:
+      quota:
+        limit: 5000
+        period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
+    uat:
+      quota:
+        limit: 5000
+        period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
+    prod:
+      quota:
+        limit: 50000
+        period: MONTH
+      throttle:
+        burstLimit: 2000
+        rateLimit: 1000
+
+functions:
+  - ${file(sls-templates/data-function.yml)}
+  - ${file(sls-templates/profiles-function.yml)}
+  - ${file(sls-templates/quizes-function.yml)}

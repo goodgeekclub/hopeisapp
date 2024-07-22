@@ -5,7 +5,7 @@ import { COLLECTION_NAME } from 'src/configs/mongoose.config';
 import { Profile } from 'src/schemas/profile.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-
+import { from } from 'rxjs';
 @Injectable()
 export class ProfilesService {
   constructor(
@@ -13,27 +13,25 @@ export class ProfilesService {
     @InjectModel(COLLECTION_NAME.PROFILE) private model: Model<Profile>,
   ) {}
 
-  async create(createProfileDto: CreateProfileDto) {
+  create(createProfileDto: CreateProfileDto) {
     const profile = new this.model(createProfileDto);
-    return profile.save();
+    return from(profile.save());
   }
 
-  async findAll() {
+  findAll() {
     const allProfile = this.model.find().exec();
-    return allProfile;
+    return from(allProfile);
   }
 
-  async findOne(id: string) {
+  findOne(id: string) {
     return this.model.findById(id);
   }
 
-  async update(id: string, updateProfileDto: UpdateProfileDto) {
-    return this.model.findByIdAndUpdate(id, updateProfileDto);
+  update(id: string, updateProfileDto: UpdateProfileDto) {
+    return from(this.model.findByIdAndUpdate(id, updateProfileDto));
   }
 
-  async remove(id: string) {
-    return this.model.findByIdAndDelete(id);
+  remove(id: string) {
+    return from(this.model.findByIdAndDelete(id));
   }
 }
-
-// ถูกไหม?

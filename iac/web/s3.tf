@@ -8,17 +8,6 @@ resource "aws_s3_bucket" "buckets" {
   tags   = local.common_tags
 }
 
-resource "aws_s3_object" "objects" {
-  for_each = local.buckets
-
-  bucket       = aws_s3_bucket.buckets[each.key].bucket
-  key          = each.value.key
-  source       = each.value.src
-  content_type = "text/html"
-  etag         = filemd5(each.value.src)
-  tags         = local.common_tags
-}
-
 resource "aws_s3_bucket_website_configuration" "configs" {
   for_each = local.buckets
 

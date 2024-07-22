@@ -59,4 +59,4 @@ custom:
 functions:
   - ${file(sls-templates/data-function.yml)}
   - ${file(sls-templates/profiles-function.yml)}
-  - ${file(sls-templates/quizes-function.yml)}
+  - ${file(sls-templates/quiz-results-function.yml)}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
 import { UpdateQuizResultDto } from './dto/update-quiz-result.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -23,18 +23,15 @@ export class QuizResultsService {
     const find = this.model.find();
     find.limit(options.limit);
     find.skip(options.skip);
+    find.sort({ createdAt: 'asc' })
     return this.model.find().exec();
   }
 
-  findOne(id: number) {
-    return this.model.findById(id);
-  }
-
-  update(id: number, updateQuizResultDto: UpdateQuizResultDto) {
-    return from(this.model.findByIdAndUpdate(id, updateQuizResultDto));
-  }
-
-  remove(id: number) {
-    return from(this.model.findByIdAndDelete(id));
+  findOne(id: string) {
+    return this.model.findById(id).populate('profile').then(profile => {
+      if (!profile) {
+        throw new NotFoundException('Profile does not existed');
+      }
+    });
   }
 }

@@ -21,17 +21,6 @@ export class QuizResultsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.quizResultsService.findOne(+id);
+    return this.quizResultsService.findOne(id);
   }
-
-  // Not allow to patch or 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateQuizResultDto: UpdateQuizResultDto) {
-  //   return this.quizResultsService.update(+id, updateQuizResultDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.quizResultsService.remove(+id);
-  // }
 }

@@ -1,0 +1,16 @@
+quizes:
+  name: ${self:service}-quizes-${sls:stage}
+  handler: dist/lambda.handler
+  events:
+    - http:
+        method: GET
+        path: /
+        private: true
+    - http:
+        method: POST
+        path: /
+        private: true
+    - http:
+        method: ANY
+        path: /quizes/{proxy+}
+        private: true

@@ -1,23 +1,39 @@
-import serverless from "serverless-http";
-import express from "express";
-const app = express();
+import { NestFactory } from '@nestjs/core';
+import serverlessExpress from '@codegenie/serverless-express';
+import { Callback, Context, Handler } from 'aws-lambda';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from root!",
-  });
-});
+let server: Handler;
 
-app.get("/hello", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
-});
+async function bootstrap(): Promise<Handler> {
+  const app = await NestFactory.create(AppModule);
+  await app.init();
 
-app.use((req, res, next) => {
-  return res.status(404).json({
-    error: "Not Found",
-  });
-});
+  const expressApp = app.getHttpAdapter().getInstance();
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new MongooseInterceptor());
 
-exports.handler = serverless(app);
+  // Setup Swagger
+  const config = new DocumentBuilder()
+    .setTitle('Hopeis Backend API')
+    .setDescription('This is backend for data of Hopeis application')
+    .setVersion('0.1')
+    .addTag('Quiz')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  return serverlessExpress({ app: expressApp });
+}
+
+export const handler: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback,
+) => {
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};

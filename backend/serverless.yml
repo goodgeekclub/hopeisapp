@@ -1,8 +1,13 @@
 service: hopeisapp
 
-# params:
-#   default:
-#     domain: ""
+plugins:
+  - serverless-offline
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!src/**'
+    - '!sls-templates/**'
 
 provider:
   name: aws
@@ -20,16 +25,20 @@ provider:
     Project: hopeisapp
     Environment: ${sls:stage}
   deploymentBucket:
-    # Name of an existing bucket to use. Optional. (default: created by serverless)
-    name: ""
-  apiName: ${sls:service}-${sls:stage}-api
+    name: hopeisapp-sls-deployment
+  apiName: ${self:service}-api-${sls:stage}
   apiGateway:
     apiKeys:
-      - ${sls:service}-${sls:stage}-key
-    trics: true
+      - ${self:service}-apikey-${sls:stage}
+    usagePlan:
+      quota:
+          limit: 5000
+          period: MONTH
+      throttle:
+        burstLimit: 200
+        rateLimit: 100
 
 functions:
-  api:
-    handler: src.lambda
-    events:
-      - http: "*"
+  - ${file(sls-templates/data-function.yml)}
+  - ${file(sls-templates/profiles-function.yml)}
+  - ${file(sls-templates/quizes-function.yml)}

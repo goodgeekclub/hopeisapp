@@ -7,11 +7,5 @@
         <p>{{user.email}}</p>
         <img ngSrc="{{user.photoURL}}" [alt]="user.displayName" width="100" height="100" />
     </div>
-    <app-social-share 
-        [share] = "{
-            title: 'Share this awesome website',
-            text: 'Check out this awesome website',
-            url: 'https://awesome-website.com'
-        }" 
-    />
+    <social-share-button />
 </div>

@@ -1,8 +1,44 @@
+<div #toBeShare>
+  <table  id="table" class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>&#64;mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>&#64;fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>&#64;twitter</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <button
-  color="primary"
-  class="share-button"
-  aria-label="share button with a share icon"
-  (click)="onClick()"
->
-    Share
-</button>
+  aria-label="Share button"
+ (click)="onClick()"
+>Share</button>
+
+<button
+  aria-label="Share button"
+ (click)="addDynamicElement()"
+> Create Img</button>
+
+

@@ -31,9 +31,9 @@ export class ProfileActivity {
   @Prop()
   photoUrl: string;
 
-  @Prop({ type: Character })
-  @ApiProperty()
-  character: Character;
+  // @Prop({ type: Character })
+  // @ApiProperty()
+  // character: Character;
 
   @Prop({ type: mSchema.Types.ObjectId, ref: 'profile' })
   @ApiProperty()

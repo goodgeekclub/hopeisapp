@@ -18,6 +18,8 @@ import { DataInterceptor } from './data.interceptor';
 import { DataType } from 'src/schemas/data.schema';
 import { CreateQuizDto } from './dto/quiz/create-quiz.dto';
 import { UpdateQuizDto } from './dto/quiz/update-quiz.dto';
+import { CreateMissionDto } from './dto/mission/create-mission.dto';
+import { UpdateMissionDto } from './dto/mission/update-mission.dto';
 
 @ApiTags('Data')
 @Controller('data')
@@ -48,13 +50,23 @@ export class DataController {
   }
 
   @Post('quizes')
-  create(@Body() createQuizDto: CreateQuizDto) {
+  createQuiz(@Body() createQuizDto: CreateQuizDto) {
     return this.dataService.create(createQuizDto);
   }
 
   @Patch('quizes/:id')
-  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
+  updateQuiz(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
     return this.dataService.update(id, updateQuizDto);
+  }
+
+  @Post('missions')
+  createMission(@Body() createMissionDto: CreateMissionDto) {
+    return this.dataService.create(createMissionDto);
+  }
+
+  @Patch('missions/:id')
+  updateMission(@Param('id') id: string, @Body() updateMission: UpdateMissionDto) {
+    return this.dataService.update(id, updateMission);
   }
 
   // @Patch(':id')

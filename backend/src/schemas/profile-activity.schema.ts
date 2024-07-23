@@ -16,26 +16,31 @@ export enum ActivityStatus {
   timestamps: true,
 })
 export class ProfileActivity {
+  @Prop({ enum: ActivityStatus, required: true })
   @ApiProperty()
   status: ActivityStatus;
 
-  @Prop({ type: mSchema.Types.Date })
+  @Prop({ type: mSchema.Types.Date, required: true })
+  @ApiProperty()
   date: Date;
 
-  @Prop()
-  coin_value: number;
+  @Prop({ required: true })
+  @ApiProperty()
+  coinValue: number;
 
   @Prop()
-  text: string;
+  @ApiProperty()
+  text?: string;
 
-  @Prop()
+  @Prop({ required: true })
+  @ApiProperty()
   photoUrl: string;
 
-  // @Prop({ type: Character })
-  // @ApiProperty()
-  // character: Character;
+  @Prop({ type: Character, required: true })
+  @ApiProperty()
+  character: Character;
 
-  @Prop({ type: mSchema.Types.ObjectId, ref: 'profile' })
+  @Prop({ type: mSchema.Types.ObjectId, ref: 'profile', required: true })
   @ApiProperty()
   profile: string | Profile
 }

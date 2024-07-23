@@ -1,7 +1,7 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { HydratedDocument } from 'mongoose';
-import { Character, CharacterSchema } from './character.schema';
+import { Character } from 'src/models/character.model';
 
 @Schema()
 class MetaData {
@@ -50,15 +50,7 @@ export class Profile {
   @ApiProperty({ example: new Date() })
   birthday?: Date;
 
-  @Prop()
-  @ApiProperty({ example: new Date() })
-  createdAt?: Date;
-
-  @Prop()
-  @ApiProperty({ example: new Date() })
-  updatedAt?: Date;
-
-  @Prop({ type: MetaDataSchema, required: true })
+  @Prop({ type: MetaDataSchema, required: true, default: { totalCoin: 0, missionSuccess: 0 } })
   metadata: MetaData;
 
   @Prop()
@@ -69,7 +61,7 @@ export class Profile {
   @ApiProperty({ example: 'firebase_id' })
   firebaseId?: string;
 
-  @Prop({ type: CharacterSchema, required: true })
+  @Prop({ type: Character, required: true })
   character: Character;
 }
 

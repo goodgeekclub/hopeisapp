@@ -41,7 +41,8 @@ export class Question {
 
   @ApiProperty({ example: 'abcdefg' })
   @IsString()
-  subtitle: string;
+  @IsOptional()
+  subtitle?: string;
 
   @ApiProperty({ type: [Choice] })
   @IsArray()

@@ -6,7 +6,11 @@ import { Character } from "./character.model";
 export class Mission {
   @ApiProperty()
   @IsString()
-  description: string;
+  name: string;
+
+  @ApiProperty()
+  @IsString()
+  description?: string;
 
   @ApiProperty()
   @IsNumber()
@@ -17,10 +21,12 @@ export class Mission {
   level: number;
 
   @ApiProperty()
+  @IsString()
+  examplePhotoUrl?: string;
+
+  @ApiProperty()
   @IsArray()
   @ArrayMinSize(1)
   @ArrayUnique()
-  @ValidateNested()
-  @Type(() => Character)
   characterIds: string[]
 }

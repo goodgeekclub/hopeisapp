@@ -11,6 +11,11 @@ export class Character {
   @ApiProperty()
   @IsString()
   @Prop()
+  title: string;
+
+  @ApiProperty()
+  @IsString()
+  @Prop()
   detail: string;
 
   @ApiProperty()

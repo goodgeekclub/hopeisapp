@@ -34,6 +34,9 @@ export class SocialShareComponent {
   isBrowser: boolean;
   clicked = false;
 
+  title: string = 'YouthTalk_Hope_is';
+  text: string = 'character.title';
+
   constructor(@Inject(PLATFORM_ID) platformId: string) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -41,8 +44,8 @@ export class SocialShareComponent {
   onClick() {
     if (this.file) {
       const shareData = {
-        title: 'Hope is...',
-        text: 'Hope is...',
+        title: this.title,
+        text: this.text,
         files: [this.file],
       };
 

@@ -37,10 +37,15 @@
  (click)="onClick()"
 >Share</button>
 
-<button
+<div >
+  <button
   aria-label="Share button"
   class="btn btn-primary"
- (click)="check()"
-> Check Img</button>
+  (click)="check()"
+  > Check Img</button>
+  <div *ngIf="clicked" class="absolute left-0 p-2 mt-2 text-white bg-gray-700 rounded" >
+    copied
+  </div>
+</div>
 
 

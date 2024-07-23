@@ -12,6 +12,7 @@ import { Inject, PLATFORM_ID } from '@angular/core';
  *
  * NOTE: Regarding Web Share API, the share method is only available in secure contexts (HTTPS) or localhost when dev.
  * Mobile devices will have different behavior when sharing files but most support natively.
+ * The shareData requires a title, text minimally to be shared.
  *
  * NOTE: use web api share:
  * it must be called from a user gesture event handler
@@ -31,25 +32,45 @@ export class SocialShareComponent {
 
   file: File | null = null;
   isBrowser: boolean;
+  clicked = false;
 
   constructor(@Inject(PLATFORM_ID) platformId: string) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   onClick() {
-    console.log(this.file);
     if (this.file) {
       const shareData = {
+        title: 'Hope is...',
+        text: 'Hope is...',
         files: [this.file],
       };
 
+      // Check if Web Share API is supported
+      console.log(navigator.canShare(shareData));
       if (navigator.canShare(shareData)) {
+        // Share the file
         navigator.share(shareData);
+      } else {
+        // Fallback to clipboard
+        this.clicked = true;
+        navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': this.file!,
+          }),
+        ]);
+        setTimeout(() => {
+          this.clicked = false;
+        }, 1500);
       }
     }
   }
 
   check() {
+    this.clicked = true;
+    setTimeout(() => {
+      this.clicked = false;
+    }, 3000);
     console.log(this.file);
   }
 

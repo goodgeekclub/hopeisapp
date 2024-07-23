@@ -1,6 +1,7 @@
 import { Component, ViewChild, type ElementRef } from '@angular/core';
 import html2canvas from 'html2canvas-pro';
-
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 /**
  * NOTE: Web Share API is not supported in all browsers.
  * Check the compatibility here: https://caniuse.com/web-share
@@ -15,6 +16,10 @@ import html2canvas from 'html2canvas-pro';
  * NOTE: use web api share:
  * it must be called from a user gesture event handler
  * it will fail if
+ *
+ * to use this feature in other component.
+ * 1. Copy everything but check() from this file to the component you want to use.
+ * 2. Add the #toBeShare to the element you want to share.
  */
 @Component({
   selector: 'social-share-button',
@@ -24,16 +29,17 @@ import html2canvas from 'html2canvas-pro';
 export class SocialShareComponent {
   @ViewChild('toBeShare') toBeShare?: ElementRef;
 
-  @ViewChild('dynamicElementsContainer', { static: false })
   file: File | null = null;
-  dynamicElementsContainer?: ElementRef;
+  isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) platformId: string) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   onClick() {
     console.log(this.file);
     if (this.file) {
       const shareData = {
-        title: 'Check this out!',
-        text: 'Here is an image to share.',
         files: [this.file],
       };
 
@@ -43,14 +49,21 @@ export class SocialShareComponent {
     }
   }
 
-  addDynamicElement() {
-    html2canvas(this.toBeShare?.nativeElement).then(async (canvas) => {
-      const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob(resolve, 'image/png')
-      );
-      this.file = new File([blob!], 'share-image.png', {
-        type: 'image/png',
+  check() {
+    console.log(this.file);
+  }
+
+  ngAfterViewInit() {
+    if (this.isBrowser) {
+      html2canvas(this.toBeShare?.nativeElement).then(async (canvas) => {
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve, 'image/png')
+        );
+        const fileName = 'hope-is-' + new Date().getTime() + '.png';
+        this.file = new File([blob!], fileName, {
+          type: 'image/png',
+        });
       });
-    });
+    }
   }
 }

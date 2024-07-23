@@ -1,5 +1,5 @@
 import { ApiExtraModels, ApiProperty, PartialType } from '@nestjs/swagger';
-import { Data } from 'src/schemas/data.schema';
+import { Data, DataType } from 'src/schemas/data.schema';
 import { IsString, IsOptional } from 'class-validator';
 
 @ApiExtraModels(Data)
@@ -15,7 +15,7 @@ export class CreateDataDto extends PartialType(Data) {
 
   @IsString()
   @ApiProperty({ example: 'STAT' })
-  type: 'MISSION' | 'STAT' | string;
+  type: DataType;
 
   @IsOptional()
   @ApiProperty()

@@ -1,0 +1,13 @@
+<h2>Single File Upload</h2>
+<div>
+    <div>
+        <!-- <div class="card h-96 w-96 border-1"></div> -->
+        <img [src]="imageUrl"  alt="preview-image">
+    </div>
+    <div>
+        <div>
+            <input name="image" type="file" class="file-input file-input-bordered w-full max-w-xs" (change)="changeUpload($event)">
+        </div>
+        <label for="image">Invalid</label>
+    </div>
+</div>

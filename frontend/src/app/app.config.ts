@@ -1,7 +1,4 @@
-import {
-  ApplicationConfig,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -11,8 +8,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
 
-import {authInjectInterceptor } from './services/http.service';
+import { authInjectInterceptor } from './services/http.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideAngularSvgIcon } from 'angular-svg-icon';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,8 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideHttpClient(
-      withInterceptors([authInjectInterceptor])
-    ),
+    provideHttpClient(withInterceptors([authInjectInterceptor])),
+    provideAngularSvgIcon(),
   ],
 };

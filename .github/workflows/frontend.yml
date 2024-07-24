@@ -25,6 +25,13 @@ jobs:
           cache-dependency-path: ./frontend/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Prepare Environment
+        run: |
+          pwd
+          mkdir -p src/environments
+          echo ${{ secrets.ANGULAR_ENVIRONMENT }}
+          echo ${{ secrets.ANGULAR_ENVIRONMENT }} > src/environments/environment.ts
+          cat src/environments/environment.ts
       - name: Build
         run: npm run build
   deploy-dev:

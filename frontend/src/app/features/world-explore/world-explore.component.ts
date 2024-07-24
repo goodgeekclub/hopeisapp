@@ -49,7 +49,7 @@ export class WorldExploreComponent implements OnInit {
 
         
 
-         if (window.innerWidth < 768) { 
+         if (window.innerWidth < 1100) { 
          
         } else {
         background.width = app.screen.width;

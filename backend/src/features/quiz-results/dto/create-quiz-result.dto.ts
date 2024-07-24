@@ -4,7 +4,7 @@ import { IsMongoId, IsNumber, IsObject, IsString, ValidateNested } from "class-v
 import { Character } from "src/models/character.model";
 import { QuizResult } from "src/schemas/quiz-result.schema";
 
-export class CreateQuizResultDto extends PartialType(QuizResult) {
+export class CreateQuizResultDto {
   @ApiProperty()
   @IsNumber()
   score: number;

@@ -5,12 +5,15 @@ import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { initializeApp } from 'firebase-admin/app';
 import { firebaseConfig } from './configs/firebase.config';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   initializeApp(firebaseConfig);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new MongooseInterceptor());
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
+
 
   // Setup Swagger
   const config = new DocumentBuilder()

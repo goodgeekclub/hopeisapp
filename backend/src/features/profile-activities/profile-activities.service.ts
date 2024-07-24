@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfileActivityDto } from './dto/create-profile-activity.dto';
 import { UpdateProfileActivityDto } from './dto/update-profile-activity.dto';
 import { ActivityStatus, ProfileActivity } from 'src/schemas/profile-activity.schema';
@@ -11,6 +11,7 @@ import { ProfilesService } from '../profiles/profiles.service';
 @Injectable()
 export class ProfileActivitiesService {
   constructor(
+    private profilesService: ProfilesService,
     @InjectModel(COLLECTION_NAME.PROFILE_ACTIVITIES) private model: Model<ProfileActivity>
   ) {}
   async create(dto: CreateProfileActivityDto) {
@@ -21,13 +22,18 @@ export class ProfileActivitiesService {
     if (!dto.status) {
       activity.status = ActivityStatus.TODO;
     }
+    const profile = await this.profilesService.findOne(dto.profile);
+    if (!profile) {
+      throw new BadRequestException(`profile ${dto.profile} does not existed`);
+    }
+    activity.character = profile.character;
     return activity.save();
   }
 
   findAll(options?: QueryOptionsDto) {
     const find = this.model.find();
-    find.limit(options.limit);
-    find.skip(options.skip);
+    find.limit(options?.limit);
+    find.skip(options?.skip);
     find.sort({ createdAt: 'asc' })
     return this.model.find().exec();  }
 

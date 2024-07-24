@@ -17,7 +17,9 @@ export class HomeComponent implements OnInit {
 
   constructor(private readonly authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+     
+  }
 
   public async register(): Promise<void> {
     const user = await this.authService.register();

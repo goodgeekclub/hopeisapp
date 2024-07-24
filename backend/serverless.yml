@@ -60,3 +60,4 @@ functions:
   - ${file(sls-templates/data-function.yml)}
   - ${file(sls-templates/profiles-function.yml)}
   - ${file(sls-templates/quiz-results-function.yml)}
+  - ${file(sls-templates/profile-activities-function.yml)}

@@ -1,0 +1,38 @@
+<section class="w-4/4 shadow-md p-10 shadow-blue-200/20 mx-36 my-10">
+    <div class="flex justify-between items-center mb-4 mt-4">
+        <input type="text" placeholder="Search" class="w-full border p-2 rounded-lg" #filter (keyup)="filterData(filter.value)">
+        <!-- <select class="border p-2 rounded-lg"  #pageSize (change)="changePageStatus(pagestatus.value)">
+            @for (size of pagestatus; track $index) {
+                <option [value]="size">{{size}}</option>
+            }
+        </select> -->
+    </div>
+    
+    <table class="w-full border-4 ">
+        <thead>
+            <tr>
+                <th class="p-3 text-left bg-white">Track</th>
+                <th class="p-3 text-left bg-white">Name</th>
+                <th class="p-3 text-left bg-white">Email</th>
+                <th class="p-3 text-left bg-white">Token</th>
+                <th class="p-3 text-left bg-white">Phonenumber</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of visibleData(); track $index){
+                <tr class="border-2">
+                    <td class="p-3 border-2">{{ $index+1 }}</td>
+                    <td class="p-3 border-2">{{user.displayName}}</td>
+                    <td class="p-3 border-2">{{user.email}}</td>
+                    <td class="p-3 border-2">{{user.token}}</td>
+                    <td class="p-3 border-2">{{user.phoneNumber}}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="mt-4 flex items-center justify-center">
+        <button class="text-orange-200 border-4 py-2 px-4 rounded-l-lg cursor-pointer mr-5" (click)="previousPage()">Previous</button>
+        
+        <button class="text-orange-200 border-4 py-2 px-4 rounded-r-lg cursor-pointer ml-5" (click)="nextPage()">Next</button>
+    </div>
+</section>

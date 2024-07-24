@@ -1,54 +1,54 @@
-<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="flex flex-col items-center justify-center w-screen h-screen"
+<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="w-full h-full relative"
     (click)="showResult()">
-    <p class="text-center">จริง ๆ แล้ว</p>
-    <p class="text-center">แสงแห่งความหวัง</p>
-    <p class="text-center">เปล่งประกายขึ้นมา</p>
-    <p class="text-center">ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้</p>
-    <p class="text-center">ให้ดีขึ้นแล้วล่ะ</p>
-
-    <div class="w-[128px] h-[128px] bg-yellow-500">
-        ประกายดาว
-    </div>
-
-    <p>มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน</p>
+    <app-background src="images/bg-32.png"></app-background>
+    <article class="w-full h-full flex flex-col items-center justify-between">
+        <div class="h-full flex flex-col justify-center mt-24">
+            <p class="text-center text-[26px] text-white">จริง ๆ แล้ว</p>
+            <p class="text-center text-[26px] text-white">แสงแห่งความหวัง</p>
+            <p class="text-center text-[26px] text-white mt-8">เปล่งประกายขึ้นมา</p>
+            <p class="text-center text-[26px] text-white">ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้</p>
+            <p class="text-center text-[26px] text-white">ให้ดีขึ้นแล้วล่ะ</p>
+        </div>
+        <div>
+            <p class="text-center text-[26px] text-white opacity-50 mb-48">มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน</p>
+        </div>
+    </article>
 </section>
 <ng-template #result>
-    <section class="flex flex-col items-center justify-center w-screen h-screen">
-        <p class="bg-lime-500">Character Name</p>
-        <p class="bg-green-500 h-[200px] w-[200px]">Character</p>
-        <p class="bg-purple-400">quote</p>
-        <p class="bg-pink-300">description</p>
-        <p class="bg-blue-300">YouthTalk</p>
-        <p>Represented by</p>
-        <div class="flex flex-row justify-center items-center">    
-            <img src="images/goodgeeklogo-256.png" alt="GoodGeek Club" width="100px">
-            <p>YNS</p>
-            <p>Sponsor</p>
-        </div>
-        <div class="flex flex-row bg-slate-800">
-            <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
-            <svg-icon src="icons/download.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
-            <svg-icon src="icons/facebook.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
-            <svg-icon src="icons/Instagram_Glyph_Gradient.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
-            <svg-icon src="icons/x.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+    <section class=" w-full overflow-auto relative">
+        <app-background src="images/bg-32.png"></app-background>
+        <article class="flex flex-col items-center w-full h-full">
+            <p class="text-[26px] text-white bg-lime-500 h-[200px] w-[200px]">Character Name</p>
+            <p class="text-[26px] text-white bg-green-500 h-[200px] w-[200px]">Character</p>
+            <p class="text-[26px] text-white bg-purple-400 h-[200px] w-[200px]">quote</p>
+            <p class="text-[26px] text-white bg-pink-300 h-[200px] w-[200px]">description</p>
+            <img src="images/youthtalk.png" alt="Youthtalk HopeIs" width="200px">
+            <p class="text-[26px] text-white">Represented by</p>
+            <div class="flex flex-row justify-center items-center bg-primary">
+                <img src="images/goodgeeklogo-256.png" alt="GoodGeek" width="35px">
+                <img src="images/logo-white-square.png" alt="Youth" width="35px">
+            </div>
+            <div class="flex flex-row bg-primary">
+                <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+                <svg-icon src="icons/download.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+                <svg-icon src="icons/facebook.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+                <svg-icon src="icons/Instagram_Glyph_Gradient.svg"
+                    [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+                <svg-icon src="icons/x.svg" [svgStyle]="{ 'width.px':45, 'height.px':45 }"></svg-icon>
+            </div>
 
-
-        </div>
-        <p>12700 คน</p>
-        <p>กำลังปฏิบัติภารกิจเพื่อทำอะไรสักอย่างไม่รู้</p>
-        <app-button>Join Us</app-button>
-        <p> เล่นมิชชันสะสม coins กับเรา
-            เพื่อสร้างอะไรสักอย่าง</p>
-        <div class="bg-yellow-600 w-[200px] h-[100px]">Poster Project</div>
-        <div class="bg-pink-300 w-[50px] h-[100px]">poster</div>
-        <p>ฟังเสียงแห่งความหวัง
-            จากแสงทีออกเดินทางจริง
-            ณ หอศิลป์ฯ (BACC)</p>
-        <app-button>Buy ticket</app-button>
-        <div class="flex flex-row justify-center items-center">    
-            <img src="images/goodgeeklogo-256.png" alt="GoodGeek Club" width="100px">
-            <p>YNS</p>
-            <p>Sponsor</p>
-        </div>
+            <p class="text-[26px] text-white">12700 คน</p>
+            <p class="text-[26px] text-white">กำลังปฏิบัติภารกิจเพื่อทำอะไรสักอย่างไม่รู้</p>
+            <app-button class="text-[26px] text-white">Join Us</app-button>
+            <p class="text-[26px] text-white"> เล่นมิชชันสะสม coins กับเรา
+                เพื่อสร้างอะไรสักอย่าง</p>
+            <div class="bg-yellow-600 w-[200px] h-[100px]">Poster Project</div>
+            <div class="bg-pink-300 w-[50px] h-[100px]">poster</div>
+            <p class="text-[26px] text-white">ฟังเสียงแห่งความหวัง
+                จากแสงทีออกเดินทางจริง
+                ณ หอศิลป์ฯ (BACC)</p>
+            <app-button class="text-[26px] text-white">Buy ticket</app-button>
+            <app-footer class="w-full"></app-footer>
+        </article>
     </section>
 </ng-template>

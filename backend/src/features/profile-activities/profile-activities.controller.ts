@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProfileActivitiesService } from './profile-activities.service';
 import { CreateProfileActivityDto } from './dto/create-profile-activity.dto';
 import { UpdateProfileActivityDto } from './dto/update-profile-activity.dto';
+import { QueryOptions } from 'src/decorators/query-options.decorator';
+import { QueryOptionsDto } from 'src/dto/query-options.dto';
 
 @Controller('profile-activities')
 export class ProfileActivitiesController {
@@ -13,7 +15,7 @@ export class ProfileActivitiesController {
   }
 
   @Get()
-  findAll() {
+  findAll(@QueryOptions() options: QueryOptionsDto) {
     return this.profileActivitiesService.findAll();
   }
 

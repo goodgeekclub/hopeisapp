@@ -22,7 +22,7 @@ export class ProfileActivity {
 
   @Prop({ type: mSchema.Types.Date, required: true })
   @ApiProperty()
-  date: Date;
+  date: string;
 
   @Prop({ required: true })
   @ApiProperty()

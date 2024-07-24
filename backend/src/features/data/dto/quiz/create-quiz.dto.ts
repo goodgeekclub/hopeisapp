@@ -9,18 +9,10 @@ import {
 } from 'class-validator';
 import { Quiz } from 'src/models/quiz.model';
 import { Type } from 'class-transformer';
+import { CreateDataDto } from '../create-data.dto';
 
 @ApiExtraModels(Data)
-export class CreateQuizDto extends PartialType(Data) {
-  @IsString()
-  @ApiProperty({ example: 'My Name' })
-  name: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ example: 'A description' })
-  description?: string;
-
+export class CreateQuizDto  extends CreateDataDto {
   @Equals('QUIZ')
   @ApiProperty({ example: 'STAT' })
   type: DataType.quizes;

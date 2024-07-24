@@ -4,8 +4,9 @@ import { ProfilesController } from './profiles.controller';
 import { mongooseConnection } from 'src/configs/mongoose.config';
 
 @Module({
-  imports: [ mongooseConnection.profiles ],
+  imports: [mongooseConnection.profiles],
   controllers: [ProfilesController],
   providers: [ProfilesService],
+  exports: [ProfilesService]
 })
 export class ProfilesModule {}

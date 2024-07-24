@@ -2,3 +2,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Light */
+@font-face {
+  font-family: "DB Helvethaica X Light";
+  src: url("/assets/fonts/DB_Font/DB Helvethaica X Li Cond.ttf")
+    format("truetype");
+}
+
+/* Bold */
+@font-face {
+  font-family: "DB Helvethaica X Bold";
+  src: url("/assets/fonts/DB_Font/DB Helvethaica X Bd v3.2.ttf")
+    format("truetype");
+}
+
+/* Thin */
+@font-face {
+  font-family: "DB Helvethaica X Thin";
+  src: url("/assets/fonts/DB_Font/DB Helvethaica X Thin v3.2.ttf")
+    format("truetype");
+}
+
+/* Medium */
+@font-face {
+  font-family: "DB Helvethaica X Medium";
+  src: url("/assets/fonts/DB_Font/DB Helvethaica X Med v3.2.ttf")
+    format("truetype");
+}
+
+/* Base */
+@font-face {
+  font-family: "DB Helvethaica X";
+  src: url("/assets/fonts/DB_Font/DB Helvethaica X v3.2.ttf") 
+    format("truetype");
+}

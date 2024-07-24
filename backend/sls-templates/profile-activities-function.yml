@@ -1,16 +1,16 @@
-quiz-result:
-  name: ${self:service}-quiz-result-${sls:stage}
+profile-activities:
+  name: ${self:service}-profile-activities-${sls:stage}
   handler: dist/lambda.handler
   events:
     - http:
         method: GET
-        path: /quiz-results
+        path: /profile-activities
         private: true
     - http:
         method: POST
-        path: /quiz-results
+        path: /profile-activities
         private: true
     - http:
         method: ANY
-        path: /quiz-results/{proxy+}
+        path: /profile-activities/{proxy+}
         private: true

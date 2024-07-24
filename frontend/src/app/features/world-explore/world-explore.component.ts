@@ -20,7 +20,7 @@ export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
   users: User[] = [];
   batchSize: number = 1; // Number of stars to create per batch
-  displayLimit: number = 0; //limit user display
+  displayLimit: number = 100; //limit user display
 
   async ngOnInit() {
     const app = new PIXI.Application();
@@ -47,9 +47,14 @@ export class WorldExploreComponent implements OnInit {
         // Create a new Sprite for the background
         const background = new PIXI.Sprite(backgroundTexture);
 
-        // Set the background to cover the whole screen
+        
+
+         if (window.innerWidth < 768) { 
+         
+        } else {
         background.width = app.screen.width;
         background.height = app.screen.height;
+        }
 
         // Add the background to the stage
         app.stage.addChild(background);
@@ -62,12 +67,12 @@ export class WorldExploreComponent implements OnInit {
         
 
         // Set the position of the sprite
-        this.sprite.x = app.screen.width / 2;
-        this.sprite.y = app.screen.height / 2;
+        this.sprite.x = app.screen.width / 1.15;
+        this.sprite.y = app.screen.height / 1.15;
 
          // Scale the sprite
          if (window.innerWidth < 768) { 
-          this.sprite.scale.set(0.4, 0.4); // Scale down for mobile
+          this.sprite.scale.set(0.3, 0.3); // Scale down for mobile
         } else {
           this.sprite.scale.set(0.6, 0.6);
         }

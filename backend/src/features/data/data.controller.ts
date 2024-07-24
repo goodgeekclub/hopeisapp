@@ -18,6 +18,10 @@ import { DataInterceptor } from './data.interceptor';
 import { DataType } from 'src/schemas/data.schema';
 import { CreateQuizDto } from './dto/quiz/create-quiz.dto';
 import { UpdateQuizDto } from './dto/quiz/update-quiz.dto';
+import { CreateMissionDto } from './dto/mission/create-mission.dto';
+import { UpdateMissionDto } from './dto/mission/update-mission.dto';
+import { UpdateCharacterDto } from './dto/character/update-character.dto';
+import { CreateCharacterDto } from './dto/character/create-character.dto';
 
 @ApiTags('Data')
 @Controller('data')
@@ -34,7 +38,7 @@ export class DataController {
     return this.dataService.findAll(type);
   }
 
-  @Get('missions|stats|quizes')
+  @Get('missions|stats|quizes|characters')
   findAllByType(@Req() req) {
     const paths = req.originalUrl.split('/').filter((p: string) => !!p);
     const type: DataType = DataType[paths[1]];
@@ -48,19 +52,34 @@ export class DataController {
   }
 
   @Post('quizes')
-  create(@Body() createQuizDto: CreateQuizDto) {
+  createQuiz(@Body() createQuizDto: CreateQuizDto) {
     return this.dataService.create(createQuizDto);
   }
 
   @Patch('quizes/:id')
-  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
+  updateQuiz(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
     return this.dataService.update(id, updateQuizDto);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateDataDto: UpdateDataDto) {
-  //   return this.dataService.update(id, updateDataDto);
-  // }
+  @Post('missions')
+  createMission(@Body() createMissionDto: CreateMissionDto) {
+    return this.dataService.create(createMissionDto);
+  }
+
+  @Patch('missions/:id')
+  updateMission(@Param('id') id: string, @Body() updateMission: UpdateMissionDto) {
+    return this.dataService.update(id, updateMission);
+  }
+
+  @Post('characters')
+  createCharacter(@Body() createCharacterDto: CreateCharacterDto) {
+    return this.dataService.create(createCharacterDto);
+  }
+
+  @Patch('characters/:id')
+  updateCharacter(@Param('id') id: string, @Body() updateCharacter: UpdateCharacterDto) {
+    return this.dataService.update(id, updateCharacter);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

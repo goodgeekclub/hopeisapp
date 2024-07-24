@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { useContainer } from 'class-validator';
 
 let server: Handler;
 
@@ -15,6 +16,7 @@ async function bootstrap(): Promise<Handler> {
   const expressApp = app.getHttpAdapter().getInstance();
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new MongooseInterceptor());
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   // Setup Swagger
   const config = new DocumentBuilder()

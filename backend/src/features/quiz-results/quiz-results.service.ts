@@ -21,8 +21,8 @@ export class QuizResultsService {
 
   findAll(options?: QueryOptionsDto) {
     const find = this.model.find();
-    find.limit(options.limit);
-    find.skip(options.skip);
+    find.limit(options?.limit);
+    find.skip(options?.skip);
     find.sort({ createdAt: 'asc' })
     return this.model.find().exec();
   }

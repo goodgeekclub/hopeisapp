@@ -5,16 +5,21 @@ import { IsString } from "class-validator";
 export class Character {
   @ApiProperty()
   @IsString()
-  @Prop()
   name: string;
 
   @ApiProperty()
   @IsString()
-  @Prop()
+  title: string;
+
+  @ApiProperty()
+  @IsString()
+  quote: string;
+
+  @ApiProperty()
+  @IsString()
   detail: string;
 
   @ApiProperty()
   @IsString()
-  @Prop()
   photoUrl: string;
 }

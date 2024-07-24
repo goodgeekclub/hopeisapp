@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty } from "@nestjs/swagger";
-import { Character } from "src/models/character";
+import { Character } from "src/models/character.model";
 import { HydratedDocument, Schema as mSchema } from "mongoose";
 import { Profile } from "./profile.schema";
 

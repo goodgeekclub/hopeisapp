@@ -1,7 +1,7 @@
 <div *ngIf="question$ | async as question" class="mx-4 flex flex-col items-center justify-center h-dvh">
     <h2 class="text-xl text-center font-bold mb-6">{{ question.title }}</h2>
     <div class="gap-6 flex-col md:flex-row flex items-center">
-        <div class="hidden md:flex">Strongly Agree</div>
+        <div class="hidden md:flex">น้อย</div>
         <ul class="gap-3 flex items-center">
             <li *ngFor="let option of question.choices; let i = index" class="">
                 <label class="label cursor-pointer">
@@ -12,10 +12,10 @@
                 </label>
             </li>
         </ul>
-        <div class="hidden md:flex">Strongly Disagree</div>
+        <div class="hidden md:flex">มาก</div>
         <div class="md:hidden w-full flex justify-between">
-            <div>Strongly Agree</div>
-            <div>Strongly Disagree</div>
+            <div>น้อย</div>
+            <div>มาก</div>
         </div>
     </div>
 </div>

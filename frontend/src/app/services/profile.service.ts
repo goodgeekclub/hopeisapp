@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './localstorage.service';
-import { QuestionService } from './question.service';
+import { QuestionService, Choice } from './question.service';
 
 interface Answer {
   questionId: number;
   questionTitle: string;
   choice: string;
   score: number;
+  type: string;
 }
 
 interface Profile {
@@ -44,7 +45,7 @@ export class ProfileService {
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
 
-  async saveAnswer(questionId: number, choice: string): Promise<void> {
+  async saveAnswer(questionId: number, choiceTitle: string): Promise<void> {
     const profile = this.getProfile();
     if (profile) {
       try {
@@ -53,27 +54,31 @@ export class ProfileService {
           .toPromise();
 
         if (question) {
-          const choiceScore =
-            question.choices.find((c) => c.title === choice)?.score || 0;
+          const choice = question.choices.find((c) => c.title === choiceTitle);
 
-          const existingAnswerIndex = profile.answers.findIndex(
-            (answer) => answer.questionId === questionId
-          );
+          if (choice) {
+            const existingAnswerIndex = profile.answers.findIndex(
+              (answer) => answer.questionId === questionId
+            );
 
-          const answer: Answer = {
-            questionId,
-            questionTitle: question.title,
-            choice,
-            score: choiceScore,
-          };
+            const answer: Answer = {
+              questionId,
+              questionTitle: question.title,
+              choice: choice.title,
+              score: choice.score,
+              type: choice.type,
+            };
 
-          if (existingAnswerIndex >= 0) {
-            profile.answers[existingAnswerIndex] = answer;
+            if (existingAnswerIndex >= 0) {
+              profile.answers[existingAnswerIndex] = answer;
+            } else {
+              profile.answers.push(answer);
+            }
+
+            this.updateProfile(profile);
           } else {
-            profile.answers.push(answer);
+            console.error(`Choice with title ${choiceTitle} not found.`);
           }
-
-          this.updateProfile(profile);
         } else {
           console.error(`Question with id ${questionId} not found.`);
         }
@@ -94,5 +99,38 @@ export class ProfileService {
   getCurrentQuestionId(): number {
     const profile = this.getProfile();
     return profile ? profile.currentQuestionId : 1;
+  }
+
+  getScores(): { [key: string]: number } {
+    const profile = this.getProfile();
+    if (profile) {
+      return profile.answers.reduce((acc, answer) => {
+        if (!acc[answer.type]) {
+          acc[answer.type] = 0;
+        }
+        acc[answer.type] += answer.score;
+        return acc;
+      }, {} as { [key: string]: number });
+    }
+    return {};
+  }
+
+  getHighestScoreType(): { type: string; score: number } | null {
+    const scores = this.getScores();
+    let highestScore = 0;
+    let highestType = '';
+
+    for (const [type, score] of Object.entries(scores)) {
+      if (score > highestScore) {
+        highestScore = score;
+        highestType = type;
+      }
+    }
+
+    return highestType ? { type: highestType, score: highestScore } : null;
+  }
+
+  clearProfile(): void {
+    this.storageService.remove(this.profileKey);
   }
 }

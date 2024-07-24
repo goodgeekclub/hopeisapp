@@ -3,7 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { ProfileService } from '../../../services/profile.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
-import { Question, QuestionService, Choice } from '../../../services/question.service';
+import {
+  Question,
+  QuestionService,
+  Choice,
+} from '../../../services/question.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -55,12 +59,12 @@ export class QuestionComponent implements OnInit {
   }
 
   getOptionSize(index: number): number {
-    const sizes = [45, 35, 28, 35, 45];
+    const sizes = [22, 28, 32, 38, 45];
     return sizes[index % sizes.length];
   }
 
-  answerQuestion(answer: Choice) {
-    this.profileService.saveAnswer(this.currentQuestionId, answer.title);
+  async answerQuestion(answer: Choice) {
+    await this.profileService.saveAnswer(this.currentQuestionId, answer.title);
     setTimeout(() => {
       this.goToNextQuestion();
     }, 1000);
@@ -70,12 +74,24 @@ export class QuestionComponent implements OnInit {
     const nextQuestionId = this.currentQuestionId + 1;
 
     if (this.currentQuestionId === this.totalQuestions) {
+      const highestScoreType = this.profileService.getHighestScoreType();
+      if (highestScoreType) {
+        console.log(
+          `Highest Score Type: ${highestScoreType.type}, Score: ${highestScoreType.score}`
+        );
+      }
+      // this.logTotalScores();
       // this.localStorageService.clear();
-      this.router.navigate(['/quiz/enter-your-name']);
+      // this.router.navigate(['/quiz/enter-your-name']);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
-      this.selectedOption = { title: '', score: 0 };
+      this.selectedOption = { title: '', score: 0, type: '' };
       this.router.navigate(['/quiz/question', nextQuestionId]);
     }
+  }
+
+  logTotalScores(): void {
+    const scores = this.profileService.getScores();
+    console.log('Total Scores by Type:', scores);
   }
 }

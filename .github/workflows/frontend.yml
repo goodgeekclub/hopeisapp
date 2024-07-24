@@ -28,12 +28,13 @@ jobs:
           ANGULAR_ENVIRONMENT: ${{ secrets.ANGULAR_ENVIRONMENT }}
         run: |
           pwd
+          npx ng g environments
           mkdir -p src/environments
           echo "${{ env.ANGULAR_ENVIRONMENT }}"
-          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.ts
-          cat src/environments/environment.ts
+          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
+          cat src/environments/environment.development.ts
       - name: Build
-        run: npm run build
+        run: npm run build:dev
       - uses: actions/upload-artifact@master
         with:
           name: dist

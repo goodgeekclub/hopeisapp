@@ -8,9 +8,7 @@ jobs:
   build:
     name: Angular Build
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     node-version: [20]
+    environment: dev
     defaults:
       run:
         working-directory: ./frontend
@@ -26,14 +24,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Prepare Environment
+        env:
+          ANGULAR_ENVIRONMENT: ${{ secrets.ANGULAR_ENVIRONMENT }}
         run: |
           pwd
           mkdir -p src/environments
-          echo ${{ secrets.ANGULAR_ENVIRONMENT }}
-          echo ${{ secrets.ANGULAR_ENVIRONMENT }} > src/environments/environment.ts
+          echo "${{ env.ANGULAR_ENVIRONMENT }}"
+          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.ts
           cat src/environments/environment.ts
       - name: Build
         run: npm run build
+      - uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: frontend/dist
   deploy-dev:
     name: Angular Deploy on Dev
     runs-on: ubuntu-latest
@@ -47,6 +51,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: frontend/dist
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -54,6 +62,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Validate AWS CLI permission
-        run: aws s3 ls
+        run: |
+          ls -l
+          ls -l dist/frontend
+          aws s3 ls
       # - name: Sync to S3
       #   run: aws s3 sync dist/frontend ${{env. BUCKET }}

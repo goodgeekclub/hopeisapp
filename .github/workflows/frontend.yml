@@ -2,6 +2,7 @@ name: Angular Build
 
 on:
   pull_request:
+    types: ["assigned"]
     branches: ["main"]
 
 jobs:
@@ -27,14 +28,10 @@ jobs:
         env:
           ANGULAR_ENVIRONMENT: ${{ secrets.ANGULAR_ENVIRONMENT }}
         run: |
-          pwd
           npx ng g environments
-          mkdir -p src/environments
-          echo "${{ env.ANGULAR_ENVIRONMENT }}"
-          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
-          cat src/environments/environment.development.ts
+          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.ts
       - name: Build
-        run: npm run build:dev
+        run: npm run build:prod
       - uses: actions/upload-artifact@master
         with:
           name: dist
@@ -46,9 +43,6 @@ jobs:
     defaults:
       run:
         working-directory: ./frontend
-    env:
-      ENVIRONMENT: dev
-      BUCKET: s3://dev.hopeis.us
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -64,8 +58,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Validate AWS CLI permission
         run: |
-          ls -l
-          ls -l dist/frontend
           aws s3 ls
-      # - name: Sync to S3
-      #   run: aws s3 sync dist/frontend ${{env. BUCKET }}
+      - name: Sync to S3
+        run: aws s3 sync dist/frontend ${{ env.CODE_BUCKET }}

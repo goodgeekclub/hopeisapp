@@ -41,7 +41,7 @@ export class DataController {
   @Get('missions|stats|quizes|characters')
   findAllByType(@Req() req) {
     const paths = req.originalUrl.split('/').filter((p: string) => !!p);
-    const type: DataType = DataType[paths[1]];
+    const type: DataType = DataType[paths[0]];
     return this.dataService.findAll(type);
   }
 

@@ -1,13 +1,16 @@
 service: hopeisapp
 
 plugins:
+  # - serverless-plugin-browserifier
   - serverless-offline
 
 package:
-  individually: true
+  individually: false
   patterns:
     - '!test/**'
     - '!*.md'
+    - '!**.ts'
+    - '!src/**'
 
 provider:
   name: aws

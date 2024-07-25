@@ -1,6 +1,6 @@
 profile-activities:
   name: ${self:service}-profile-activities-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET

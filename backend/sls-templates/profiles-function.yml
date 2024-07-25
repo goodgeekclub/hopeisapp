@@ -4,13 +4,13 @@ profiles:
   events:
     - http:
         method: GET
-        path: /profiles
+        path: /profiles/{any+}
         private: true
     - http:
         method: POST
-        path: /profiles
+        path: /profiles/{any+}
         private: true
     - http:
         method: ANY
-        path: /profiles/{proxy+}
+        path: /profiles/{any+}
         private: true

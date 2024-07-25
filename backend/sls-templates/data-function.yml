@@ -4,13 +4,13 @@ data:
   events:
     - http:
         method: GET
-        path: /data
+        path: /data/{any+}
         private: true
     - http:
         method: POST
-        path: /data
+        path: /data/{any+}
         private: true
     - http:
         method: ANY
-        path: /data/{proxy+}
+        path: /data/{any+}
         private: true

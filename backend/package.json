@@ -10,6 +10,7 @@
     "deploy:dev": "serverless deploy --stage dev --region ap-southeast-1",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "start:sls": "serverless offline --noAuth",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

@@ -2,8 +2,8 @@ name: Angular Build
 
 on:
   pull_request:
-    types: ["assigned"]
     branches: ["main"]
+  
 
 jobs:
   build:
@@ -40,6 +40,7 @@ jobs:
   deploy-dev:
     name: Angular Deploy on Dev
     runs-on: ubuntu-latest
+    environment: dev
     needs: ["build"]
     defaults:
       run:
@@ -61,4 +62,4 @@ jobs:
         run: |
           aws s3 ls
       - name: Sync to S3
-        run: aws s3 sync dist/frontend ${{ env.CODE_BUCKET }}
+        run: aws s3 sync dist/frontend ${{ vars.CODE_BUCKET }}

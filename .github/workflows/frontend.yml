@@ -7,59 +7,36 @@ on:
 
 jobs:
   build:
-    name: Angular Build
-    runs-on: ubuntu-latest
-    environment: dev
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout the source code
-        uses: actions/checkout@v3
-      - name: Setup Node.js $
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: 'npm'
-          cache-dependency-path: ./frontend/package-lock.json
-      - name: Install dependencies
-        run: npm ci
-      - name: Prepare Environment
-        env:
-          ANGULAR_ENVIRONMENT: ${{ secrets.ANGULAR_ENVIRONMENT }}
-        run: |
-          npx ng g environments
-          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.ts
-          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
-      - name: Build
-        run: npm run build:prod
-      - uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: frontend/dist
-  deploy-dev:
-    name: Angular Deploy on Dev
-    runs-on: ubuntu-latest
-    environment: dev
-    needs: ["build"]
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/download-artifact@master
-        with:
-          name: dist
-          path: frontend/dist
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ap-southeast-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Validate AWS CLI permission
-        run: |
-          aws s3 ls
-      - name: Sync to S3
-        run: aws s3 sync dist/frontend ${{ vars.CODE_BUCKET }}
+    # name: Angular Build
+    # environment: dev
+    # runs-on: ubuntu-latest
+    uses: ./.github/workflows/template-angular-build.yml
+    with:
+      environment: dev
+
+  # deploy-dev:
+  #   name: Angular Deploy on Dev
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   needs: ["build"]
+  #   defaults:
+  #     run:
+  #       working-directory: ./frontend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - uses: actions/download-artifact@master
+  #       with:
+  #         name: dist
+  #         path: frontend/dist
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-region: ap-southeast-1
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     - name: Validate AWS CLI permission
+  #       run: |
+  #         aws s3 ls
+  #     - name: Sync to S3
+  #       run: aws s3 sync dist/frontend ${{ vars.CODE_BUCKET }}

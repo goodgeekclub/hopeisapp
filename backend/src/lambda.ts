@@ -8,7 +8,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 
 let server: Handler;
-
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
   await app.init();

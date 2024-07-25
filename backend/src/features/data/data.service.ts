@@ -19,8 +19,13 @@ export class DataService {
   }
 
   findAll(type?: DataType) {
-    const allData = this.model.find({ type }).exec();
-    return from(allData);
+    // const allData = this.model.find({ type }).exec();
+    console.log(type);
+    let data = this.model.find();
+    if (type) {
+      data = data.where({ type });
+    }
+    return from(data);
   }
 
   findOne(id: string) {

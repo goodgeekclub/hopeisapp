@@ -1,7 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { ArrayMinSize, ArrayUnique, IsArray, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator";
-import { Character } from "./character.model";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  ArrayMinSize,
+  ArrayUnique,
+  IsArray,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class Mission {
   @ApiProperty()
@@ -28,5 +32,5 @@ export class Mission {
   @IsArray()
   @ArrayMinSize(1)
   @ArrayUnique()
-  characterIds: string[]
+  characterIds: string[];
 }

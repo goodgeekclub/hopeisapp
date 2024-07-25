@@ -24,6 +24,8 @@ async function bootstrap(): Promise<Handler> {
     .setDescription('This is backend for data of Hopeis application')
     .setVersion('0.1')
     .addTag('Quiz')
+    .addTag('Profile')
+    .addTag('Data')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

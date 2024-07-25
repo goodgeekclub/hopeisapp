@@ -18,6 +18,7 @@ provider:
   timeout: 10
   architecture: x86_64
   deploymentMethod: direct
+  cfnRole: arn:aws:iam::907877978309:role/hopeisapp-cloudformation-deployment-role
   environment:
     Project: hopeisapp
     Environment: ${sls:stage}

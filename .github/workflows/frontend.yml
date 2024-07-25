@@ -13,6 +13,7 @@ jobs:
     uses: ./.github/workflows/template-angular-build.yml
     with:
       environment: dev
+    secrets: inherit
 
   # deploy-dev:
   #   name: Angular Deploy on Dev

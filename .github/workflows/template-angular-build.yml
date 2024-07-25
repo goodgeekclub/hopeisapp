@@ -4,6 +4,8 @@ on:
       environment:
         required: true
         type: string
+    # secrets:
+    #   ANGULAR_ENVIRONMENT: ${{ secrets.ANGULAR_ENVIRONMENT }}
 
 jobs:
   build:

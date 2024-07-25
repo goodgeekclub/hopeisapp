@@ -14,13 +14,14 @@ async function bootstrap() {
   app.useGlobalInterceptors(new MongooseInterceptor());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-
   // Setup Swagger
   const config = new DocumentBuilder()
     .setTitle('Hopeis Backend API')
     .setDescription('This is backend for data of Hopeis application')
     .setVersion('0.1')
     .addTag('Quiz')
+    .addTag('Profile')
+    .addTag('Data')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

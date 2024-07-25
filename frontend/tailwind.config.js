@@ -17,6 +17,20 @@ module.exports = {
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
       },
+      animation: {
+				fade: 'fadeIn .5s ease-in-out',
+			},
+			keyframes: {
+				fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
+			},
+      backgroundImage: {
+        hopeone: "url('../public/images/bg/page_3_bg.png')",
+        hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
+        hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
+      }
     },
   },
   daisyui: {

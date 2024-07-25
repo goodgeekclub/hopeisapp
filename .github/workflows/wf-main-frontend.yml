@@ -1,0 +1,42 @@
+name: Angular Deployment
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         required: true
+#         default: dev
+#   push:
+#     branches:
+#       - main
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-dev:
+    name: Angular build on Development
+    uses: ./.github/workflows/tpl-angular-build.yml
+    with:
+      environment: dev
+    secrets: inherit
+  deploy-dev:
+    name: Angular Deploy on Development
+    needs: ["build-dev"]
+    uses: ./.github/workflows/tpl-angular-deploy.yml
+    with:
+      environment: dev
+    secrets: inherit
+  build-prod:
+    name: Angular build on Production
+    uses: ./.github/workflows/tpl-angular-build.yml
+    with:
+      environment: prod
+    secrets: inherit
+  deploy-prod:
+      name: Angular Deploy on Production
+      needs: ["build-prod"]
+      uses: ./.github/workflows/tpl-angular-deploy.yml
+      with:
+        environment: prod
+      secrets: inherit

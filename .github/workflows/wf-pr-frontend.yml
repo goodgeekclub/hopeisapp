@@ -1,0 +1,13 @@
+name: Angular Build on PR
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Angular build on Dev
+    uses: ./.github/workflows/tpl-angular-build.yml
+    with:
+      environment: dev
+    secrets: inherit

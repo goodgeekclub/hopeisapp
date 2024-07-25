@@ -5,8 +5,8 @@ on:
         required: true
         type: string
       buildPath:
-        required: true
         type: string
+        default: dist/frontend
 
 jobs:
   Deploy-S3:

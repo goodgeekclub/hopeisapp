@@ -30,6 +30,7 @@ jobs:
         run: |
           npx ng g environments
           echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.ts
+          echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
       - name: Build
         run: npm run build:prod
       - uses: actions/upload-artifact@master

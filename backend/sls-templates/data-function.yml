@@ -1,6 +1,6 @@
 data:
   name: ${self:service}-data-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET

@@ -1,0 +1,95 @@
+<div
+  class="relative flex flex-col items-center justify-center h-screen text-white transition-all duration-1000 delay-150 bg-black bg-cover"
+  [ngClass]="{
+    'bg-hopeone': currentPage === 1,
+    'bg-hopetwo': currentPage >= 2 && currentPage <= 5,
+    'bg-hopethree': currentPage >= 6 && currentPage <= 7,
+  }"
+>
+  <div
+    class="flex flex-col items-center justify-center h-screen w-[80%]"
+    (click)="revealNextLine()"
+  >
+    <div class="text-center" *ngIf="currentPage === 1">
+      <ng-container *ngFor="let text of startContent; let i = index">
+        <p
+          *ngIf="i !== 0"
+          class="text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
+          [ngClass]="{
+            'opacity-0 invisible': !(textIndex > i),
+            'opacity-100 visible': textIndex > i
+          }"
+        >
+          {{ text }}
+        </p>
+        <p
+          *ngIf="i === 0"
+          class="text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
+          [ngClass]="{
+            'opacity-0 invisible': !(textIndex > i),
+            'opacity-100 visible': textIndex > i
+          }"
+        >
+          {{ text }}
+          "<span class="text-blue-400">{{ name }}</span
+          >"
+        </p>
+      </ng-container>
+    </div>
+    <div *ngFor="let foo of textContents; let i = index">
+      <story-text
+        *ngIf="
+          currentPage === i + 1 && currentPage !== maxPages && currentPage !== 1
+        "
+        [texts]="textContents[i]"
+        [textIndex]="textIndex"
+        [currentPage]="i + 1"
+      ></story-text>
+    </div>
+    <div class="text-center" *ngIf="currentPage === maxPages">
+      <ng-container *ngFor="let text of endContent; let i = index">
+        <p
+          *ngIf="i !== 2"
+          class="text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
+          [ngClass]="{
+            'opacity-0 invisible': !(textIndex > i),
+            'opacity-100 visible': textIndex > i
+          }"
+        >
+          {{ text }}
+        </p>
+        <a
+          *ngIf="i === 2"
+          class="text-lg text-gray-500 no-underline transition-opacity duration-500 ease-in-out delay-150 opacity-0 hover:no-underline"
+          [ngClass]="{
+            'opacity-0 invisible': !(textIndex > i),
+            'opacity-100 visible': textIndex > i
+          }"
+        >
+          {{ text }}
+        </a>
+      </ng-container>
+    </div>
+  </div>
+  <button
+    *ngIf="currentPage !== maxPages"
+    class="absolute text-gray-500 no-underline hover:no-underline btn btn-link bottom-10 animate-fade"
+    (click)="skip()"
+  >
+    SKIP
+  </button>
+  <svg-icon
+    *ngIf="currentPage >= 2"
+    class="absolute left-0 text-white no-underline transform rotate-180 -translate-y-1/2 hover:no-underline top-1/2"
+    (click)="previousPage()"
+    src="icons/right-thin-chevron.svg"
+    [svgStyle]="{ 'width.px': 30, 'height.px': 30 }"
+  ></svg-icon>
+  <svg-icon
+    *ngIf="currentPage >= 1 && currentPage < maxPages"
+    class="absolute right-0 text-white no-underline transform -translate-y-1/2 top-1/2 hover:no-underline animate-pulse"
+    (click)="nextPage()"
+    src="icons/right-thin-chevron.svg"
+    [svgStyle]="{ 'width.px': 30, 'height.px': 30 }"
+  ></svg-icon>
+</div>

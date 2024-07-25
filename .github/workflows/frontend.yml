@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Angular build on Dev
     uses: ./.github/workflows/template-angular-build.yml
     with:
       environment: dev

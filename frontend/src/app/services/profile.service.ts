@@ -14,6 +14,7 @@ interface Profile {
   user: string;
   answers: Answer[];
   currentQuestionId: number;
+  characterType: string;
 }
 
 @Injectable({
@@ -32,6 +33,7 @@ export class ProfileService {
       user: userName,
       answers: [],
       currentQuestionId: 1,
+      characterType: '',
     };
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
@@ -73,6 +75,11 @@ export class ProfileService {
               profile.answers[existingAnswerIndex] = answer;
             } else {
               profile.answers.push(answer);
+            }
+
+            const highestType = this.getHighestScoreType();
+            if (highestType) {
+              profile.characterType = highestType.type;
             }
 
             this.updateProfile(profile);

@@ -17,6 +17,9 @@ module.exports = {
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
       },
+      backgroundImage: {
+        'bg-question': "url('/assets/images/bg-question.png')",
+      }
     },
   },
   daisyui: {

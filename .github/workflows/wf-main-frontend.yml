@@ -1,7 +1,7 @@
 name: Main Deployment
 
 on:
-  pull_request:
+  push:
     branches: ["main"]
 
 jobs:

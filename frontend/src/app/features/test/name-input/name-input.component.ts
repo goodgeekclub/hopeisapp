@@ -14,6 +14,7 @@ import { LocalStorageService, ProfileService } from '../../../services';
 export class NameInputComponent implements OnInit {
   showModal: boolean = false;
   inputNameValue: string = '';
+  length_input: number=0;
 
   constructor(
     private profileService: ProfileService,
@@ -43,5 +44,9 @@ export class NameInputComponent implements OnInit {
   startNewSession() {
     this.localStorageService.clear();
     this.showModal = false;
+  }
+
+  checklenght(inputNameValue:string){
+    
   }
 }

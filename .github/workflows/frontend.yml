@@ -3,48 +3,18 @@ name: Angular Build
 on:
   pull_request:
     branches: ["main"]
-  
 
 jobs:
   build:
-    # name: Angular Build
-    # environment: dev
-    # runs-on: ubuntu-latest
     uses: ./.github/workflows/template-angular-build.yml
     with:
       environment: dev
     secrets: inherit
   deploy:
     name: Angular Deploy on Dev
-    # runs-on: ubuntu-latest
-    # environment: dev
     needs: ["build"]
     uses: ./.github/workflows/template-angular-deploy.yml
     with:
       environment: dev
       buildPath: dist/frontend
     secrets: inherit
-    # defaults:
-    #   run:
-    #     working-directory: ./frontend
-  #   defaults:
-  #     run:
-  #       working-directory: ./frontend
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - uses: actions/download-artifact@master
-  #       with:
-  #         name: dist
-  #         path: frontend/dist
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v4
-  #       with:
-  #         aws-region: ap-southeast-1
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #     - name: Validate AWS CLI permission
-  #       run: |
-  #         aws s3 ls
-  #     - name: Sync to S3
-  #       run: aws s3 sync dist/frontend ${{ vars.CODE_BUCKET }}

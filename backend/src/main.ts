@@ -6,14 +6,15 @@ import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 let server: Handler;
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
   await app.init();
 
-  const expressApp = app.getHttpAdapter().getInstance();
   app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new MongooseInterceptor());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
@@ -29,6 +30,7 @@ async function bootstrap(): Promise<Handler> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  const expressApp = app.getHttpAdapter().getInstance();
   return serverlessExpress({ app: expressApp });
 }
 

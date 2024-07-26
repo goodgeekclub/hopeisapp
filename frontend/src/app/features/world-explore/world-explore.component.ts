@@ -1,4 +1,5 @@
 import { Component, OnInit,HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import * as PIXI from 'pixi.js';
 
 interface User {
@@ -9,7 +10,7 @@ interface User {
 @Component({
   selector: 'app-world-explore',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './world-explore.component.html',
   styleUrls: ['./world-explore.component.css'],
 })
@@ -20,7 +21,10 @@ export class WorldExploreComponent implements OnInit {
   stars: PIXI.Graphics[] = [];
   users: User[] = [];
   batchSize: number = 1; // Number of stars to create per batch
-  displayLimit: number = 100; //limit user display
+  displayLimit: number = 70; //limit user display
+
+  selectedUser: User | null = null;
+  selectedUserImage: string | null = null;
 
   async ngOnInit() {
     const app = new PIXI.Application();
@@ -116,7 +120,7 @@ export class WorldExploreComponent implements OnInit {
 
   createStar(app: PIXI.Application, user: User): PIXI.Graphics {
     const star = new PIXI.Graphics();
-    const size = Math.random() * 5 + 1;
+    const size = Math.random() * 7 + 4;
     const color = Math.random() * 0x000000;
 
     let x: number;
@@ -159,8 +163,25 @@ export class WorldExploreComponent implements OnInit {
     star.x = x;
     star.y = y;
 
+     // Enable interaction for the star
+     star.interactive = true;
+     
+ 
+     // Add click event listener
+     star.on('pointertap', () => {
+       console.log(`Clicked on star of user ${user.name}`);
+       this.selectedUser = user;
+      this.selectedUserImage = `https://example.com/user-images/${user.id}.png`; // Replace with actual user image URL
+     });
+
     app.stage.addChild(star);
 
     return star;
   }
+
+  closeProfile() {
+    this.selectedUser = null;
+    this.selectedUserImage = null;
+  }
+
 }

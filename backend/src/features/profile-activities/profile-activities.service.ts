@@ -37,7 +37,7 @@ export class ProfileActivitiesService {
     find.sort({ createdAt: 'asc' })
     return this.model.find().exec();  }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.model.findById(id).then(activity => {
       if (!activity) {
         throw new NotFoundException('ProfileActivity does not existed');
@@ -45,11 +45,11 @@ export class ProfileActivitiesService {
     });
   }
 
-  update(id: number, updateProfileActivityDto: UpdateProfileActivityDto) {
+  update(id: string, updateProfileActivityDto: UpdateProfileActivityDto) {
     return this.model.findByIdAndUpdate(id, updateProfileActivityDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.model.findByIdAndDelete(id);
   }
 }

@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { QuizResultsService } from './quiz-results.service';
 import { QuizResultsController } from './quiz-results.controller';
 import { mongooseConnection } from 'src/configs/mongoose.config';
+import { ProfilesModule } from '../profiles/profiles.module';
 
 @Module({
-  imports: [mongooseConnection.quizResults],
+  imports: [mongooseConnection.quizResults, ProfilesModule],
   controllers: [QuizResultsController],
   providers: [QuizResultsService],
 })

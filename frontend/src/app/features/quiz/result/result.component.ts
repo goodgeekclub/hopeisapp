@@ -3,7 +3,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { ResultCharacterComponent } from './result-character/result-character.component';
-import { Character } from '../../../Enum/character';
+import { Character } from '../../../Enum/Character';
 
 @Component({
   selector: 'app-result',

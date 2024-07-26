@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Put, Query } from '@
 import { AuthService } from './auth.service';
 import { UpdateCustomClaimDto } from './dto/update-custom-claim.dto';
 import { UpdateUserCustomClaimDto } from './dto/update-user-custom-claim.dto';
+import { isEmail } from 'class-validator';
 
 /**
  * Auth Controller no deploy on public server
@@ -23,6 +24,11 @@ export class AuthController {
     return this.authService.getUser({ uid });
   }
 
+  @Get('users/:uid/custom-token')
+  createUserCustomToken(@Param('uid') uid) {
+    return this.authService.createCustomToken(uid);
+  }
+
   @Put('users/:uid/custom-claim')
   setUserCustomClaim(@Param('uid') uid, @Body() body: UpdateCustomClaimDto) {
     return this.authService.setCustomClaim({uid}, body);
@@ -36,4 +42,6 @@ export class AuthController {
     const { email , uid } = body;
     return this.authService.setCustomClaim({ email, uid }, body.data);
   }
+
+
 }

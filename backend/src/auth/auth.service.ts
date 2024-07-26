@@ -27,4 +27,11 @@ export class AuthService {
       .then((user) => auth().setCustomUserClaims(user.uid, data))
       .then((_) => this.getUser(target));
   }
+
+  createCustomToken(uid: string) {
+    return auth().createCustomToken(uid)
+      .then(accessToken => ({
+        accessToken
+      }));
+  }
 }

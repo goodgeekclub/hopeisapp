@@ -11,7 +11,6 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
 let server: Handler;
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
-  await app.init();
 
   app.useGlobalPipes(new ValidationPipe());
   // app.useGlobalInterceptors(new LoggingInterceptor());
@@ -31,6 +30,10 @@ async function bootstrap(): Promise<Handler> {
   SwaggerModule.setup('api', app, document);
 
   const expressApp = app.getHttpAdapter().getInstance();
+  if (process.env.NODE_ENV !== 'production') {
+    app.enableCors();
+  }
+  await app.init();
   return serverlessExpress({ app: expressApp });
 }
 

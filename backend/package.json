@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "deploy:dev": "serverless deploy --stage dev --region ap-southeast-1",
+    "deploy:dev": "npx serverless deploy --stage dev --region ap-southeast-1 --verbose",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:sls": "serverless offline --noAuth",

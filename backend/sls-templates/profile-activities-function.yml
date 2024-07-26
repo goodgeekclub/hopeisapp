@@ -4,11 +4,11 @@ profile-activities:
   events:
     - http:
         method: GET
-        path: /profile-activities/{any+}
+        path: /profile-activities/
         private: true
     - http:
         method: POST
-        path: /profile-activities/{any+}
+        path: /profile-activities/
         private: true
     - http:
         method: ANY

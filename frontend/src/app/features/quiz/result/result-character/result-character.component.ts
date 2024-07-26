@@ -7,8 +7,6 @@ import { Character } from '../../../../Enum/Character';
 import { ICharacter } from '../../../../Types/Character';
 import { characterMockData } from '../../../../Constants/character';
 
-
-
 @Component({
   selector: 'app-result-character',
   standalone: true,
@@ -22,7 +20,7 @@ import { characterMockData } from '../../../../Constants/character';
   styleUrl: './result-character.component.css',
 })
 export class ResultCharacterComponent {
-  @Input() public character!: Character;
+  @Input({ required: true }) public character: Character = Character.PLUCKY;
 
   public characterData: ICharacter =
     characterMockData[Math.floor(Math.random() * characterMockData.length)];
@@ -33,7 +31,7 @@ export class ResultCharacterComponent {
 
   private setCharacterInfo(): void {
     let characterResult = characterMockData.find((character: ICharacter) => {
-      character.characterNameEn === this.character;
+      return character.characterNameEn === this.character;
     });
     if (characterResult) {
       this.characterData = characterResult;

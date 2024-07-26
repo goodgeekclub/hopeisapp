@@ -8,9 +8,14 @@ import { Character } from '../../../Enum/Character';
 @Component({
   selector: 'app-result',
   standalone: true,
-  imports: [SharedModule, CommonModule, SvgIconComponent, ResultCharacterComponent],
+  imports: [
+    SharedModule,
+    CommonModule,
+    SvgIconComponent,
+    ResultCharacterComponent,
+  ],
   templateUrl: './result.component.html',
-  styleUrl: './result.component.css'
+  styleUrl: './result.component.css',
 })
 export class ResultComponent implements OnInit {
   public hasResult = false;
@@ -25,19 +30,12 @@ export class ResultComponent implements OnInit {
   }
 
   public showResult(): void {
-    switch (this.displayIndex) {
-      case 0:
-        this.isClikedToShowText = true;
-        this.displayIndex++;
-        break;
-      case 1:
-        if (this.hasResult) {
-          this.isClickedToShowResult = true;
-          this.displayIndex++;
-        }
-        break;
-      default:
-        break;
+    if (this.displayIndex === 0) {
+      this.isClikedToShowText = true;
+      this.displayIndex++;
+    } else if (this.displayIndex === 1 && this.hasResult) {
+      this.isClickedToShowResult = true;
+      this.displayIndex++;
     }
   }
 

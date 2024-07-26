@@ -10,8 +10,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './character-attributes.component.css',
 })
 export class CharacterAttributesComponent implements OnInit {
-  @Input() public characterAttributes!: string[];
-  @Input() public color!: string;
+  @Input({ required: true }) public characterAttributes: string[] = [];
+  @Input({ required: true }) public color: string = '';
 
   public colorClass = '';
 

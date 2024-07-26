@@ -21,16 +21,16 @@ export class ProfileActivitiesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.profileActivitiesService.findOne(+id);
+    return this.profileActivitiesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProfileActivityDto: UpdateProfileActivityDto) {
-    return this.profileActivitiesService.update(+id, updateProfileActivityDto);
+    return this.profileActivitiesService.update(id, updateProfileActivityDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.profileActivitiesService.remove(+id);
+    return this.profileActivitiesService.remove(id);
   }
 }

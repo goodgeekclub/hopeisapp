@@ -5,32 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HOPE IS US</title>
     <style>
-        body {
-          margin: 0;
-          padding: 0;
-          background-image: url('/assets/images/homepagebg.png');
-          background-size: cover;
-          background-position: center;
-          height: 100vh;
-          width: 100vw;
-        }
-      </style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("/assets/images/homepagebg.png");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
   </head>
   <body>
+    <div
+      class="parent"
+      style="display: table-cell; vertical-align: center; text-align: center"
+    >
+      <img class="child" src="/assets/images/Logoforhomepage.png" />
+    </div>
+    <!--
     <div class="white-text">
-        <p>This is home page</p>
-        <p>Click to register</p>
-        <app-button (click)="register()"></app-button>
-        <div *ngIf="user">
-          <p>{{ user.displayName }}</p>
-          <p>{{ user.email }}</p>
-          <img
-            [src]="user.photoURL"
-            [alt]="user.displayName"
-            width="100"
-            height="100"
-          />
-        </div>
+      <p>This is home page</p>
+      <p>Click to register</p>
+      <app-button (click)="register()"></app-button>
+      <div *ngIf="user">
+        <p>{{ user.displayName }}</p>
+        <p>{{ user.email }}</p>
+        <img
+          [src]="user.photoURL"
+          [alt]="user.displayName"
+          width="100"
+          height="100"
+        />
       </div>
+    </div>
+    -->
   </body>
 </html>

@@ -15,7 +15,6 @@ interface User {
   styleUrls: ['./world-explore.component.css'],
 })
 export class WorldExploreComponent implements OnInit {
-  sprite: PIXI.Sprite | undefined;
   app: PIXI.Application | undefined;
 
   stars: PIXI.Graphics[] = [];
@@ -34,17 +33,15 @@ export class WorldExploreComponent implements OnInit {
       this.users.push({ id: i, name: `User ${i}` });
     }
 
-    app.init({ resizeTo: window }).then(() => {
+    app.init({ resizeTo: window }).then(async () => {
 
       // Append the application canvas to the document body
       document.body.appendChild(app.canvas);
 
       // Add the assets to load
-      PIXI.Assets.add({ alias: 'background', src: 'https://i0.wp.com/www.sciencenews.org/wp-content/uploads/2023/03/032723_bdh_habitable-exomoons_feat.jpg?fit=1030%2C580&ssl=1' });
-      PIXI.Assets.add({ alias: 'sprite', src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Earth_Western_Hemisphere_transparent_background.png/1200px-Earth_Western_Hemisphere_transparent_background.png' }); // Add the new sprite image path
-
+      PIXI.Assets.add({ alias: 'background', src: 'https://media.discordapp.net/attachments/1158347495747891270/1266402442954670091/bg.png?ex=66a504af&is=66a3b32f&hm=ade2aaf735f5a220664e95a621613140c5d6f73fc9796402f9077ba247aa0db7&=&format=webp&quality=lossless&width=316&height=676' });
       // Allow the assets to load in the background
-      PIXI.Assets.backgroundLoad(['background', 'sprite']);
+      PIXI.Assets.backgroundLoad(['background']);
 
       // Load the background image
       PIXI.Assets.load('background').then((backgroundTexture) => {
@@ -54,7 +51,8 @@ export class WorldExploreComponent implements OnInit {
         
 
          if (window.innerWidth < 1100) { 
-         
+          background.width = app.screen.width;
+          background.height = app.screen.height;
         } else {
         background.width = app.screen.width;
         background.height = app.screen.height;
@@ -62,37 +60,6 @@ export class WorldExploreComponent implements OnInit {
 
         // Add the background to the stage
         app.stage.addChild(background);
-      });
-
-      // Load the additional sprite image
-      PIXI.Assets.load('sprite').then((spriteTexture) => {
-        // Create a new Sprite for the additional image
-        this.sprite = new PIXI.Sprite(spriteTexture);
-        
-
-        // Set the position of the sprite
-        this.sprite.x = app.screen.width / 1.15;
-        this.sprite.y = app.screen.height / 1.15;
-
-         // Scale the sprite
-         if (window.innerWidth < 768) { 
-          this.sprite.scale.set(0.3, 0.3); // Scale down for mobile
-        } else {
-          this.sprite.scale.set(0.6, 0.6);
-        }
-
-       
-        this.sprite.anchor.set(0.65,0.65);
-
-
-       
-    this.sprite.x = app.screen.width;
-    this.sprite.y = app.screen.height;
-
-
-
-        app.stage.addChild( this.sprite);
-
       });
 
 
@@ -133,24 +100,7 @@ export class WorldExploreComponent implements OnInit {
       overlap = this.stars.some(existingStar => {
         const distance = Math.sqrt((existingStar.x - x) ** 2 + (existingStar.y - y) ** 2);
         return distance < size * 2; // Ensure no overlap, adjust the multiplier as needed
-      });
-      if (this.sprite) {
-        const spriteBounds = this.sprite.getBounds();
-        const starBounds = {
-          x: x - size,
-          y: y - size,
-          width: size * 2,
-          height: size * 2
-        };
-
-        // Check for overlap with sprite
-        const spriteOverlap = starBounds.x < spriteBounds.x + spriteBounds.width &&
-                              starBounds.x + starBounds.width > spriteBounds.x &&
-                              starBounds.y < spriteBounds.y + spriteBounds.height &&
-                              starBounds.y + starBounds.height > spriteBounds.y;
-
-        overlap = overlap || spriteOverlap;
-      }
+      })
 
 
 

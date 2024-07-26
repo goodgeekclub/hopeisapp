@@ -19,12 +19,17 @@ module.exports = {
       },
       animation: {
 				fade: 'fadeIn .5s ease-in-out',
+        lightup: "expand 4s ease-in-out",
 			},
 			keyframes: {
 				fadeIn: {
 					from: { opacity: 0 },
 					to: { opacity: 1 },
 				},
+        expand: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(6)' },
+        },
 			},
       backgroundImage: {
         hopeone: "url('../public/images/bg/page_3_bg.png')",

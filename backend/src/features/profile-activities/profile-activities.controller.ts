@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ProfileActivitiesService } from './profile-activities.service';
 import { CreateProfileActivityDto } from './dto/create-profile-activity.dto';
 import { UpdateProfileActivityDto } from './dto/update-profile-activity.dto';
 import { QueryOptions } from 'src/decorators/query-options.decorator';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
+import { Admin, AuthGuard } from 'src/auth/auth.guard';
 
+@Admin()
+@UseGuards(AuthGuard)
 @Controller('profile-activities')
 export class ProfileActivitiesController {
   constructor(private readonly profileActivitiesService: ProfileActivitiesService) {}

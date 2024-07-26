@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
     <div class="text-center">
       <ng-container *ngFor="let text of texts; let i = index">
         <p
-          class="text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
+          class="p-1 text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
           [ngClass]="{
             'opacity-0 invisible': !(textIndex > i),
             'opacity-100 visible': textIndex > i

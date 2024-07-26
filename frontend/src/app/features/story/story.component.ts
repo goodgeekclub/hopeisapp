@@ -3,11 +3,18 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { StoryTextComponent } from './storytext.component';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-story',
   standalone: true,
-  imports: [SharedModule, CommonModule, SvgIconComponent, StoryTextComponent],
+  imports: [
+    SharedModule,
+    CommonModule,
+    SvgIconComponent,
+    StoryTextComponent,
+    RouterModule,
+  ],
   templateUrl: './story.component.html',
   styleUrl: './story.component.css',
 })
@@ -60,6 +67,23 @@ export class StoryComponent {
 
   maxPages: number = 7;
 
+  animationPage: number = 8;
+
+  constructor(private router: Router) {}
+
+  ngAfterViewChecked() {
+    console.log(
+      this.textIndex === this.textContents[this.currentPage - 1].length
+    );
+    console.log(
+      this.currentPage === 3 &&
+        this.textIndex !== this.textContents[this.currentPage - 1].length
+    );
+    console.log(this.currentPage);
+    console.log(this.textIndex);
+    console.log(this.textContents[this.currentPage - 1].length);
+  }
+
   revealNextLine() {
     if (this.textIndex < this.textContents[this.currentPage - 1].length) {
       this.textIndex++;
@@ -93,5 +117,12 @@ export class StoryComponent {
     // Handle skip logic here
     this.currentPage = this.maxPages;
     this.textIndex = this.textContents[this.currentPage - 1].length;
+  }
+
+  startAnimation() {
+    this.currentPage = this.maxPages + 1;
+    setTimeout(() => {
+      this.router.navigate(['/test/start']);
+    }, 4000);
   }
 }

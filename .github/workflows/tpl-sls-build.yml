@@ -36,8 +36,8 @@ jobs:
           name: artifact
           path: |
             backend/dist
-            .env
-            firebase-service-key.json
+            backend/.env
+            backend/firebase-service-key.json
 
 
 

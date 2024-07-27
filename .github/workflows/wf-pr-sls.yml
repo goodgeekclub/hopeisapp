@@ -13,3 +13,10 @@ jobs:
     with:
       environment: dev
     secrets: inherit
+  deploy:
+    name: Serverless Framework Deploy on Dev
+    needs: ["build"]
+    uses: ./.github/workflows/tpl-sls-deploy.yml
+    with:
+      environment: dev
+    secrets: inherit

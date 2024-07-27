@@ -1,0 +1,33 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  Deploy-Serverless:
+    name: Deploy Serverless on ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: artifact
+          path: backend/
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-southeast-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Validate AWS Credentials
+        run: aws s3 ls | grep hopeis | awk '{print $3}'
+      - name: Deploy with Serverless Framework
+        run: npx serverless deploy --stage ${{ inputs.environment }}

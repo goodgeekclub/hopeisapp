@@ -33,13 +33,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: artifact
+          name: dist
           path: |
             backend/dist
-            backend/.env
-            backend/firebase-service-key.json
-
-
-
-
-

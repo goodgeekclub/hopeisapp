@@ -19,3 +19,16 @@ jobs:
       environment: dev
     secrets: inherit
 
+  sls-build:
+    name: Serverless Framework Build on Dev
+    uses: ./.github/workflows/tpl-sls-build.yml
+    with:
+      environment: Dev
+    secrets: inherit
+  sls-deploy:
+    name: Serverless Framework Deploy on Dev
+    needs: ["sls-build"]
+    uses: ./.github/workflows/tpl-sls-deploy.yml
+    with:
+      environment: Dev
+    secrets: inherit

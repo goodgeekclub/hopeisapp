@@ -20,3 +20,17 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
     secrets: inherit
+  
+  sls-build:
+    name: Serverless Framework Build on ${{ inputs.environment }}
+    uses: ./.github/workflows/tpl-sls-build.yml
+    with:
+      environment: ${{ inputs.environment }}
+    secrets: inherit
+  sls-deploy:
+    name: Serverless Framework Deploy on ${{ inputs.environment }}
+    needs: ["sls-build"]
+    uses: ./.github/workflows/tpl-sls-deploy.yml
+    with:
+      environment: ${{ inputs.environment }}
+    secrets: inherit

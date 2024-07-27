@@ -29,11 +29,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Validate AWS Credentials
         run: aws s3 ls | grep hopeis | awk '{print $3}'
-      - name: Check Dir
-        run: |
-          pwd
-          ls
-          echo "============"
-          ls ..
-      #- name: Deploy with Serverless Framework
-      #  run: npx serverless deploy --stage ${{ inputs.environment }}
+      - name: Deploy with Serverless Framework
+        run: npx serverless deploy --stage ${{ inputs.environment }}

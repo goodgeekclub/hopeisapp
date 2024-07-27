@@ -3,20 +3,13 @@ name: Serverless Framework on PR
 on:
   pull_request:
     branches: ["main"]
-    #paths:
-    #  - backend/**
+    paths:
+      - backend/**
 
 jobs:
   build:
     name: Serverless Framework Build on Dev
     uses: ./.github/workflows/tpl-sls-build.yml
-    with:
-      environment: dev
-    secrets: inherit
-  deploy:
-    name: Serverless Framework Deploy on Dev
-    needs: ["build"]
-    uses: ./.github/workflows/tpl-sls-deploy.yml
     with:
       environment: dev
     secrets: inherit

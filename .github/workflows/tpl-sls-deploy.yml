@@ -19,8 +19,12 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@master
         with:
-          name: artifact
+          name: dist
           path: backend/
+      - name: Prepare Environment
+        run: |
+          echo '${{ secrets.SLS_ENVIRONMENT }}' > .env
+          echo '${{ secrets.FIREBASE_KEY }}' > firebase-service-key.json
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

@@ -38,8 +38,6 @@ export class WorldExploreComponent implements OnInit {
       // Append the application canvas to the document body
       document.body.appendChild(app.canvas);
 
-      const loader = new PIXI.Loader();
-
       // Add the assets to load
       PIXI.Assets.add({ alias: 'background', src: 'https://media.discordapp.net/attachments/1158347495747891270/1266402442954670091/bg.png?ex=66a504af&is=66a3b32f&hm=ade2aaf735f5a220664e95a621613140c5d6f73fc9796402f9077ba247aa0db7&=&format=webp&quality=lossless&width=316&height=676' });
       PIXI.Assets.add({ alias: 'star1', src: 'https://cdn.discordapp.com/attachments/612303746814312504/1266647157557956768/f1f49f8f0bbc6fd7.png?ex=66a5e897&is=66a49717&hm=5dc235c87b4f7b2d54b566400f88d0cd09129b720fe8f7d22a99891d22230026&' });
@@ -48,9 +46,9 @@ export class WorldExploreComponent implements OnInit {
       // Allow the assets to load in the background
       await PIXI.Assets.backgroundLoad(['background','star1', 'star2', 'star3']);
 
-      PIXI.Assets.load('star1')
-      PIXI.Assets.load('star2')
-      PIXI.Assets.load('star3')
+      await PIXI.Assets.load('star1')
+      await PIXI.Assets.load('star2')
+      await PIXI.Assets.load('star3')
 
       // Load the background image
       PIXI.Assets.load('background').then((backgroundTexture) => {
@@ -92,8 +90,15 @@ export class WorldExploreComponent implements OnInit {
     const randomTexture = starTextures[Math.floor(Math.random() * starTextures.length)];
 
     const star = new PIXI.Sprite(randomTexture);
-    const size = Math.random() * 0.5 + 0.4;
-    star.scale.set(size);
+    if (window.innerWidth < 1100) { 
+      const size = Math.random() * 0.3 + 0.2;
+      star.scale.set(size);
+    } else {
+      const size = Math.random() * 0.5 + 0.4;
+      star.scale.set(size);
+    }
+    
+    
 
     let x: number;
     let y: number;

@@ -14,7 +14,7 @@ interface User {
   templateUrl: './world-explore.component.html',
   styleUrls: ['./world-explore.component.css'],
 })
-export class WorldExploreComponent implements OnInit {
+export class WorldExploreComponent implements OnInit{
   app: PIXI.Application | undefined;
 
   stars: PIXI.Sprite[] = [];
@@ -64,6 +64,13 @@ export class WorldExploreComponent implements OnInit {
         app.stage.addChild(background);
       });
 
+      const shuffleUsers = () => {
+        for (let i = this.users.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [this.users[i], this.users[j]] = [this.users[j], this.users[i]];
+        }
+    
+      }
 
       let batchIndex = 0;
       const createNextBatch = () => {
@@ -82,7 +89,10 @@ export class WorldExploreComponent implements OnInit {
         }
       };
       createNextBatch();
-    });
+      shuffleUsers();
+    }
+    
+  );
   }
 
   async createStar(app: PIXI.Application, user: User): Promise<PIXI.Sprite> {
@@ -137,5 +147,4 @@ export class WorldExploreComponent implements OnInit {
     this.selectedUser = null;
     this.selectedUserImage = null;
   }
-
 }

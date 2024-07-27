@@ -1,10 +1,10 @@
 <!-- world-explore.component.html -->
 <div class="profile-window" *ngIf="selectedUser">
-    <div class="profile-content">
-      <button class="close-btn" (click)="closeProfile()">X</button>
-      <h2>{{ selectedUser?.name }}</h2>
-      <img [src]="selectedUserImage" alt="{{ selectedUser?.name }}" />
-      <!-- Add more user details here as needed -->
-    </div>
+  <div class="profile-content">
+    <button class="close-btn" (click)="closeProfile()">Close</button>
+    <h2>{{ selectedUser.name }}</h2>
+    <img [src]="selectedUserImage" alt="{{ selectedUser.name }}" />
+    <!-- Add more user details here as needed -->
   </div>
-  
+</div>
+

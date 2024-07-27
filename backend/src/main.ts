@@ -1,19 +1,21 @@
 import { NestFactory } from '@nestjs/core';
+import serverlessExpress from '@codegenie/serverless-express';
+import { Callback, Context, Handler } from 'aws-lambda';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { initializeApp } from 'firebase-admin/app';
-import { firebaseConfig } from './configs/firebase.config';
 import { useContainer } from 'class-validator';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
-async function bootstrap() {
-  initializeApp(firebaseConfig);
+let server: Handler;
+async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new MongooseInterceptor());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
 
   // Setup Swagger
   const config = new DocumentBuilder()
@@ -21,13 +23,25 @@ async function bootstrap() {
     .setDescription('This is backend for data of Hopeis application')
     .setVersion('0.1')
     .addTag('Quiz')
+    .addTag('Profile')
+    .addTag('Data')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  const expressApp = app.getHttpAdapter().getInstance();
   if (process.env.NODE_ENV !== 'production') {
     app.enableCors();
   }
-
-  await app.listen(3000);
+  await app.init();
+  return serverlessExpress({ app: expressApp });
 }
-bootstrap();
+
+export const handler: Handler = async (
+  event: any,
+  context: Context,
+  callback: Callback,
+) => {
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};

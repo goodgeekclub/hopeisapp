@@ -1,0 +1,21 @@
+name: Main Deployment
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  ng-build:
+    name: Angular build on Development
+    uses: ./.github/workflows/tpl-angular-build.yml
+    with:
+      environment: dev
+    secrets: inherit
+  ng-deploy:
+    name: Angular Deploy on Development
+    needs: ["ng-build"]
+    uses: ./.github/workflows/tpl-angular-deploy.yml
+    with:
+      environment: dev
+    secrets: inherit
+

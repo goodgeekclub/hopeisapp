@@ -1,13 +1,16 @@
 service: hopeisapp
 
 plugins:
+  # - serverless-plugin-browserifier
   - serverless-offline
 
 package:
-  individually: true
+  individually: false
   patterns:
     - '!test/**'
     - '!*.md'
+    - '!**.ts'
+    - '!src/**'
 
 provider:
   name: aws
@@ -18,6 +21,7 @@ provider:
   timeout: 10
   architecture: x86_64
   deploymentMethod: direct
+  cfnRole: arn:aws:iam::907877978309:role/hopeisapp-cloudformation-deployment-role
   environment:
     Project: hopeisapp
     Environment: ${sls:stage}

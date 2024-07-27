@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { ProfileService } from '../../../services/profile.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
 import {
@@ -10,14 +11,8 @@ import {
 } from '../../../services/question.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { SharedModule } from '../../../shared/shared.module';
+import { log } from 'console';
 
 @Component({
   selector: 'app-question',
@@ -25,22 +20,11 @@ import { SharedModule } from '../../../shared/shared.module';
   imports: [CommonModule, FormsModule, SharedModule],
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css'],
-  animations: [
-    trigger('fadeInOut', [
-      state('void', style({ opacity: 0 })),
-      transition(':enter, :leave', [animate(500)]),
-    ]),
-  ],
 })
 export class QuestionComponent implements OnInit {
-  @Input()
-  set id(questionId: string) {
-    this.question$ = this.questionService.getQuestion(questionId);
-  }
-
-  question$!: Observable<Question>;
+  question$!: Observable<Question> | null;
   currentQuestionId!: number;
-  totalQuestions: number;
+  totalQuestions!: number;
   selectedOption!: Choice;
   isDisabled = false;
 
@@ -50,8 +34,11 @@ export class QuestionComponent implements OnInit {
     private profileService: ProfileService,
     private localStorageService: LocalStorageService,
     private questionService: QuestionService
-  ) {
-    this.totalQuestions = this.questionService.getTotalQuestions();
+  ) {}
+
+  @Input()
+  set id(questionId: string) {
+    this.question$ = this.questionService.getQuestion(questionId)
   }
 
   ngOnInit() {
@@ -66,11 +53,15 @@ export class QuestionComponent implements OnInit {
             this.currentQuestionId = +id;
             this.id = id;
             this.profileService.setCurrentQuestionId(this.currentQuestionId);
+            return this.questionService.getTotalQuestions();
+          } else {
+            throw new Error('Question ID is missing in the route parameters.');
           }
-          return this.question$;
         })
       )
-      .subscribe();
+      .subscribe((total) => {
+        this.totalQuestions = total;
+      });
   }
 
   getOptionColor(index: number): string {
@@ -98,8 +89,8 @@ export class QuestionComponent implements OnInit {
 
     if (this.currentQuestionId === this.totalQuestions) {
       // this.logTotalScores();
-      // this.localStorageService.clear();
-      // this.router.navigate(['/quiz/enter-your-name']);
+      // this.logHighTypeScore();
+      this.router.navigate(['/quiz/enter-your-name']);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
       this.selectedOption = { title: '', score: 0, type: '' };
@@ -110,5 +101,10 @@ export class QuestionComponent implements OnInit {
   logTotalScores(): void {
     const scores = this.profileService.getScores();
     console.log('Total Scores by Type:', scores);
+  }
+
+  logHighTypeScore(): void {
+    const type = this.profileService.getHighestScoreType();
+    console.log('CharactorType:', type);
   }
 }

@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       colors: {
         primary: "#1C3462",
-        'primary-variant': "#1F4789",
+        "primary-variant": "#1F4789",
         secondary: "#FCC563",
-        'secondary-variant': "#FAA425",
+        "secondary-variant": "#FAA425",
         error: "#C23327",
       },
       fontFamily: {
@@ -17,9 +17,26 @@ module.exports = {
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
       },
+      animation: {
+        fade: "fadeIn .5s ease-in-out",
+        lightup: "expand 4s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        expand: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(6)" },
+        },
+      },
       backgroundImage: {
-        'bg-question': "url('/assets/images/bg-question.png')",
-      }
+        hopeone: "url('../public/images/bg/page_3_bg.png')",
+        hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
+        hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
+        hopefour: "url('src/assets/images/page_11_31_bg.png')",
+      },
     },
   },
   daisyui: {

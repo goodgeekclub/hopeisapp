@@ -1,16 +1,16 @@
 profiles:
   name: ${self:service}-profiles-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET
-        path: /profiles
+        path: /profiles/
         private: true
     - http:
         method: POST
-        path: /profiles
+        path: /profiles/
         private: true
     - http:
         method: ANY
-        path: /profiles/{proxy+}
+        path: /profiles/{any+}
         private: true

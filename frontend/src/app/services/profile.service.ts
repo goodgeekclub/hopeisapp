@@ -125,16 +125,24 @@ export class ProfileService {
   getHighestScoreType(): { type: string; score: number } | null {
     const scores = this.getScores();
     let highestScore = 0;
-    let highestType = '';
+    const highestTypes: { type: string; score: number }[] = [];
 
     for (const [type, score] of Object.entries(scores)) {
       if (score > highestScore) {
         highestScore = score;
-        highestType = type;
+        highestTypes.length = 0;
+        highestTypes.push({ type, score });
+      } else if (score === highestScore) {
+        highestTypes.push({ type, score });
       }
     }
 
-    return highestType ? { type: highestType, score: highestScore } : null;
+    if (highestTypes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * highestTypes.length);
+      return highestTypes[randomIndex];
+    }
+
+    return null;
   }
 
   clearProfile(): void {

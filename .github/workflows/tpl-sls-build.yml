@@ -27,10 +27,7 @@ jobs:
       - name: Prepare Environment
         run: |
           echo "${{ secrets.SLS_ENVIRONMENT }}" > .env
-          echo "${{ secrets.FIREBASE_KEY }}" > firebase-service-key.json
-          pwd
-          ls
-          ls ..
+          echo "${{ secrets.FIREBASE_KEY }}" | jq "." > firebase-service-key.json
       - name: Build
         run: npm run build
       - name: Upload artifacts
@@ -38,9 +35,9 @@ jobs:
         with:
           name: artifact
           path: |
-            dist
-            .env
-            firebase-service-key.json
+            backend/dist
+            backend/.env
+            backend/firebase-service-key.json
 
 
 

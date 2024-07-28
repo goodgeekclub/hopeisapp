@@ -21,11 +21,21 @@ export interface Question {
   providedIn: 'root',
 })
 export class QuestionService {
+  private apiKey = environment.backend.apiKey;
+
   constructor(private http: HttpClient) {}
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'x-api-key': this.apiKey,
+    });
+  }
 
   getQuestion(id: string): Observable<Question> {
     return this.http
-      .get<any>(`${environment.backend.quizes}`)
+      .get<any>(`${environment.backend.backendUrl}/data/quizes`, {
+        headers: this.getHeaders(),
+      })
       .pipe(
         map((response) => {
           const questionData = response[0].data.questions.find(
@@ -46,7 +56,9 @@ export class QuestionService {
 
   getTotalQuestions(): Observable<number> {
     return this.http
-      .get<any>(`${environment.backend.quizes}`)
+      .get<any>(`${environment.backend.backendUrl}/data/quizes`, {
+        headers: this.getHeaders(),
+      })
       .pipe(
         map((response) => {
           return response[0].data.questions.length;

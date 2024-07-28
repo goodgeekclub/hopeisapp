@@ -21,6 +21,8 @@ jobs:
         with:
           name: dist
           path: backend/
+      - name: Install dependencies
+        run: npm ci
       - name: Prepare Environment
         run: |
           echo '${{ secrets.SLS_ENVIRONMENT }}' > .env

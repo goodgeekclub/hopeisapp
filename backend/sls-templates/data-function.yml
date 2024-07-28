@@ -14,3 +14,9 @@ data:
         method: ANY
         path: /data/{any+}
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+
+

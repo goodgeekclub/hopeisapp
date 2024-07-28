@@ -59,6 +59,25 @@ custom:
       throttle:
         burstLimit: 2000
         rateLimit: 1000
+  cors:
+    origins:
+      dev:
+        - "http://localhost:4200"
+        - "http://localhost:3000"
+        - "http://dev.hopeis.us.s3-website-ap-southeast-1.amazonaws.com"
+        - "https://dev.hopeis.us"
+      uat:
+        - "https://uat.hopeis.us"
+      prod:
+        - "https://www.hopeis.us"
+        - "https://hopeis.us"
+    headers:
+      - Content-Type
+      - X-Amz-Date
+      - Authorization
+      - X-Api-Key
+      - X-Amz-Security-Token
+    allowCredentials: true  
 
 functions:
   - ${file(sls-templates/data-function.yml)}

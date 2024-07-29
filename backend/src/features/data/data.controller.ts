@@ -9,7 +9,6 @@ import {
   UseInterceptors,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common';
 import { DataService } from './data.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -21,10 +20,10 @@ import { CreateMissionDto } from './dto/mission/create-mission.dto';
 import { UpdateMissionDto } from './dto/mission/update-mission.dto';
 import { UpdateCharacterDto } from './dto/character/update-character.dto';
 import { CreateCharacterDto } from './dto/character/create-character.dto';
-import { Admin, AuthGuard, Public } from 'src/auth/auth.guard';
+import { Admin, AuthGuard, AuthRole, Public } from 'src/auth/auth.guard';
+import { Auth } from 'src/decorators/auth.docorator';
 
-@Admin()
-@UseGuards(AuthGuard)
+@Auth(AuthRole.Admin)
 @ApiTags('Data')
 @Controller('data')
 export class DataController {

@@ -14,11 +14,11 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ProfilesInterceptor } from './profiles.interceptor';
-import { Admin, AuthGuard, Public } from 'src/auth/auth.guard';
+import { Admin, AuthGuard, AuthRole, Public } from 'src/auth/auth.guard';
+import { Auth } from 'src/decorators/auth.docorator';
 
 @ApiTags('Profiles')
-@Admin()
-@UseGuards(AuthGuard)
+@Auth(AuthRole.Admin)
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}

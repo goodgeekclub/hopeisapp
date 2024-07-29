@@ -40,17 +40,15 @@ export class WorldExploreComponent implements OnInit{
       document.body.appendChild(app.canvas);
 
       // Add the assets to load
-      PIXI.Assets.add({ alias: 'background', src: 'https://media.discordapp.net/attachments/1158347495747891270/1266402442954670091/bg.png?ex=66a504af&is=66a3b32f&hm=ade2aaf735f5a220664e95a621613140c5d6f73fc9796402f9077ba247aa0db7&=&format=webp&quality=lossless&width=316&height=676' });
-      PIXI.Assets.add({ alias: 'star1', src: 'https://cdn.discordapp.com/attachments/612303746814312504/1266647157557956768/f1f49f8f0bbc6fd7.png?ex=66a5e897&is=66a49717&hm=5dc235c87b4f7b2d54b566400f88d0cd09129b720fe8f7d22a99891d22230026&' });
-      PIXI.Assets.add({ alias: 'star2', src: 'https://cdn.discordapp.com/attachments/612303746814312504/1266647292837101569/1.png?ex=66a5e8b7&is=66a49737&hm=6c8b3db9dffd739354700f1363c7e60cf21cb6afdcd0e20da8ca8135e35f9b79&' });
-      PIXI.Assets.add({ alias: 'star3', src: 'https://cdn.discordapp.com/attachments/612303746814312504/1266647307198136333/2.png?ex=66a5e8bb&is=66a4973b&hm=0cf00c636524abc6ebd050ae4a50ff449c92356920e6c3d2e72b5156411ec443&' });
+      PIXI.Assets.add({ alias: 'background', src: './assets/images/light-hope.png' });
+      PIXI.Assets.add({ alias: 'star1', src: './assets/images/star1.png' });
+      PIXI.Assets.add({ alias: 'star2', src: './assets/images/star2.png' });
+      PIXI.Assets.add({ alias: 'star3', src: './assets/images/star3.png' });
       // Allow the assets to load in the background
       await PIXI.Assets.backgroundLoad(['background','star1', 'star2', 'star3']);
-
-      await PIXI.Assets.load('star1')
-      await PIXI.Assets.load('star2')
-      await PIXI.Assets.load('star3')
-
+       PIXI.Assets.load('star1')
+       PIXI.Assets.load('star2')
+       PIXI.Assets.load('star3')
       // Load the background image
       PIXI.Assets.load('background').then((backgroundTexture) => {
         const background = new PIXI.Sprite(backgroundTexture);
@@ -62,6 +60,7 @@ export class WorldExploreComponent implements OnInit{
         background.width = app.screen.width;
         background.height = app.screen.height;
         }
+        
         app.stage.addChild(background);
       });
 

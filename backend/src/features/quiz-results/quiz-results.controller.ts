@@ -1,13 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { QuizResultsService } from './quiz-results.service';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
 import { QueryOptions } from 'src/decorators/query-options.decorator';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
+import { AuthRole, Public } from 'src/auth/auth.guard';
+import { Auth } from 'src/decorators/auth.docorator';
 
+@Auth(AuthRole.Admin)
 @Controller('quiz-results')
 export class QuizResultsController {
   constructor(private readonly quizResultsService: QuizResultsService) {}
 
+  @Public()
   @Post()
   create(@Body() createQuizResultDto: CreateQuizResultDto) {
     return this.quizResultsService.create(createQuizResultDto);

@@ -1,16 +1,16 @@
 profile-activities:
   name: ${self:service}-profile-activities-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET
-        path: /profile-activities
+        path: /profile-activities/
         private: true
     - http:
         method: POST
-        path: /profile-activities
+        path: /profile-activities/
         private: true
     - http:
         method: ANY
-        path: /profile-activities/{proxy+}
+        path: /profile-activities/{any+}
         private: true

@@ -17,12 +17,33 @@ module.exports = {
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
       },
+<<<<<<< HEAD
       screens: {
         'phone': '320px',
         'tablet': '640px'
       },
       backgroundImage: {
         'bg-name': "url('/assets/images/bg-log-in.png')",
+=======
+      animation: {
+				fade: 'fadeIn .5s ease-in-out',
+        lightup: "expand 4s ease-in-out",
+			},
+			keyframes: {
+				fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
+        expand: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(6)' },
+        },
+			},
+      backgroundImage: {
+        hopeone: "url('../public/images/bg/page_3_bg.png')",
+        hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
+        hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
+>>>>>>> 4644f231be7ee5614ab4bcd7bf85a3f1cd552dd2
       }
     },
   },

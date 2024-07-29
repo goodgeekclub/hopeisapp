@@ -13,14 +13,23 @@ export class DataService {
     @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data>,
   ) {}
 
+  getModel() {
+    return this.model;
+  }
+
   create(createDataDto: CreateDataDto) {
     const data = new this.model(createDataDto);
     return from(data.save());
   }
 
   findAll(type?: DataType) {
-    const allData = this.model.find({ type }).exec();
-    return from(allData);
+    // const allData = this.model.find({ type }).exec();
+    console.log(type);
+    let data = this.model.find();
+    if (type) {
+      data = data.where({ type });
+    }
+    return from(data);
   }
 
   findOne(id: string) {

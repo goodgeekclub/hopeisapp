@@ -1,16 +1,22 @@
 data:
   name: ${self:service}-data-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET
-        path: /data
+        path: /data/
         private: true
     - http:
         method: POST
-        path: /data
+        path: /data/
         private: true
     - http:
         method: ANY
-        path: /data/{proxy+}
+        path: /data/{any+}
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+
+

@@ -35,6 +35,7 @@ module.exports = {
         hopeone: "url('../public/images/bg/page_3_bg.png')",
         hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
         hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
+        'bg-name': "url('/assets/images/bg-log-in.png')",
       }
     },
   },

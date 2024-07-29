@@ -3,9 +3,8 @@ import { Component, Input } from '@angular/core';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
-import { Character } from '../../../../Enum/Character';
-import { ICharacter } from '../../../../Types/Character';
-import { characterMockData } from '../../../../Constants/character';
+import { Character } from '../../../../interfaces/character.interface';
+import { characterMockData } from '../../../../mocks/character';
 
 @Component({
   selector: 'app-result-character',
@@ -20,9 +19,9 @@ import { characterMockData } from '../../../../Constants/character';
   styleUrl: './result-character.component.css',
 })
 export class ResultCharacterComponent {
-  @Input({ required: true }) public character: Character = Character.PLUCKY;
+  @Input({ required: true }) public character: string = '';
 
-  public characterData: ICharacter =
+  public characterData: Character =
     characterMockData[Math.floor(Math.random() * characterMockData.length)];
 
   ngOnInit(): void {
@@ -30,7 +29,7 @@ export class ResultCharacterComponent {
   }
 
   private setCharacterInfo(): void {
-    let characterResult = characterMockData.find((character: ICharacter) => {
+    let characterResult = characterMockData.find((character: Character) => {
       return character.characterNameEn === this.character;
     });
     if (characterResult) {

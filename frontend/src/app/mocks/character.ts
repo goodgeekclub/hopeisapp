@@ -1,10 +1,10 @@
-import { Character } from '../Enum/Character';
-import { ICharacter } from '../Types/Character';
 
-export const characterMockData: ICharacter[] = [
+import { Character } from '../interfaces/character.interface';
+
+export const characterMockData: Character[] = [
   {
     bgLink: 'images/purple-bg-full.png',
-    characterNameEn: Character.SHINY,
+    characterNameEn: 'Shiny',
     characterNameTh: 'ผู้ทรงปัญญา',
     characterTitle: '“ถ้าเธอกำลังหลงทาง เราจะสร้างเข็มทิศให้เธอเอง”',
     characterImgLink: 'images/character-shiny.png',
@@ -23,7 +23,7 @@ export const characterMockData: ICharacter[] = [
   },
   {
     bgLink: 'images/blue-bg-full.png',
-    characterNameEn: Character.TECTOR,
+    characterNameEn: 'Tector',
     characterNameTh: 'ผู้มีแบบแผน',
     characterTitle: '“แม้ทางที่เดินจะมืดมน แต่เธอไม่ต้องกังวลเพราะมีเราไปด้วย”',
     characterImgLink: 'images/character-tector.png',
@@ -42,7 +42,7 @@ export const characterMockData: ICharacter[] = [
   },
   {
     bgLink: 'images/red-bg-full.png',
-    characterNameEn: Character.PLUCKY,
+    characterNameEn: 'Plucky',
     characterNameTh: 'ผู้กล้าหาญ',
     characterTitle: '“อุปสรรคจะมากขนาดไหน ขอให้เธอมั่นใจแล้วไปกับเรา”',
     characterImgLink: 'images/character-plucky.png',
@@ -61,7 +61,7 @@ export const characterMockData: ICharacter[] = [
   },
   {
     bgLink: 'images/yellow-bg-full.png',
-    characterNameEn: Character.PEACY,
+    characterNameEn: 'Peacy',
     characterNameTh: 'ผู้กลมเกลียว',
     characterTitle:
       '“เราจะเป็นมิตรกับคนทั้งกาแลคซี่ และเป็นความแฮปปี้ให้เธอด้วย”',
@@ -81,7 +81,7 @@ export const characterMockData: ICharacter[] = [
   },
   {
     bgLink: 'images/orange-bg-full.png',
-    characterNameEn: Character.DREAMY,
+    characterNameEn: 'Dreamy',
     characterNameTh: 'ผู้สุนทรีย์',
     characterTitle: '“ทุกสิ่งที่เธอฝัน เราจะช่วยทำมันให้เป็นจริง”',
     characterImgLink: 'images/character-dreamy.png',
@@ -100,7 +100,7 @@ export const characterMockData: ICharacter[] = [
   },
   {
     bgLink: 'images/green-bg-full.png',
-    characterNameEn: Character.MEKKA,
+    characterNameEn: 'Mekka',
     characterNameTh: 'ผู้จริงใจ',
     characterTitle:
       '“คนน่ารักที่เธอบอกว่าน่ากอด เค้าซัพพอร์ตเธอได้เท่าเรามั้ย”',

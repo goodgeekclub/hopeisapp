@@ -109,7 +109,7 @@ resource "aws_s3_bucket_cors_configuration" "asset_bucket" {
       "http://localhost:4200",
       "http://localhost:3000",
       "https://${local.buckets.asset.name}",
-      "https://${aws_s3_bucket_website_configuration.configs["web"].website_endpoint}"
+      "http://${aws_s3_bucket_website_configuration.configs["web"].website_endpoint}"
     ]
     expose_headers  = ["ETag", "Access-Control-Allow-Origin"]
     max_age_seconds = 3000

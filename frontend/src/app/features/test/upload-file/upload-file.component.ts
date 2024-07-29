@@ -9,7 +9,7 @@ import { AuthService } from '../../../services';
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.css'
 })
-export class UploadFileComponent implements OnInit {
+export class UploadFileComponent {
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   file?: File | null;
   limit = {
@@ -18,16 +18,7 @@ export class UploadFileComponent implements OnInit {
   }
   imageUrl: string | ArrayBuffer | null = null;
 
-  constructor(private s3Service: S3Service, private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    // Test Purpose
-    this.authService.getUserState().subscribe(async (user) => {
-      console.log(user);
-      console.log('accessToken', await user.getIdToken());
-    });
-  }
+  constructor(private s3Service: S3Service) {}
 
   changeUpload(event: Event) {
     if (event.target) {

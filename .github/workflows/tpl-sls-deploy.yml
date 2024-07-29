@@ -20,7 +20,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: dist
-          path: backend/
+          path: backend/dist
       - name: Install dependencies
         run: npm ci
       - name: Prepare Environment

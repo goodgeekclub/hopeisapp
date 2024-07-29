@@ -17,6 +17,13 @@ module.exports = {
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
       },
+      screens: {
+        'phone': '320px',
+        'tablet': '640px'
+      },
+      backgroundImage: {
+        'bg-name': "url('https://drive.google.com/file/d/1KnjhwrsIJpMdFhZeTSinGF5L5AjPwQXk/view?usp=drive_link')",
+      }
     },
   },
   daisyui: {

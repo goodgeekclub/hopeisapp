@@ -15,6 +15,7 @@ export class NameInputComponent implements OnInit {
   showModal: boolean = false;
   inputNameValue: string = '';
   length_input: number=0;
+  getbutton: boolean = false;
 
   constructor(
     private profileService: ProfileService,
@@ -46,7 +47,10 @@ export class NameInputComponent implements OnInit {
     this.showModal = false;
   }
 
-  checklenght(inputNameValue:string){
-    
+  checklenght(){
+    this.length_input = this.inputNameValue.length
+    if(this.length_input > 0){
+      this.getbutton 
+    }
   }
 }

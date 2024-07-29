@@ -1,16 +1,17 @@
 <section>
-    <div class="h-dvh flex flex-col justify-center items-center">
+    <div class="font-db-helvethaica-x-thin h-dvh flex flex-col justify-center items-center max-md:bg-bg-name flex flex-col justify-center items-center">
         <label class="form-control w-full max-w-xs">
             <div class="label">
-                <span class="label-text">What is your name?</span>
+                <!-- <span class="label-text">What is your name?</span> -->
             </div>
             <input type="text" [(ngModel)]="inputNameValue" placeholder="อยากให้เราเรียกเธอว่า ?" required
-                class="input input-bordered w-full max-w-xs" />
+                class="text-xl bg-transparent border border-t-0 border-x-0 border-b-2 p-2 m-2 min-w-full text-center
+                max-md:text-lg bg-transparent border border-t-0 border-x-0 border-b-2 p-2 m-2 min-w-[80%] text-center" />
             <div class="label"></div>
         </label>
-        <button class="btn btn-outline" (click)="saveToLocalStorage()"
+        <button class="text-white" (click)="saveToLocalStorage()"
             [disabled]="!inputNameValue || inputNameValue.trim() === ''">
-            Save
+            ต่อไป
         </button>
     </div>
 

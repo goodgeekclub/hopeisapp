@@ -25,7 +25,9 @@ resource "aws_s3_bucket_website_configuration" "configs" {
 #########################
 # Bucket Policy
 #########################
-data "aws_iam_policy_document" "allow_access_web" {
+data "aws_iam_policy_document" "allow_access_base" {
+  for_each = local.buckets
+
   statement {
     sid = "CloudFrontGetObject"
 
@@ -39,16 +41,20 @@ data "aws_iam_policy_document" "allow_access_web" {
     ]
 
     resources = [
-      "${aws_s3_bucket.buckets["web"].arn}/*",
+      "${aws_s3_bucket.buckets[each.key].arn}/*",
     ]
 
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [ aws_cloudfront_distribution.distribution["web"].arn ]
+      values   = [ aws_cloudfront_distribution.distribution[each.key].arn ]
     }
   }
+}
 
+data "aws_iam_policy_document" "allow_access_dev" {
+  count = var.environment == "dev" ? 1 : 0
+  
   statement {
     sid = "PublicGet"
 
@@ -67,36 +73,20 @@ data "aws_iam_policy_document" "allow_access_web" {
   }
 }
 
-data "aws_iam_policy_document" "allow_access_asset" {
-  statement {
-    sid = "CloudFrontGetObject"
+data "aws_iam_policy_document" "allow_access_combined" {
+  for_each = local.buckets
 
-    principals {
-      type        = "Service"
-      identifiers = ["cloudfront.amazonaws.com"]
-    }
-
-    actions = [
-      "s3:GetObject",
-    ]
-
-    resources = [
-      "${aws_s3_bucket.buckets["asset"].arn}/*",
-    ]
-
-    condition {
-      test     = "StringEquals"
-      variable = "AWS:SourceArn"
-      values   = [ aws_cloudfront_distribution.distribution["asset"].arn ]
-    }
-  }
+  source_policy_documents = flatten([
+    [data.aws_iam_policy_document.allow_access_base[each.key].json],
+    each.key == "web" && var.environment == "dev" ? [data.aws_iam_policy_document.allow_access_dev[0].json] : []
+  ])
 }
 
 resource "aws_s3_bucket_policy" "allow_access" {
   for_each = local.buckets
 
   bucket = aws_s3_bucket.buckets[each.key].id
-  policy = each.key == "web" ? data.aws_iam_policy_document.allow_access_web.json : data.aws_iam_policy_document.allow_access_asset.json
+  policy = data.aws_iam_policy_document.allow_access_combined[each.key].json
 }
 
 resource "aws_s3_bucket_cors_configuration" "asset_bucket" {
@@ -105,12 +95,7 @@ resource "aws_s3_bucket_cors_configuration" "asset_bucket" {
   cors_rule {
     allowed_headers = ["*", "Authorization"]
     allowed_methods = ["HEAD", "PUT", "POST", "DELETE"]
-    allowed_origins = [
-      "http://localhost:4200",
-      "http://localhost:3000",
-      "https://${local.buckets.asset.name}",
-      "http://${aws_s3_bucket_website_configuration.configs["web"].website_endpoint}"
-    ]
+    allowed_origins = local.allowed_origins
     expose_headers  = ["ETag", "Access-Control-Allow-Origin"]
     max_age_seconds = 3000
   }

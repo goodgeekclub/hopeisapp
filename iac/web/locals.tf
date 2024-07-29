@@ -11,7 +11,7 @@ locals {
   buckets = {
     asset = {
       name = var.environment == "prod" ? "media.${local.domain_name}" : "${var.environment}-media.${local.domain_name}"
-      key  = "asset.html"
+      key  = "index.html"
     }
     web = {
       name = var.environment == "prod" ? "www.${local.domain_name}" : "${var.environment}.${local.domain_name}"

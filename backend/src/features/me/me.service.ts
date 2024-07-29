@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { ProfilesService } from '../profiles/profiles.service';
+import { ProfileActivitiesService } from '../profile-activities/profile-activities.service';
+import { pid } from 'process';
 
 @Injectable()
 export class MeService {
-  constructor(private profilesService: ProfilesService) {}
+  constructor(private profilesService: ProfilesService, private activitiesService: ProfileActivitiesService) {}
 
-  async createProfile(id: string, fbId: string) {
+  createProfile(id: string, fbId: string) {
     return this.profilesService.update(id, {
       firebaseId: fbId
     })
@@ -16,10 +18,28 @@ export class MeService {
   }
 
   async getProfile(fbId: string) {
-    const profile = await this.profilesService.findByFbId(fbId);
-    if (!profile) {
-      throw new NotFoundException('User have not sync with profile id yet.');
-    }
-    return profile;
+    return this.profilesService.findByFbId(fbId);
+  }
+
+  listActivities(pid: string) {
+    return this.activitiesService.ListbyPId(pid);
+  }
+
+  getActivity(pid: string, id: string) {
+    return this.activitiesService.getModel().findOne({
+      profile: pid,
+      _id: id
+    })
+  }
+
+  createActivity(body: any) {
+    return this.activitiesService.create(body)
+  }
+
+  updateActivity(profile: string, id: string, body: any) {
+    return this.activitiesService.getModel().updateOne({
+      profile,
+      id,
+    }, body);
   }
 }

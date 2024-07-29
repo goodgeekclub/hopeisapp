@@ -15,22 +15,17 @@ import { ProfilesService } from '../profiles/profiles.service';
 export class FbProfilesInterceptor implements NestInterceptor {
   constructor(private service: ProfilesService) {}
 
-  readonly basePath = '/me';
-  readonly validatePaths = [
-    '/profile'
-  ]
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const { user, url } = context.getArgByIndex(0);
-    const subPath = url.substring(this.basePath.length);
-    if (!this.validatePaths.some(path => subPath.includes(path))) {
-      return next.handle();
-    }
+    const { user } = context.getArgByIndex(0);
     if (!user) {
       throw new UnauthorizedException();
     }
     return from(this.service.findByFbId(user.uid)).pipe(
       switchMap(profile => {
         if (profile) {
+          // Add Profile to Request
+          const req = context.switchToHttp().getRequest();
+          req.profile = profile;
           return next.handle();
         } else {
           throw new NotFoundException('User have not sync with profile id yet...');

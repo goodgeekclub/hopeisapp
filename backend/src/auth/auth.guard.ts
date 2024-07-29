@@ -8,10 +8,8 @@ export enum AuthRole {
 };
 
 export const IS_PUBLIC_KEY = 'isPublic';
-export const IS_ADMIN_KEY = 'isAdmin';
 export const ROLES_KEY = 'roles';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
-export const Admin = () => SetMetadata(IS_ADMIN_KEY, true);
 export const role = () => (...roles: AuthRole[]) => SetMetadata(ROLES_KEY, roles)
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -21,8 +19,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(ctx: ExecutionContext) {
     const isPublic = this.getReflector(ctx, IS_PUBLIC_KEY);
-    // const isAdmin = this.getReflector(ctx, IS_ADMIN_KEY);
-    // console.log('isAdmin:', isAdmin);
     if (isPublic) {
       return true
     }
@@ -30,11 +26,9 @@ export class AuthGuard implements CanActivate {
       ctx.getHandler(),
       ctx.getClass(),
     ]).map(r => r.toLocaleLowerCase());
-    console.log(requiredRoles);
     if (!requiredRoles) {
       return true;
-    }  
-
+    }
     const request = ctx.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -46,9 +40,7 @@ export class AuthGuard implements CanActivate {
         if (requiredRoles.length === 0 || requiredRoles.includes('user')) {
           return true;
         }
-        const isAuthorize = requiredRoles.some((role) => user.roles?.includes(role));
-        console.log('user:', user);
-        console.log('isAuthorize:', isAuthorize);
+        // const isAuthorize = requiredRoles.some((role) => user.roles?.includes(role));
         return requiredRoles.some((role) => user.roles?.includes(role));
       }).catch(e => {
         // console.log(e);

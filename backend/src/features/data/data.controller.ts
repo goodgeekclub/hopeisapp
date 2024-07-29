@@ -20,7 +20,7 @@ import { CreateMissionDto } from './dto/mission/create-mission.dto';
 import { UpdateMissionDto } from './dto/mission/update-mission.dto';
 import { UpdateCharacterDto } from './dto/character/update-character.dto';
 import { CreateCharacterDto } from './dto/character/create-character.dto';
-import { Admin, AuthGuard, AuthRole, Public } from 'src/auth/auth.guard';
+import { AuthRole, Public } from 'src/auth/auth.guard';
 import { Auth } from 'src/decorators/auth.docorator';
 
 @Auth(AuthRole.Admin)

@@ -23,10 +23,10 @@ export class UploadFileComponent implements OnInit {
 
   ngOnInit(): void {
     // Test Purpose
-    // this.authService.getUserState().subscribe(async (user) => {
-      // console.log(user);
-      // console.log('accessToken', await user.getIdToken());
-    // });
+    this.authService.getUserState().subscribe(async (user) => {
+      console.log(user);
+      console.log('accessToken', await user.getIdToken());
+    });
   }
 
   changeUpload(event: Event) {

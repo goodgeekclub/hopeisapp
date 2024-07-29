@@ -70,12 +70,12 @@ resource "aws_iam_role" "federate_role" {
 # DataDog
 ########################
 data "aws_iam_policy_document" "datadog_trust_policy" {
-  count = var.environment == "dev" ? 1 : 0
+  count = var.environment == "prod" ? 1 : 0
   statement {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "AWS"
+      type        = "*"
       identifiers = ["464622532012"] # DataDog Account ID
     }
     condition {
@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "datadog_trust_policy" {
 }
 
 resource "aws_iam_role" "datadog_role" {
-  count              = var.environment == "dev" ? 1 : 0
+  count              = var.environment == "prod" ? 1 : 0
   name               = "${local.project_name}-datadog-role"
   description        = "Allow DataDog access to hopeisapp production environment only"
   assume_role_policy = data.aws_iam_policy_document.datadog_trust_policy[0].json
@@ -150,4 +150,6 @@ resource "aws_iam_role" "datadog_role" {
       ]
     })
   }
+
+  tags   = local.common_tags
 }

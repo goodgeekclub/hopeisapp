@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { S3Service } from '../../../services/s3.service';
+import { AuthService } from '../../../services';
 
 @Component({
   selector: 'app-upload-file',
@@ -8,7 +9,7 @@ import { S3Service } from '../../../services/s3.service';
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.css'
 })
-export class UploadFileComponent {
+export class UploadFileComponent implements OnInit {
   status: "initial" | "uploading" | "success" | "fail" = "initial";
   file?: File | null;
   limit = {
@@ -17,7 +18,15 @@ export class UploadFileComponent {
   }
   imageUrl: string | ArrayBuffer | null = null;
 
-  constructor(private s3Service: S3Service) {
+  constructor(private s3Service: S3Service, private authService: AuthService) {
+  }
+
+  ngOnInit(): void {
+    // Test Purpose
+    // this.authService.getUserState().subscribe(async (user) => {
+      // console.log(user);
+      // console.log('accessToken', await user.getIdToken());
+    // });
   }
 
   changeUpload(event: Event) {

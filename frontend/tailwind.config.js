@@ -22,7 +22,7 @@ module.exports = {
         'tablet': '640px'
       },
       backgroundImage: {
-        'bg-name': "url('https://drive.google.com/file/d/1KnjhwrsIJpMdFhZeTSinGF5L5AjPwQXk/view?usp=drive_link')",
+        'bg-name': "url('/assets/images/bg-log-in.png')",
       }
     },
   },

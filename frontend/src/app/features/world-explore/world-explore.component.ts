@@ -5,6 +5,7 @@ import * as PIXI from 'pixi.js';
 interface User {
   id: number;
   name: string;
+  score: number;
 }
 
 @Component({
@@ -30,7 +31,7 @@ export class WorldExploreComponent implements OnInit{
     this.app = app;
     const numberOfUsers = 100000; // test Number of user
     for (let i = 1; i <= numberOfUsers; i++) {
-      this.users.push({ id: i, name: `User ${i}` });
+      this.users.push({ id: i, name: `User ${i}`, score: Math.floor(Math.random() * 1000) });
     }
 
     app.init({ resizeTo: window }).then(async () => {
@@ -135,9 +136,10 @@ export class WorldExploreComponent implements OnInit{
      star.on('pointertap', () => {
        console.log(`Clicked on star of user ${user.name}`);
        this.selectedUser = user;
-      this.selectedUserImage = `https://example.com/user-images/${user.id}.png`; // Replace with actual user image URL
+      this.selectedUserImage = `https://scontent.fbkk22-3.fna.fbcdn.net/v/t39.30808-6/397335422_3497034617218646_4443638139896152856_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFXmNzCD6Jgl2lglGwD0zwtjsJKYXdGlzSOwkphd0aXNO8l7kbZq0mBx1iRti_Ipgy3yMOSXpMCyOs9X0ZAVEjJ&_nc_ohc=2LRvsWrqdAsQ7kNvgHO09dN&_nc_ht=scontent.fbkk22-3.fna&oh=00_AYBRZbucqzIVIXMdTHnuQm5w5QoDHCJ2acpvMDjv8tl8mw&oe=66AD2F81`; // Replace with actual user image URL
      });
 
+     
     app.stage.addChild(star);
 
     return star;

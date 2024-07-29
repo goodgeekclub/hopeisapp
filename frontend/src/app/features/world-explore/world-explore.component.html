@@ -3,6 +3,7 @@
   <div class="profile-content">
     <button class="close-btn" (click)="closeProfile()">Close</button>
     <h2>{{ selectedUser.name }}</h2>
+    <p>Score: {{ selectedUser.score }}</p>
     <img [src]="selectedUserImage" alt="{{ selectedUser.name }}" />
     <!-- Add more user details here as needed -->
   </div>

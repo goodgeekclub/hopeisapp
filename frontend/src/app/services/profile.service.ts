@@ -77,11 +77,6 @@ export class ProfileService {
               profile.answers.push(answer);
             }
 
-            const highestType = this.getHighestScoreType();
-            if (highestType) {
-              profile.characterType = highestType.type;
-            }
-
             this.updateProfile(profile);
           } else {
             console.error(`Choice with title ${choiceTitle} not found.`);
@@ -144,7 +139,6 @@ export class ProfileService {
 
     return null;
   }
-
   clearProfile(): void {
     this.storageService.remove(this.profileKey);
   }

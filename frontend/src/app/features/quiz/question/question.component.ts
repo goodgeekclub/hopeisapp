@@ -12,7 +12,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
-import { log } from 'console';
 
 @Component({
   selector: 'app-question',
@@ -22,7 +21,7 @@ import { log } from 'console';
   styleUrls: ['./question.component.css'],
 })
 export class QuestionComponent implements OnInit {
-  question$!: Observable<Question> | null;
+  question$!: Observable<Question>;
   currentQuestionId!: number;
   totalQuestions!: number;
   selectedOption!: Choice;
@@ -38,7 +37,7 @@ export class QuestionComponent implements OnInit {
 
   @Input()
   set id(questionId: string) {
-    this.question$ = this.questionService.getQuestion(questionId)
+    this.question$ = this.questionService.getQuestion(questionId);
   }
 
   ngOnInit() {
@@ -88,9 +87,10 @@ export class QuestionComponent implements OnInit {
     const nextQuestionId = this.currentQuestionId + 1;
 
     if (this.currentQuestionId === this.totalQuestions) {
-      // this.logTotalScores();
-      // this.logHighTypeScore();
-      this.router.navigate(['/quiz/enter-your-name']);
+      this.logTotalScores();
+      this.logHighTypeScore();
+      const result = this.profileService.getProfile();
+      this.router.navigate(['/quiz/result', { result }]);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
       this.selectedOption = { title: '', score: 0, type: '' };

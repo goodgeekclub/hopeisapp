@@ -1,8 +1,6 @@
-import { Character } from '../Enum/Character';
-
-export interface ICharacter {
+export interface Character {
   bgLink: string;
-  characterNameEn: Character;
+  characterNameEn: string;
   characterNameTh: string;
   characterTitle: string;
   characterImgLink: string;

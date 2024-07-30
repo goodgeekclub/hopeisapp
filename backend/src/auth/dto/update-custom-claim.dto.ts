@@ -1,6 +1,6 @@
-import { IsBoolean } from "class-validator";
+import { IsArray, IsBoolean } from "class-validator";
 
 export class UpdateCustomClaimDto {
-  @IsBoolean()
-  admin: boolean;
+  @IsArray()
+  roles: string[];
 }

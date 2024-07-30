@@ -13,6 +13,10 @@ export class DataService {
     @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data>,
   ) {}
 
+  getModel() {
+    return this.model;
+  }
+
   create(createDataDto: CreateDataDto) {
     const data = new this.model(createDataDto);
     return from(data.save());

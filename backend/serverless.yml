@@ -84,3 +84,4 @@ functions:
   - ${file(sls-templates/profiles-function.yml)}
   - ${file(sls-templates/quiz-results-function.yml)}
   - ${file(sls-templates/profile-activities-function.yml)}
+  - ${file(sls-templates/me-function.yml)}

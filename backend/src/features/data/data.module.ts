@@ -7,5 +7,6 @@ import { mongooseConnection } from 'src/configs/mongoose.config';
   imports: [mongooseConnection.dataset],
   controllers: [DataController],
   providers: [DataService],
+  exports: [DataService]
 })
 export class DataModule {}

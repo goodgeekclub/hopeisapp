@@ -8,16 +8,29 @@ locals {
   common_tags = {
     project-name = local.project_name
   }
+
   buckets = {
     asset = {
       name = var.environment == "prod" ? "media.${local.domain_name}" : "${var.environment}-media.${local.domain_name}"
-      key  = "asset.html"
+      key  = "index.html"
     }
     web = {
       name = var.environment == "prod" ? "www.${local.domain_name}" : "${var.environment}.${local.domain_name}"
       key  = "index.html"
     }
   }
+
+  common_origins = [
+    "http://${aws_s3_bucket_website_configuration.configs["web"].website_endpoint}"
+  ]
+
+  dev_origins = [
+    "http://localhost:4200",
+    "http://localhost:3000",
+    "https://${local.buckets.asset.name}"
+  ]
+
+  allowed_origins = var.environment == "dev" ? concat(local.dev_origins, local.common_origins) : local.common_origins
 
   cloudfront_comments = {
     asset = "${local.project_name}-asset-${var.environment}"

@@ -6,11 +6,23 @@ profiles:
         method: GET
         path: /profiles/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: POST
         path: /profiles/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: ANY
         path: /profiles/{any+}
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}

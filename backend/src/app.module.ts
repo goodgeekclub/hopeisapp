@@ -9,6 +9,7 @@ import { ProfilesModule } from './features/profiles/profiles.module';
 import { DataModule } from './features/data/data.module';
 import { QuizResultsModule } from './features/quiz-results/quiz-results.module';
 import { ProfileActivitiesModule } from './features/profile-activities/profile-activities.module';
+import { MeModule } from './features/me/me.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -18,6 +19,7 @@ import { ProfileActivitiesModule } from './features/profile-activities/profile-a
     DataModule,
     QuizResultsModule,
     ProfileActivitiesModule,
+    MeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

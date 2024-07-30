@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { S3Service } from '../../../services/s3.service';
+import { AuthService } from '../../../services';
 
 @Component({
   selector: 'app-upload-file',
@@ -17,8 +18,7 @@ export class UploadFileComponent {
   }
   imageUrl: string | ArrayBuffer | null = null;
 
-  constructor(private s3Service: S3Service) {
-  }
+  constructor(private s3Service: S3Service) {}
 
   changeUpload(event: Event) {
     if (event.target) {

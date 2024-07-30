@@ -1,4 +1,4 @@
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   Auth,
@@ -38,13 +38,14 @@ export class AuthService {
     return this.auth.currentUser;
   }
 
-  getUserState() {
+  getUserState(): Observable<User> {
     return authState(this.auth);
   }
 
   getAccessToken(): Observable<string> {
     return authState(this.auth).pipe(
-      map((auth: any) => auth!.accessToken)
+      map((auth: any) => auth!.accessToken),
+      tap((token) => console.log('token:', token))
     );
   }
 }

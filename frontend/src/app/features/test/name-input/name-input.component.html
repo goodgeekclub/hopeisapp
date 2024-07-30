@@ -1,17 +1,25 @@
 <section>
-    <div class="h-dvh flex flex-col justify-center items-center">
-        <label class="form-control w-full max-w-xs">
+    <div class="relative max-h-screen bg-bg-name bg-cover font-db-helvethaica-x-base h-dvh flex flex-col justify-center items-center max-md:bg-bg-name flex flex-col justify-center items-center">
+        <label class="form-control w-full max-w-xs flex justify-center items-center">
             <div class="label">
-                <span class="label-text">What is your name?</span>
+                <!-- <span class="label-text">What is your name?</span> -->
             </div>
-            <input type="text" [(ngModel)]="inputNameValue" placeholder="Type here" required
-                class="input input-bordered w-full max-w-xs" />
+                <input type="text" [formControl]="inputNameValue" placeholder="อยากให้เราเรียกเธอว่า ?" required
+                class="text-xl bg-transparent border border-t-0 border-x-0 border-b-2 p-2 m-2 max-w-full text-center focus:outline-none text-white
+                max-md:text-lg bg-transparent border border-t-0 border-x-0 border-b-2 p-2 m-2 max-w-full text-center focus:outline-none" />
             <div class="label"></div>
+            
         </label>
-        <button class="btn btn-outline" (click)="saveToLocalStorage()"
-            [disabled]="!inputNameValue || inputNameValue.trim() === ''">
-            Save
+        @if (inputNameValue.dirty && !inputNameValue.valid) {
+            <div class="text-center text-red-500 font-db-helvethaica-x-base">กรุณาพิมพ์ชื่อไม่เกิน 10 ตัวอักษร</div>
+        }
+        @if(inputNameValue.dirty){
+            <button class="flex flex-col justify-center items-center text-white" (click)="saveToLocalStorage()"
+            [disabled]="!inputNameValue.touched && inputNameValue.valid">
+            ต่อไป
         </button>
+        }
+        
     </div>
 
     @if (showModal) {

@@ -6,10 +6,18 @@ data:
         method: GET
         path: /data/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: POST
         path: /data/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: ANY
         path: /data/{any+}

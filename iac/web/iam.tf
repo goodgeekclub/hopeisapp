@@ -75,14 +75,14 @@ data "aws_iam_policy_document" "datadog_trust_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "*"
+      type        = "AWS"
       identifiers = ["arn:aws:iam::464622532012:root"] # DataDog Account ID
     }
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
       values = [
-        "b0d8dc0bcf194fb49d5b6d59d24935b0" # Datadog External ID
+        "d8fc5733c2c940e485aea5e8d0bc563c" # Datadog External ID
       ]
     }
   }
@@ -181,11 +181,11 @@ resource "aws_iam_role" "datadog_role" {
           ],
           Effect   = "Allow",
           Resource = "*",
-          "Condition" : {
-            "StringEquals" : {
-              "aws:RequestedRegion" : "ap-southeast-1"
-            }
-          }
+          #"Condition" : {
+          #  "StringEquals" : {
+          #    "aws:RequestedRegion" : "ap-southeast-1"
+          #  }
+          #}
         },
       ]
     })

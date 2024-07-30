@@ -76,13 +76,13 @@ data "aws_iam_policy_document" "datadog_trust_policy" {
 
     principals {
       type        = "*"
-      identifiers = ["464622532012"] # DataDog Account ID
+      identifiers = ["arn:aws:iam::464622532012:root"] # DataDog Account ID
     }
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
       values = [
-        "0ab25ab94c48473a87fb55079020f8d1" # Datadog External ID
+        "b0d8dc0bcf194fb49d5b6d59d24935b0" # Datadog External ID
       ]
     }
   }
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "datadog_trust_policy" {
 resource "aws_iam_role" "datadog_role" {
   count              = var.environment == "prod" ? 1 : 0
   name               = "${local.project_name}-datadog-role"
-  description        = "Allow DataDog access to hopeisapp production environment only"
+  description        = "Allow DataDog access to hopeisapp production environment only."
   assume_role_policy = data.aws_iam_policy_document.datadog_trust_policy[0].json
 
   inline_policy {
@@ -101,8 +101,11 @@ resource "aws_iam_role" "datadog_role" {
       Version = "2012-10-17"
       Statement = [
         {
-          Action   = [
+          Action = [
             "apigateway:GET",
+            "autoscaling:Describe*",
+            "backup:List*",
+            "budgets:ViewBudget",
             "cloudfront:GetDistributionConfig",
             "cloudfront:ListDistributions",
             "cloudtrail:DescribeTrails",
@@ -111,10 +114,35 @@ resource "aws_iam_role" "datadog_role" {
             "cloudwatch:Describe*",
             "cloudwatch:Get*",
             "cloudwatch:List*",
+            "codedeploy:List*",
+            "codedeploy:BatchGet*",
+            "directconnect:Describe*",
+            "dynamodb:List*",
+            "dynamodb:Describe*",
+            "ec2:Describe*",
+            "ec2:GetTransitGatewayPrefixListReferences",
+            "ec2:SearchTransitGatewayRoutes",
+            "ecs:Describe*",
+            "ecs:List*",
+            "elasticache:Describe*",
+            "elasticache:List*",
+            "elasticfilesystem:DescribeFileSystems",
+            "elasticfilesystem:DescribeTags",
+            "elasticfilesystem:DescribeAccessPoints",
+            "elasticloadbalancing:Describe*",
+            "elasticmapreduce:List*",
+            "elasticmapreduce:Describe*",
+            "es:ListTags",
+            "es:ListDomainNames",
+            "es:DescribeElasticsearchDomains",
             "events:CreateEventBus",
+            "fsx:DescribeFileSystems",
+            "fsx:ListTagsForResource",
             "health:DescribeEvents",
             "health:DescribeEventDetails",
             "health:DescribeAffectedEntities",
+            "kinesis:List*",
+            "kinesis:Describe*",
             "lambda:GetPolicy",
             "lambda:List*",
             "logs:DeleteSubscriptionFilter",
@@ -124,6 +152,12 @@ resource "aws_iam_role" "datadog_role" {
             "logs:FilterLogEvents",
             "logs:PutSubscriptionFilter",
             "logs:TestMetricFilter",
+            "organizations:Describe*",
+            "organizations:List*",
+            "rds:Describe*",
+            "rds:List*",
+            "redshift:DescribeClusters",
+            "redshift:DescribeLoggingStatus",
             "route53:List*",
             "s3:GetBucketLogging",
             "s3:GetBucketLocation",
@@ -131,6 +165,12 @@ resource "aws_iam_role" "datadog_role" {
             "s3:GetBucketTagging",
             "s3:ListAllMyBuckets",
             "s3:PutBucketNotification",
+            "ses:Get*",
+            "sns:List*",
+            "sns:Publish",
+            "sqs:ListQueues",
+            "states:ListStateMachines",
+            "states:DescribeStateMachine",
             "support:DescribeTrustedAdvisor*",
             "support:RefreshTrustedAdvisorCheck",
             "tag:GetResources",
@@ -138,12 +178,12 @@ resource "aws_iam_role" "datadog_role" {
             "tag:GetTagValues",
             "xray:BatchGetTraces",
             "xray:GetTraceSummaries"
-          ]
-          Effect   = "Allow"
+          ],
+          Effect   = "Allow",
           Resource = "*",
-          "Condition": {
-            "StringEquals": {
-              "aws:RequestedRegion": "ap-southeast-1"
+          "Condition" : {
+            "StringEquals" : {
+              "aws:RequestedRegion" : "ap-southeast-1"
             }
           }
         },
@@ -151,5 +191,5 @@ resource "aws_iam_role" "datadog_role" {
     })
   }
 
-  tags   = local.common_tags
+  tags = local.common_tags
 }

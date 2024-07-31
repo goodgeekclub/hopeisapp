@@ -33,7 +33,5 @@ jobs:
         run: |
           aws s3 ls
       - name: Sync to S3 pr-number directory
-        run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }}/${{ github.event.number }}
-      - name: Sync to S3 pr-number directory
-        if: ${{ inputs.environment }} == 'dev'
-        run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }}/pr${{ github.event.number }}
+        run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }}
+

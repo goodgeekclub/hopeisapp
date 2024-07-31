@@ -30,10 +30,6 @@ jobs:
           echo '${{ secrets.FIREBASE_KEY }}' > firebase-service-key.json
       - name: Build
         run: npm run build
-      - name: Condition
-        run: |
-          echo "${{ github.event.number }}"
-          echo "${{ github.event }}"
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:

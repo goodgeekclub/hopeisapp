@@ -35,13 +35,9 @@ module.exports = {
         hopeone: "url('../public/images/bg/page_3_bg.png')",
         hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
         hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
-<<<<<<< HEAD
         hopefour: "url('src/assets/images/page_11_31_bg.png')",
-      },
-=======
         'bg-name': "url('/assets/images/bg-log-in.png')",
       }
->>>>>>> 1f4f00aa2fc0b6729e30aa09d2e513ba88233b0e
     },
   },
   daisyui: {

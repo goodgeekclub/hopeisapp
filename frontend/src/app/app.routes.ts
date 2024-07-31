@@ -9,6 +9,7 @@ import { QuizStartComponent } from './features/quiz/quiz-start/quiz-start.compon
 import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
+import { MissionComponent } from './features/mission/mission/mission.component';
 
 export const routes: Routes = [
   {
@@ -17,10 +18,6 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   ...testRoutes,
-  {
-    path: 'test-name-input',
-    component: NameInputComponent,
-  },
   {
     path: 'admin-console',
     component: AdminConsole,
@@ -50,6 +47,10 @@ export const routes: Routes = [
   {
     path: 'story',
     component: StoryComponent,
+  },
+  {
+    path: 'mission',
+    component: MissionComponent,
   },
   {
     path: '**',

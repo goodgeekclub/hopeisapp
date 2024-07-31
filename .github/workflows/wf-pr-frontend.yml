@@ -14,3 +14,10 @@ jobs:
     with:
       environment: dev
     secrets: inherit
+  ng-deploy:
+      name: Angular Deploy on Dev
+      needs: ["build"]
+      uses: ./.github/workflows/tpl-angular-deploy.yml
+      with:
+        environment: dev
+      secrets: inherit

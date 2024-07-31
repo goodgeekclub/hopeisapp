@@ -3,9 +3,9 @@ name: Angular Build on PR
 on:
   pull_request:
     branches: ["main"]
-    paths:
-      - frontend/**
-      - .github
+    # paths:
+    #   - frontend/**
+    #   - .github
 
 jobs:
   build:

@@ -87,10 +87,10 @@ export class QuestionComponent implements OnInit {
     const nextQuestionId = this.currentQuestionId + 1;
 
     if (this.currentQuestionId === this.totalQuestions) {
-      this.logTotalScores();
-      this.logHighTypeScore();
-      const result = this.profileService.getProfile();
-      this.router.navigate(['/quiz/result', { result }]);
+      // this.logTotalScores();
+      // this.logHighTypeScore();
+
+      this.router.navigate(['/quiz/result']);
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
       this.selectedOption = { title: '', score: 0, type: '' };

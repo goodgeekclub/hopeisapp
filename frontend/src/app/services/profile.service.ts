@@ -15,6 +15,7 @@ interface Profile {
   answers: Answer[];
   currentQuestionId: number;
   characterType: string;
+  characterScore: number;
 }
 
 @Injectable({
@@ -34,6 +35,7 @@ export class ProfileService {
       answers: [],
       currentQuestionId: 1,
       characterType: '',
+      characterScore: 0,
     };
     this.storageService.set(this.profileKey, JSON.stringify(profile));
   }
@@ -78,6 +80,16 @@ export class ProfileService {
             }
 
             this.updateProfile(profile);
+
+            const highestScoreType = this.getHighestScoreType();
+            if (highestScoreType) {
+              profile.characterType = highestScoreType.type;
+              profile.characterScore = highestScoreType.score;
+            } else {
+              profile.characterType = '';
+              profile.characterScore = 0;
+            }
+
           } else {
             console.error(`Choice with title ${choiceTitle} not found.`);
           }
@@ -139,6 +151,7 @@ export class ProfileService {
 
     return null;
   }
+
   clearProfile(): void {
     this.storageService.remove(this.profileKey);
   }

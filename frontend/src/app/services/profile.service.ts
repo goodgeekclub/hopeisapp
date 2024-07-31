@@ -90,6 +90,7 @@ export class ProfileService {
               profile.characterScore = 0;
             }
 
+            this.updateProfile(profile);
           } else {
             console.error(`Choice with title ${choiceTitle} not found.`);
           }

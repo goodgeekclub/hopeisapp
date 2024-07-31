@@ -35,5 +35,6 @@ export class ResultCharacterComponent {
     if (characterResult) {
       this.characterData = characterResult;
     }
+    localStorage.clear();
   }
 }

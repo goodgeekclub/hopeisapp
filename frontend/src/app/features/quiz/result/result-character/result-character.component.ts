@@ -5,6 +5,8 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
 import { Character } from '../../../../interfaces/character.interface';
 import { characterMockData } from '../../../../mocks/character';
+import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-result-character',
@@ -24,6 +26,8 @@ export class ResultCharacterComponent {
   public characterData: Character =
     characterMockData[Math.floor(Math.random() * characterMockData.length)];
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   ngOnInit(): void {
     this.setCharacterInfo();
   }
@@ -35,6 +39,12 @@ export class ResultCharacterComponent {
     if (characterResult) {
       this.characterData = characterResult;
     }
-    localStorage.clear();
+  }
+
+  public async signUp() {
+    const user = await this.authService.register();
+    if (user) {
+      this.router.navigate(['/mission']);
+    }
   }
 }

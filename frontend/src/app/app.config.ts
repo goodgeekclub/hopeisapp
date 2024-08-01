@@ -1,6 +1,11 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 
@@ -11,6 +16,12 @@ import { environment } from '../environments/environment.development';
 import { authInjectInterceptor } from './services/http.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
+import {
+  ScreenTrackingService,
+  UserTrackingService,
+  getAnalytics,
+  provideAnalytics,
+} from '@angular/fire/analytics';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +32,9 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideHttpClient(withInterceptors([authInjectInterceptor])),
     provideAngularSvgIcon(),
+    provideAnalytics(() => getAnalytics()),
+    ScreenTrackingService,
+    UserTrackingService,
+    importProvidersFrom(LoadingBarRouterModule),
   ],
 };

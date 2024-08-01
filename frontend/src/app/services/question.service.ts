@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export interface Choice {
   title: string;
@@ -21,24 +21,14 @@ export interface Question {
   providedIn: 'root',
 })
 export class QuestionService {
-  private apiKey = environment.backend.apiKey;
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'x-api-key': this.apiKey,
-    });
-  }
-
   getQuestion(id: string): Observable<Question> {
     return this.http
-      .get<any>(`${environment.backend.backendUrl}/data/quizes`, {
-        headers: this.getHeaders(),
-      })
+      .get<any>(`${environment.backend.backendUrl}/data/quizes`)
       .pipe(
         map((response) => {
-
           if (
             !response ||
             !response[0] ||
@@ -73,9 +63,7 @@ export class QuestionService {
 
   getTotalQuestions(): Observable<number> {
     return this.http
-      .get<any>(`${environment.backend.backendUrl}/data/quizes`, {
-        headers: this.getHeaders(),
-      })
+      .get<any>(`${environment.backend.backendUrl}/data/quizes`)
       .pipe(
         map((response) => {
           if (

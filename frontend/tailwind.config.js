@@ -34,10 +34,15 @@ module.exports = {
       backgroundImage: {
         hopeone: "url('../public/images/bg/page_3_bg.png')",
         hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
-        hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
-        hopefour: "url('src/assets/images/page_11_31_bg.png')",
-        'bg-name': "url('/assets/images/bg-log-in.png')",
-      }
+        hopethree: "url('../public/images/bg/page_11_31_bg.png') ",
+        characblue: "url('../public/images/bg/page_33_34_blue.png') ",
+        characgreen: "url('../public/images/bg/page_33_34_green.png') ",
+        characorange: "url('../public/images/bg/page_33_34_orange.png') ",
+        characpurple: "url('../public/images/bg/page_33_34_purple.png') ",
+        characred: "url('../public/images/bg/page_33_34_red.png') ",
+        characyellow: "url('../public/images/bg/page_33_34_yellow.png') ",
+        hopelogin: "url('../public/images/bg/page_login_32_bg.png') ",
+      },
     },
   },
   daisyui: {

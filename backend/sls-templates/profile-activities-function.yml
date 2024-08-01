@@ -1,0 +1,28 @@
+profile-activities:
+  name: ${self:service}-profile-activities-${sls:stage}
+  handler: dist/main.handler
+  events:
+    - http:
+        method: GET
+        path: /profile-activities/
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: POST
+        path: /profile-activities/
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: ANY
+        path: /profile-activities/{any+}
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}

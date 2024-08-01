@@ -27,8 +27,23 @@ export class ProfilesService {
     return this.model.findById(id);
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto) {
-    return from(this.model.findByIdAndUpdate(id, updateProfileDto));
+  findByFbId(fbId: string) {
+    return this.model.findOne({
+      firebaseId: fbId
+    })
+  }
+
+  update(id: string, body: UpdateProfileDto) {
+    return from(this.model.findByIdAndUpdate(id, body));
+  }
+
+  updateByFbId(fbId: string, body: UpdateProfileDto) {
+    if (body.firebaseId) {
+      delete body.firebaseId;
+    }
+    return this.model.updateOne({
+      firebaseId: fbId
+    }, body);
   }
 
   remove(id: string) {

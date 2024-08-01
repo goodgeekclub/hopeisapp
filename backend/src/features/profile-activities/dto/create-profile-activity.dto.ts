@@ -31,4 +31,8 @@ export class CreateProfileActivityDto {
   @ApiProperty()
   @IsMongoId()
   profile: string;
+
+  @ApiProperty()
+  @IsMongoId()
+  missionId: string;
 }

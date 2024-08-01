@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { AuthService } from './services';
 import { environment } from '../environments/environment';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+
 
 @Component({
   selector: 'app-root',
@@ -21,10 +23,11 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 })
 export class AppComponent implements OnInit {
   title = 'frontend';
-
+  private analytics = inject(Analytics);
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    logEvent(this.analytics, 'screen_view');
     this.authService.getUserState().subscribe(async (user) => {
       if (!environment.production) {
         console.log(user);

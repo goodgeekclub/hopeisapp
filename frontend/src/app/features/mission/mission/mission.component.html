@@ -1,36 +1,48 @@
 <section class="w-full h-full relative">
     <app-background src="images/bg/page_35_bg.png" [isScrolling]="false"></app-background>
     <article class="w-full h-full flex flex-col items-center justify-between">
-        <div>Profile Img</div>
+        <div class="w-full flex justify-end p-2">
+            <svg-icon src="icons/profile.svg" [svgStyle]="{ 'width.px':30, 'height.px':30 }"
+                class="flex items-center"></svg-icon>
+        </div>
         <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="150px">
-        <div class="w-full">
-            <p class="text-center text-[18px] font-normal text-white absolute">100</p>
-            <p class="text-center text-[18px] font-normal text-white absolute">coins
+        <div class="w-full flex flex-col justify-center">
+            <img src="images/mission/rocket.png" alt="rocket" class="w-full">
+            <p class="text-center text-[30px] font-bold text-[#e6a342]">100</p>
+            <p class="text-center text-[16px] font-normal text-white">coins
                 จากการส่งมิชชั่นด้วยความตั้งใจของเธอ</p>
-            <img src="images/mission/rocket.png" alt="rocket" class="w-full relative">
         </div>
-        <div class="w-full relative">
-            <p class="text-center text-[18px] font-normal text-white absolute">10000</p>
-            <p class="text-center text-[18px] font-normal text-white absolute">coins จาก HopeRaiser Team
+        <div class="w-full bg-secondlevelcloud py-4 flex flex-col justify-center">
+            <p class="text-center text-[30px] font-bold text-[#e6a342]">10000</p>
+            <p class="text-center text-[16px] font-normal text-white">coins จาก HopeRaiser Team
                 ที่ตั้งใจทำภารกิจเพื่อรวบรวมทุนสนับสนุนให้กับมูลนิธิคนพิการ</p>
-            <img src="images/mission/second-lvl-cloud.png" alt="second-lvl-cloud" class="w-full -translate-y-10">
+            <!-- <img src="images/mission/second-lvl-cloud.png" alt="second-lvl-cloud" class="w-full -my-10"> -->
         </div>
-        <div class="w-full">
-            <p class="text-center text-[18px] font-normal text-white absolute">5000</p>
-            <p class="text-center text-[18px] font-normal text-white absolute">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team
+        <div class="w-full bg-thirdlevelcloud py-4 flex flex-col justify-center">
+            <p class="text-center text-[30px] font-bold text-[#e6a342]">5000</p>
+            <p class="text-center text-[16px] font-normal text-white">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team
                 ซึ่งกำลังเปล่งประกายแห่งความหวังร่วมกัน</p>
-            <p class="text-center text-[18px] font-normal text-white absolute">สำรวจแสงแห่งความหวังที่นี่</p>
-            <img src="images/mission/third-lvl-cloud.png" alt="third-lvl-cloud" class="w-full -translate-y-20 relative">
+            <p class="text-center text-[18px] font-normal text-[#96a4c2]">สำรวจแสงแห่งความหวังที่นี่</p>
+            <!-- <img src="images/mission/third-lvl-cloud.png" alt="third-lvl-cloud" class="w-full -my-10"> -->
         </div>
-        <div class="flex gap-4">
-            <p class="text-center text-[18px] font-normal text-white">รู้จัก Youth Talk: Hope is</p>
-            <div class="p-2 rounded-full bg-[#B3DBFF]">
-                <svg-icon src="icons/Instagram_Glyph_White.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }" class="flex items-center"></svg-icon>
-            </div>
-            <div class="p-2 rounded-full bg-[#B3DBFF]">
-                <svg-icon src="icons/globe.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }" class="flex items-center"></svg-icon>
+        <div class="w-full bg-forthlevelcloud flex flex-col justify-center py-4">
+            <!-- <img src="images/mission/forth-lvl-cloud.png" alt="forth-lvl-cloud" class="w-full -my-4"> -->
+            <div class="flex gap-4 justify-center">
+                <p class="text-center text-[18px] font-normal text-white">รู้จัก Youth Talk: Hope is</p>
+                <div class="flex gap-1">
+                    <div class="p-2 rounded-full bg-[#B3DBFF]">
+                        <svg-icon src="icons/Instagram_Glyph_Blue.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }"
+                            class="flex items-center"></svg-icon>
+                    </div>
+                    <div class="p-2 rounded-full bg-[#B3DBFF]">
+                        <svg-icon src="icons/globe.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }"
+                            class="flex items-center"></svg-icon>
+                    </div>
+                </div>
             </div>
         </div>
     </article>
-    <app-footer></app-footer>
+    <div class="bg-[#2A437C] w-full">
+        <app-footer></app-footer>
+    </div>
 </section>

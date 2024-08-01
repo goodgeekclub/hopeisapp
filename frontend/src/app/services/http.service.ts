@@ -12,15 +12,20 @@ export function authInjectInterceptor(
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const user = inject(Auth).currentUser;
+
+  const noAuthReq = req.clone({
+    setHeaders: {
+      'x-api-key': `${environment.backend.apiKey}`,
+    },
+  });
   
   if (user) {
     return from(user.getIdToken(true)).pipe(
       switchMap((token) => {
         if (token) {
-          const authReq = req.clone({
+          const authReq = noAuthReq.clone({
             setHeaders: {
               Authorization: `Bearer ${token}`,
-              'x-api-key': environment.backend.apiKey
             },
           });
           return next(authReq);
@@ -30,5 +35,5 @@ export function authInjectInterceptor(
       })
     );
   }
-  return next(req);
+  return next(noAuthReq);
 }

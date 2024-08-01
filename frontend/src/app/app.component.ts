@@ -5,11 +5,19 @@ import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { AuthService } from './services';
 import { environment } from '../environments/environment';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, SvgIconComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    SvgIconComponent,
+    LoadingBarRouterModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

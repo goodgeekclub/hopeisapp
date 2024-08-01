@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormControlDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalStorageService, ProfileService } from '../../../services';
 
 @Component({
   selector: 'app-name-input',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './name-input.component.html',
   styleUrls: ['./name-input.component.css'],
 })
 export class NameInputComponent implements OnInit {
   showModal: boolean = false;
-  inputNameValue: string = '';
+  inputNameValue = new FormControl<string>('', {
+    validators: [Validators.minLength(3),Validators.maxLength(10)]
+  });
 
   constructor(
     private profileService: ProfileService,
@@ -28,8 +30,8 @@ export class NameInputComponent implements OnInit {
   }
 
   saveToLocalStorage() {
-    if (this.inputNameValue && this.inputNameValue.trim() !== '') {
-      this.profileService.createProfile(this.inputNameValue);
+    if (this.inputNameValue.value && this.inputNameValue.value.trim() !== '') {
+      this.profileService.createProfile(this.inputNameValue.value);
       this.router.navigate(['/quiz/start']);
     }
   }
@@ -44,4 +46,5 @@ export class NameInputComponent implements OnInit {
     this.localStorageService.clear();
     this.showModal = false;
   }
+
 }

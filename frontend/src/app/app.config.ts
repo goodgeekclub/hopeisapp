@@ -21,7 +21,8 @@ import {
   UserTrackingService,
   getAnalytics,
   provideAnalytics,
-} from '@angular/fire/analytics';
+} from "@angular/fire/analytics";
+
 
 export const appConfig: ApplicationConfig = {
   providers: [

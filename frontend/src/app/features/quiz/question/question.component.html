@@ -1,21 +1,24 @@
-<div *ngIf="question$ | async as question" class="mx-4 flex flex-col items-center justify-center h-dvh">
-    <h2 class="text-xl text-center font-bold mb-6">{{ question.title }}</h2>
-    <div class="gap-6 flex-col md:flex-row flex items-center">
-        <div class="hidden md:flex">Strongly Agree</div>
-        <ul class="gap-3 flex items-center">
-            <li *ngFor="let option of question.choices; let i = index" class="">
-                <label class="label cursor-pointer">
-                    <input type="radio" [name]="'questionOptions' + question.id" [(ngModel)]="selectedOption"
-                        [value]="option" (change)="answerQuestion(option)"
-                        [ngStyle]="{ 'width.px': getOptionSize(i), 'height.px': getOptionSize(i) }"
-                        class="radio checked:bg-blue-500" />
-                </label>
-            </li>
-        </ul>
-        <div class="hidden md:flex">Strongly Disagree</div>
-        <div class="md:hidden w-full flex justify-between">
-            <div>Strongly Agree</div>
-            <div>Strongly Disagree</div>
+<div class="px-4 h-dvh font-db-helvethaica-x-base text-white/80 bg-hopethree bg-no-repeat bg-cover bg-center">
+    <div *ngIf="question$ | async as question" class="flex flex-col items-center justify-center h-full">
+        <h2 class="text-2xl text-center mx-12 mb-6 flex items-center">
+            {{ question.title }}
+        </h2>
+        <div class="gap-3 md:gap-6 flex-row flex items-center">
+            <div class="flex text-lg">น้อย</div>
+            <ul class="gap-0.5 md:gap-3 flex items-center">
+                <li *ngFor="let option of question.choices; let i = index">
+                    <label class="label cursor-pointer">
+                        <input type="radio" [name]="'questionOptions' + question.id" [(ngModel)]="selectedOption"
+                            [value]="option" (change)="answerQuestion(option)" [ngStyle]="{
+              'width.px': getOptionSize(i),
+              'height.px': getOptionSize(i),
+              'border-color': getOptionColor(i),
+              'background-color': selectedOption === option ? getOptionColor(i) : 'transparent'
+            }" class="radio border-2 transition-all ease-out duration-300" [disabled]="isDisabled" />
+                    </label>
+                </li>
+            </ul>
+            <div class="flex text-lg">มาก</div>
         </div>
     </div>
 </div>

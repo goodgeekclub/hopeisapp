@@ -30,10 +30,11 @@ export class ResultCharacterComponent {
 
   private setCharacterInfo(): void {
     let characterResult = characterMockData.find((character: Character) => {
-      return character.characterNameEn === this.character;
+      return character.characterNameTh === this.character;
     });
     if (characterResult) {
       this.characterData = characterResult;
     }
+    localStorage.clear();
   }
 }

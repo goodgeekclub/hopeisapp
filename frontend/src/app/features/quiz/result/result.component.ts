@@ -3,6 +3,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { ResultCharacterComponent } from './result-character/result-character.component';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-result',
@@ -23,7 +24,7 @@ export class ResultComponent implements OnInit {
   public isClikedToShowText = false;
   public character = '';
 
-  constructor() {}
+  constructor(private profileService: ProfileService) {}
   ngOnInit(): void {
     this.getResult();
   }
@@ -40,7 +41,11 @@ export class ResultComponent implements OnInit {
 
   private getResult(): void {
     setTimeout(() => {
-      this.hasResult = true;
+      const profile = this.profileService.getProfile();
+      if (profile) {
+        this.character = profile.characterType;
+        this.hasResult = true;
+      }
     }, 1000);
   }
 }

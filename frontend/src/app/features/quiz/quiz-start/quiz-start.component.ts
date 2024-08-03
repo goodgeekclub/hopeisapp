@@ -51,15 +51,6 @@ export class QuizStartComponent implements OnInit {
   }
 
   startQuiz() {
-    this.showModal = true;
-  }
-
-  confirmStart() {
-    this.showModal = false;
     this.router.navigate(['/quiz/question', this.currentQuestionId]);
-  }
-
-  cancelStart() {
-    this.showModal = false;
   }
 }

@@ -76,13 +76,13 @@ data "aws_iam_policy_document" "datadog_trust_policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::464622532012:root"] # DataDog Account ID
+      identifiers = ["arn:aws:iam::417141415827:root"] # DataDog Account ID AP1
     }
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
       values = [
-        "d8fc5733c2c940e485aea5e8d0bc563c" # Datadog External ID
+        "33125d070f0a4595a6afb5ef3c97170d" # Datadog External ID
       ]
     }
   }
@@ -97,98 +97,7 @@ resource "aws_iam_role" "datadog_role" {
   inline_policy {
     name = "${local.project_name}-datadog-integration-policy"
 
-    policy = jsonencode({
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Action = [
-            "apigateway:GET",
-            "autoscaling:Describe*",
-            "backup:List*",
-            "budgets:ViewBudget",
-            "cloudfront:GetDistributionConfig",
-            "cloudfront:ListDistributions",
-            "cloudtrail:DescribeTrails",
-            "cloudtrail:GetTrailStatus",
-            "cloudtrail:LookupEvents",
-            "cloudwatch:Describe*",
-            "cloudwatch:Get*",
-            "cloudwatch:List*",
-            "codedeploy:List*",
-            "codedeploy:BatchGet*",
-            "directconnect:Describe*",
-            "dynamodb:List*",
-            "dynamodb:Describe*",
-            "ec2:Describe*",
-            "ec2:GetTransitGatewayPrefixListReferences",
-            "ec2:SearchTransitGatewayRoutes",
-            "ecs:Describe*",
-            "ecs:List*",
-            "elasticache:Describe*",
-            "elasticache:List*",
-            "elasticfilesystem:DescribeFileSystems",
-            "elasticfilesystem:DescribeTags",
-            "elasticfilesystem:DescribeAccessPoints",
-            "elasticloadbalancing:Describe*",
-            "elasticmapreduce:List*",
-            "elasticmapreduce:Describe*",
-            "es:ListTags",
-            "es:ListDomainNames",
-            "es:DescribeElasticsearchDomains",
-            "events:CreateEventBus",
-            "fsx:DescribeFileSystems",
-            "fsx:ListTagsForResource",
-            "health:DescribeEvents",
-            "health:DescribeEventDetails",
-            "health:DescribeAffectedEntities",
-            "kinesis:List*",
-            "kinesis:Describe*",
-            "lambda:GetPolicy",
-            "lambda:List*",
-            "logs:DeleteSubscriptionFilter",
-            "logs:DescribeLogGroups",
-            "logs:DescribeLogStreams",
-            "logs:DescribeSubscriptionFilters",
-            "logs:FilterLogEvents",
-            "logs:PutSubscriptionFilter",
-            "logs:TestMetricFilter",
-            "organizations:Describe*",
-            "organizations:List*",
-            "rds:Describe*",
-            "rds:List*",
-            "redshift:DescribeClusters",
-            "redshift:DescribeLoggingStatus",
-            "route53:List*",
-            "s3:GetBucketLogging",
-            "s3:GetBucketLocation",
-            "s3:GetBucketNotification",
-            "s3:GetBucketTagging",
-            "s3:ListAllMyBuckets",
-            "s3:PutBucketNotification",
-            "ses:Get*",
-            "sns:List*",
-            "sns:Publish",
-            "sqs:ListQueues",
-            "states:ListStateMachines",
-            "states:DescribeStateMachine",
-            "support:DescribeTrustedAdvisor*",
-            "support:RefreshTrustedAdvisorCheck",
-            "tag:GetResources",
-            "tag:GetTagKeys",
-            "tag:GetTagValues",
-            "xray:BatchGetTraces",
-            "xray:GetTraceSummaries"
-          ],
-          Effect   = "Allow",
-          Resource = "*",
-          #"Condition" : {
-          #  "StringEquals" : {
-          #    "aws:RequestedRegion" : "ap-southeast-1"
-          #  }
-          #}
-        },
-      ]
-    })
+    policy = file("../backend/policy/iam-datadog-policy.json")
   }
 
   tags = local.common_tags

@@ -3,12 +3,10 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  BadRequestException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { from, Observable, switchMap } from 'rxjs';
-import { isValidObjectId } from 'mongoose';
 import { ProfilesService } from '../profiles/profiles.service';
 
 @Injectable()
@@ -21,16 +19,18 @@ export class FbProfilesInterceptor implements NestInterceptor {
       throw new UnauthorizedException();
     }
     return from(this.service.findByFbId(user.uid)).pipe(
-      switchMap(profile => {
+      switchMap((profile) => {
         if (profile) {
           // Add Profile to Request
           const req = context.switchToHttp().getRequest();
           req.profile = profile;
           return next.handle();
         } else {
-          throw new NotFoundException('User have not sync with profile id yet...');
+          throw new NotFoundException(
+            'User have not sync with profile id yet...',
+          );
         }
-      })
-    )
+      }),
+    );
   }
 }

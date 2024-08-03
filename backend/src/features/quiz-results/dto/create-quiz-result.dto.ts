@@ -1,8 +1,14 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsMongoId, IsNumber, IsObject, IsString, ValidateNested } from "class-validator";
-import { Character } from "src/models/character.model";
-import { QuizResult } from "src/schemas/quiz-result.schema";
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import {
+  IsMongoId,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Character } from 'src/models/character.model';
 
 export class CreateQuizResultDto {
   @ApiProperty()
@@ -21,5 +27,6 @@ export class CreateQuizResultDto {
 
   @ApiProperty()
   @IsMongoId()
-  profileId: string;
+  @IsOptional()
+  profileId?: string;
 }

@@ -1,12 +1,19 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProfileActivityDto } from './dto/create-profile-activity.dto';
 import { UpdateProfileActivityDto } from './dto/update-profile-activity.dto';
-import { ActivityStatus, ProfileActivity } from 'src/schemas/profile-activity.schema';
+import {
+  ActivityStatus,
+  ProfileActivity,
+} from 'src/schemas/profile-activity.schema';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon';
 import { ProfilesService } from '../profiles/profiles.service';
 import { DataService } from '../data/data.service';
 import { Mission } from 'src/models/mission.model';
@@ -14,7 +21,8 @@ import { Mission } from 'src/models/mission.model';
 export class ProfileActivitiesService {
   constructor(
     private profilesService: ProfilesService,
-    @InjectModel(COLLECTION_NAME.PROFILE_ACTIVITIES) private model: Model<ProfileActivity>,
+    @InjectModel(COLLECTION_NAME.PROFILE_ACTIVITIES)
+    private model: Model<ProfileActivity>,
     private dataService: DataService,
   ) {}
   async create(dto: CreateProfileActivityDto) {
@@ -29,7 +37,9 @@ export class ProfileActivitiesService {
     if (!profile) {
       throw new BadRequestException(`profile ${dto.profile} does not existed`);
     }
-    const mission = await this.dataService.getModel().findById<Mission>(dto.missionId);
+    const mission = await this.dataService
+      .getModel()
+      .findById<Mission>(dto.missionId);
     if (!mission) {
       throw new BadRequestException(`mission ${dto.profile} does not existed`);
     }
@@ -46,11 +56,12 @@ export class ProfileActivitiesService {
     const find = this.model.find();
     find.limit(options?.limit);
     find.skip(options?.skip);
-    find.sort({ createdAt: 'asc' })
-    return this.model.find().exec();  }
+    find.sort({ createdAt: 'asc' });
+    return this.model.find().exec();
+  }
 
   findOne(id: string) {
-    return this.model.findById(id).then(activity => {
+    return this.model.findById(id).then((activity) => {
       if (!activity) {
         throw new NotFoundException('ProfileActivity does not existed');
       }
@@ -59,8 +70,8 @@ export class ProfileActivitiesService {
 
   ListbyPId(pid: string) {
     return this.model.find({
-      profile: pid, 
-    })
+      profile: pid,
+    });
   }
 
   update(id: string, updateProfileActivityDto: UpdateProfileActivityDto) {

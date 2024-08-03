@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProfileActivitiesService } from './profile-activities.service';
 import { CreateProfileActivityDto } from './dto/create-profile-activity.dto';
 import { UpdateProfileActivityDto } from './dto/update-profile-activity.dto';
@@ -10,7 +18,9 @@ import { Auth } from 'src/decorators/auth.docorator';
 @Auth(AuthRole.Admin)
 @Controller('profile-activities')
 export class ProfileActivitiesController {
-  constructor(private readonly profileActivitiesService: ProfileActivitiesService) {}
+  constructor(
+    private readonly profileActivitiesService: ProfileActivitiesService,
+  ) {}
 
   @Post()
   create(@Body() createProfileActivityDto: CreateProfileActivityDto) {
@@ -19,7 +29,7 @@ export class ProfileActivitiesController {
 
   @Get()
   findAll(@QueryOptions() options: QueryOptionsDto) {
-    return this.profileActivitiesService.findAll();
+    return this.profileActivitiesService.findAll(options);
   }
 
   @Get(':id')
@@ -28,7 +38,10 @@ export class ProfileActivitiesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileActivityDto: UpdateProfileActivityDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProfileActivityDto: UpdateProfileActivityDto,
+  ) {
     return this.profileActivitiesService.update(id, updateProfileActivityDto);
   }
 

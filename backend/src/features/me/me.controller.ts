@@ -78,4 +78,10 @@ export class MeController {
     body.profile = profile._id;
     return this.meService.updateActivity(profile._id, id, body);
   }
+
+  @Post()
+  @UseInterceptors(FbProfilesInterceptor)
+  createMission(@ProfileUser() profile) {
+    return profile;
+  }
 }

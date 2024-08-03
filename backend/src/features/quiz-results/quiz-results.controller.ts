@@ -19,7 +19,6 @@ export class QuizResultsController {
 
   @Get()
   findAll(@QueryOptions() options: QueryOptionsDto) {
-    console.log(options);
     return this.quizResultsService.findAll(options);
   }
 

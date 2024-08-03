@@ -4,6 +4,7 @@ import {
   IsMongoId,
   IsNumber,
   IsObject,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -26,5 +27,6 @@ export class CreateQuizResultDto {
 
   @ApiProperty()
   @IsMongoId()
-  profileId: string;
+  @IsOptional()
+  profileId?: string;
 }

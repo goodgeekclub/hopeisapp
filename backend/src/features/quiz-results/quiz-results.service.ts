@@ -20,9 +20,11 @@ export class QuizResultsService {
   ) {}
   async create(body: CreateQuizResultDto) {
     const quizResult = new this.model(body);
-    const profile = await this.profileService.findOne(body.profileId);
-    if (!profile) {
-      throw new BadRequestException('Profile does not existed');
+    if (body.profileId) {
+      const profile = await this.profileService.findOne(body.profileId);
+      if (!profile) {
+        throw new BadRequestException('Profile does not existed');
+      }
     }
     return from(quizResult.save());
   }

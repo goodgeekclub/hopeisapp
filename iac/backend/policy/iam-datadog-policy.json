@@ -81,12 +81,7 @@
                 "xray:GetTraceSummaries"
             ],
             "Effect": "Allow",
-            "Resource": "*",
-            "Condition": {
-                "StringEquals": {
-                    "aws:RequestedRegion": "ap-southeast-1"
-                }
-            }
+            "Resource": "*"
         }
     ]
 }

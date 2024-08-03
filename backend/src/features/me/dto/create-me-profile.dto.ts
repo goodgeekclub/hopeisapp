@@ -8,5 +8,5 @@ export class CreateMeProfileDto {
 
   @IsMongoId()
   @ApiProperty()
-  profileId: string;
+  quizResultId: string;
 }

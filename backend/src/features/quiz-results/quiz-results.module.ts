@@ -8,5 +8,6 @@ import { ProfilesModule } from '../profiles/profiles.module';
   imports: [mongooseConnection.quizResults, ProfilesModule],
   controllers: [QuizResultsController],
   providers: [QuizResultsService],
+  exports: [QuizResultsService],
 })
 export class QuizResultsModule {}

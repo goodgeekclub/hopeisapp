@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class Character {
   @ApiProperty()
@@ -16,9 +16,17 @@ export class Character {
 
   @ApiProperty()
   @IsString()
+  ability: string;
+
+  @ApiProperty()
+  @IsString()
   detail: string;
 
   @ApiProperty()
   @IsString()
   photoUrl: string;
+
+  @ApiProperty()
+  @IsArray()
+  natures: string[];
 }

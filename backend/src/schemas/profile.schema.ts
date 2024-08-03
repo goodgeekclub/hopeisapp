@@ -1,7 +1,8 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as mSchema } from 'mongoose';
 import { Character } from 'src/models/character.model';
+import { QuizResult } from './quiz-result.schema';
 
 @Schema()
 class MetaData {
@@ -32,11 +33,7 @@ export class Profile {
 
   @Prop()
   @ApiProperty({ example: 'first_name' })
-  firstName?: string;
-
-  @Prop()
-  @ApiProperty({ example: 'last_name' })
-  lastName?: string;
+  fullName?: string;
 
   @Prop()
   @ApiProperty({ example: 'example@mail.com' })
@@ -67,6 +64,9 @@ export class Profile {
 
   @Prop({ type: Character, required: true })
   character: Character;
+
+  @Prop({ type: mSchema.Types.ObjectId, ref: 'quiz-results' })
+  quizResult: QuizResult;
 }
 
 export type ProfileDocument = HydratedDocument<Profile>;

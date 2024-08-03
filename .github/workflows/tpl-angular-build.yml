@@ -4,6 +4,9 @@ on:
       environment:
         required: true
         type: string
+      buildPath:
+        type: string
+        default: dist/frontend
 
 jobs:
   build:
@@ -31,9 +34,6 @@ jobs:
           echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
       - name: Build
         run: npm run build:prod
-      - name: debug
-        run: |
-          ls -al dist
       - uses: actions/upload-artifact@master
         with:
           name: dist

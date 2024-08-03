@@ -41,5 +41,5 @@ jobs:
           ls -l dist
       - uses: actions/upload-artifact@master
         with:
-          name: dist-${{github.sha}}
+          name: dist-frontend-${{ github.sha }}
           path: frontend/dist

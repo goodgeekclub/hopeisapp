@@ -19,7 +19,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@master
         with:
-          name: dist
+          name: dist-backend-${{ github.sha }}
           path: backend/dist
       - name: Install dependencies
         run: npm ci

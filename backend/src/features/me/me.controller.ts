@@ -29,8 +29,7 @@ export class MeController {
 
   @Post('profile')
   async createProfile(@AuthUser() authUser, @Body() body: CreateMeProfileDto) {
-    console.log(body);
-    return this.meService.createProfile(body.profileId, authUser.uid);
+    return this.meService.createProfile(body.quizResultId, authUser);
   }
 
   @Get('profile')
@@ -40,7 +39,6 @@ export class MeController {
   }
 
   @Patch('profile')
-  @UseInterceptors(FbProfilesInterceptor)
   async updateProfile(@AuthUser() authUser, @Body() body: UpdateProfileDto) {
     return this.meService.updateProfile(authUser.uid, body);
   }

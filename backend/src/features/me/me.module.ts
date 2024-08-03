@@ -4,9 +4,15 @@ import { MeService } from './me.service';
 import { ProfilesModule } from '../profiles/profiles.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { ProfileActivitiesModule } from '../profile-activities/profile-activities.module';
+import { QuizResultsModule } from '../quiz-results/quiz-results.module';
 
 @Module({
-  imports: [AuthModule, ProfilesModule, ProfileActivitiesModule],
+  imports: [
+    AuthModule,
+    ProfilesModule,
+    ProfileActivitiesModule,
+    QuizResultsModule,
+  ],
   controllers: [MeController],
   providers: [MeService],
 })

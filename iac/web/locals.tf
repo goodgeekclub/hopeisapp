@@ -6,7 +6,8 @@ locals {
 
 locals {
   common_tags = {
-    project-name = local.project_name
+    Project = local.project_name
+    Environment = var.environment
   }
 
   buckets = {

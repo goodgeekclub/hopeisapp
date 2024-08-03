@@ -30,9 +30,3 @@ jobs:
           echo '${{ secrets.FIREBASE_KEY }}' > firebase-service-key.json
       - name: Build
         run: npm run build
-      - name: Upload artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: dist
-          path: |
-            backend/dist

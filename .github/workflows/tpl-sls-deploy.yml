@@ -19,7 +19,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@master
         with:
-          name: dist_sls
+          name: dist
           path: backend/dist
       - name: Install dependencies
         run: npm ci

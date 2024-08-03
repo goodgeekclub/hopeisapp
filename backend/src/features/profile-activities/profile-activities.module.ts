@@ -9,8 +9,6 @@ import { DataModule } from '../data/data.module';
   imports: [mongooseConnection.profileActivities, ProfilesModule, DataModule],
   controllers: [ProfileActivitiesController],
   providers: [ProfileActivitiesService],
-  exports: [
-    ProfileActivitiesService
-  ]
+  exports: [ProfileActivitiesService],
 })
 export class ProfileActivitiesModule {}

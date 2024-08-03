@@ -7,6 +7,6 @@ import { mongooseConnection } from 'src/configs/mongoose.config';
   imports: [mongooseConnection.profiles],
   controllers: [ProfilesController],
   providers: [ProfilesService],
-  exports: [ProfilesService]
+  exports: [ProfilesService],
 })
 export class ProfilesModule {}

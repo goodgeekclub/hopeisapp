@@ -1,8 +1,15 @@
-import { BadRequestException, Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UpdateCustomClaimDto } from './dto/update-custom-claim.dto';
 import { UpdateUserCustomClaimDto } from './dto/update-user-custom-claim.dto';
-import { isEmail } from 'class-validator';
 
 /**
  * Auth Controller no deploy on public server
@@ -31,7 +38,7 @@ export class AuthController {
 
   @Put('users/:uid/custom-claim')
   setUserCustomClaim(@Param('uid') uid, @Body() body: UpdateCustomClaimDto) {
-    return this.authService.setCustomClaim({uid}, body);
+    return this.authService.setCustomClaim({ uid }, body);
   }
 
   @Put('custom-claim')
@@ -39,9 +46,7 @@ export class AuthController {
     if (!body.email && !body.uid) {
       throw new BadRequestException('Need email or uid');
     }
-    const { email , uid } = body;
+    const { email, uid } = body;
     return this.authService.setCustomClaim({ email, uid }, body.data);
   }
-
-
 }

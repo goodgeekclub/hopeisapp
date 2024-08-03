@@ -50,7 +50,11 @@ export class Profile {
   @ApiProperty({ example: new Date() })
   birthday?: Date;
 
-  @Prop({ type: MetaDataSchema, required: true, default: { totalCoin: 0, missionSuccess: 0 } })
+  @Prop({
+    type: MetaDataSchema,
+    required: true,
+    default: { totalCoin: 0, missionSuccess: 0 },
+  })
   metadata: MetaData;
 
   @Prop()

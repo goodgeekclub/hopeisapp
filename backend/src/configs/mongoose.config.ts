@@ -10,7 +10,7 @@ export const COLLECTION_NAME = {
   PROFILE: 'profiles',
   DATA: 'dataset',
   QUIZ_RESULT: 'quiz-results',
-  PROFILE_ACTIVITIES: 'profile-activities'
+  PROFILE_ACTIVITIES: 'profile-activities',
 };
 
 export const mongooseConnection = {

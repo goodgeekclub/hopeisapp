@@ -1,4 +1,4 @@
-const serviceAccount = require('../../firebase-service-key.json');
+import serviceAccount from '../../firebase-service-key.json';
 import { credential } from 'firebase-admin';
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,

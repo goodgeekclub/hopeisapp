@@ -29,8 +29,8 @@ export class ProfilesService {
 
   findByFbId(fbId: string) {
     return this.model.findOne({
-      firebaseId: fbId
-    })
+      firebaseId: fbId,
+    });
   }
 
   update(id: string, body: UpdateProfileDto) {
@@ -41,9 +41,12 @@ export class ProfilesService {
     if (body.firebaseId) {
       delete body.firebaseId;
     }
-    return this.model.updateOne({
-      firebaseId: fbId
-    }, body);
+    return this.model.updateOne(
+      {
+        firebaseId: fbId,
+      },
+      body,
+    );
   }
 
   remove(id: string) {

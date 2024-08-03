@@ -1,8 +1,8 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { ApiProperty } from "@nestjs/swagger";
-import { Character } from "src/models/character.model";
-import { HydratedDocument, Schema as mSchema } from "mongoose";
-import { Profile } from "./profile.schema";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
+import { Character } from 'src/models/character.model';
+import { HydratedDocument, Schema as mSchema } from 'mongoose';
+import { Profile } from './profile.schema';
 
 @Schema({
   timestamps: true,
@@ -22,7 +22,7 @@ export class QuizResult {
 
   @Prop({ type: mSchema.Types.ObjectId, ref: 'profile' })
   @ApiProperty()
-  profile: string | Profile
+  profile: string | Profile;
 }
 
 export type QuizResultDocument = HydratedDocument<QuizResult>;

@@ -66,7 +66,10 @@ export class DataController {
   }
 
   @Patch('missions/:id')
-  updateMission(@Param('id') id: string, @Body() updateMission: UpdateMissionDto) {
+  updateMission(
+    @Param('id') id: string,
+    @Body() updateMission: UpdateMissionDto,
+  ) {
     return this.dataService.update(id, updateMission);
   }
 
@@ -76,7 +79,10 @@ export class DataController {
   }
 
   @Patch('characters/:id')
-  updateCharacter(@Param('id') id: string, @Body() updateCharacter: UpdateCharacterDto) {
+  updateCharacter(
+    @Param('id') id: string,
+    @Body() updateCharacter: UpdateCharacterDto,
+  ) {
     return this.dataService.update(id, updateCharacter);
   }
 

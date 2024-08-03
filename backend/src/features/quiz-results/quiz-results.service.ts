@@ -1,6 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
-import { UpdateQuizResultDto } from './dto/update-quiz-result.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
 import { Model } from 'mongoose';
@@ -28,15 +31,18 @@ export class QuizResultsService {
     const find = this.model.find();
     find.limit(options?.limit);
     find.skip(options?.skip);
-    find.sort({ createdAt: 'asc' })
+    find.sort({ createdAt: 'asc' });
     return this.model.find().exec();
   }
 
   findOne(id: string) {
-    return this.model.findById(id).populate('profile').then(profile => {
-      if (!profile) {
-        throw new NotFoundException('Profile does not existed');
-      }
-    });
+    return this.model
+      .findById(id)
+      .populate('profile')
+      .then((profile) => {
+        if (!profile) {
+          throw new NotFoundException('Profile does not existed');
+        }
+      });
   }
 }

@@ -10,7 +10,7 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
-
+import { AuthGuard } from './auth.guard'
 export const routes: Routes = [
   {
     path: '',
@@ -21,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'admin-console',
     component: AdminConsole,
+    canActivate: [AuthGuard],
   },
   {
     path: 'quiz',

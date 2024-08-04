@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthRole } from 'src/auth/auth.guard';
@@ -16,6 +17,7 @@ import { CreateMeProfileDto } from './dto/create-me-profile.dto';
 import { FbProfilesInterceptor } from './fb-profiles.interceptor';
 import { ProfileUser } from 'src/decorators/profile-user.decorator';
 import { UpdateMeActivityDto } from './dto/update-me-activity.dto';
+import { ListActivityQuery } from './dto/list-activity-query';
 
 @Controller('me')
 @Auth(AuthRole.User)
@@ -45,19 +47,20 @@ export class MeController {
 
   @Get('activities')
   @UseInterceptors(FbProfilesInterceptor)
-  listActivities(@ProfileUser() profile) {
-    return this.meService.listActivities(profile._id);
+  listActivities(@ProfileUser() profile, @Query() query?: ListActivityQuery) {
+    return this.meService.listActivities(profile._id, query);
   }
 
   @Post('activities')
   @UseInterceptors(FbProfilesInterceptor)
-  createActivity(
-    @ProfileUser() profile,
-    @Param('id') id,
-    @Body() body: UpdateMeActivityDto,
-  ) {
-    body.profile = profile._id;
-    return this.meService.createActivity(body);
+  createActivity(@ProfileUser() profile) {
+    return this.meService.createActivity(profile);
+  }
+
+  @Get('activities/active')
+  @UseInterceptors(FbProfilesInterceptor)
+  getActiveActivities(@ProfileUser() profile) {
+    return this.meService.getActiveActivity(profile._id);
   }
 
   @Get('activities/:id')
@@ -75,11 +78,5 @@ export class MeController {
   ) {
     body.profile = profile._id;
     return this.meService.updateActivity(profile._id, id, body);
-  }
-
-  @Post()
-  @UseInterceptors(FbProfilesInterceptor)
-  createMission(@ProfileUser() profile) {
-    return profile;
   }
 }

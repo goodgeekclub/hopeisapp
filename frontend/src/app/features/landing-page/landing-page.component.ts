@@ -15,6 +15,7 @@ export class LandingPageComponent {
   ig_link : string = "http://ig";
   website_link : string = "http/website";
   mission_link : string = "";
+  let_do_the_test_link : string = "";
   
   ngOnInit () {
     this.total_users = this.numberToKString(50000);

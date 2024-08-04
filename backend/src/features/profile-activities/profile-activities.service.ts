@@ -1,3 +1,4 @@
+import { query } from 'express';
 import {
   BadRequestException,
   Injectable,
@@ -17,6 +18,7 @@ import { DateTime } from 'luxon';
 import { ProfilesService } from '../profiles/profiles.service';
 import { DataService } from '../data/data.service';
 import { Mission } from 'src/models/mission.model';
+import { ListActivityQuery } from './dto/list-activity-query';
 @Injectable()
 export class ProfileActivitiesService {
   constructor(
@@ -54,12 +56,12 @@ export class ProfileActivitiesService {
     return this.model;
   }
 
-  findAll(options?: QueryOptionsDto) {
-    const find = this.model.find();
-    find.limit(options?.limit);
+  findAll(options?: QueryOptionsDto, query?: ListActivityQuery) {
+    const find = this.model.find(query);
+    find.limit(options?.limit || 5);
     find.skip(options?.skip);
     find.sort({ createdAt: 'asc' });
-    return this.model.find().exec();
+    return find.exec();
   }
 
   findOne(id: string) {

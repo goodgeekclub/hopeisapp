@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './localstorage.service';
-import { QuestionService, Choice } from './question.service';
+import { QuestionService } from './question.service';
+import { CharacterService } from './character.service';
 
 interface Answer {
   questionId: number;
@@ -26,7 +27,8 @@ export class ProfileService {
 
   constructor(
     private storageService: LocalStorageService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private characterService: CharacterService
   ) {}
 
   createProfile(userName: string): void {
@@ -59,7 +61,6 @@ export class ProfileService {
 
         if (question) {
           const choice = question.choices.find((c) => c.title === choiceTitle);
-
           if (choice) {
             const existingAnswerIndex = profile.answers.findIndex(
               (answer) => answer.questionId === questionId
@@ -79,8 +80,6 @@ export class ProfileService {
               profile.answers.push(answer);
             }
 
-            this.updateProfile(profile);
-
             const highestScoreType = this.getHighestScoreType();
             if (highestScoreType) {
               profile.characterType = highestScoreType.type;
@@ -94,8 +93,6 @@ export class ProfileService {
           } else {
             console.error(`Choice with title ${choiceTitle} not found.`);
           }
-        } else {
-          console.error(`Question with id ${questionId} not found.`);
         }
       } catch (error) {
         console.error(`Failed to fetch question: ${error}`);
@@ -116,16 +113,20 @@ export class ProfileService {
     return profile ? profile.currentQuestionId : 1;
   }
 
-  getScores(): { [key: string]: number } {
+  getScores(): { [key: string]: { scores: number[]; total: number } } {
     const profile = this.getProfile();
     if (profile) {
       return profile.answers.reduce((acc, answer) => {
         if (!acc[answer.type]) {
-          acc[answer.type] = 0;
+          acc[answer.type] = { scores: [0, 0, 0, 0, 0], total: 0 };
         }
-        acc[answer.type] += answer.score;
+        const scoreIndex = answer.questionId - 1;
+        if (scoreIndex >= 0 && scoreIndex < 5) {
+          acc[answer.type].scores[scoreIndex] = answer.score;
+        }
+        acc[answer.type].total += answer.score;
         return acc;
-      }, {} as { [key: string]: number });
+      }, {} as { [key: string]: { scores: number[]; total: number } });
     }
     return {};
   }
@@ -135,13 +136,13 @@ export class ProfileService {
     let highestScore = 0;
     const highestTypes: { type: string; score: number }[] = [];
 
-    for (const [type, score] of Object.entries(scores)) {
-      if (score > highestScore) {
-        highestScore = score;
+    for (const [type, scoreData] of Object.entries(scores)) {
+      if (scoreData.total > highestScore) {
+        highestScore = scoreData.total;
         highestTypes.length = 0;
-        highestTypes.push({ type, score });
-      } else if (score === highestScore) {
-        highestTypes.push({ type, score });
+        highestTypes.push({ type, score: scoreData.total });
+      } else if (scoreData.total === highestScore) {
+        highestTypes.push({ type, score: scoreData.total });
       }
     }
 

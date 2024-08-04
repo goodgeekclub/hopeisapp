@@ -1,9 +1,7 @@
 <div
-  class="bg-hopelanding background w-full md:h-dvh
-       text-white font-db-helvethaica-x-base"
+  class="bg-hopelanding background w-full h-dvh text-white font-db-helvethaica-x-base"
 >
-  <div class="flex flex-col items-center py-6
-              ">
+  <div class="flex flex-col items-center py-6">
     <img
       width="65"
       height="65"
@@ -18,9 +16,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-2 grid-row-4 ml-10 mr-5 
-              leading-4 text-xl
-              mb-auto">
+  <div class="grid grid-cols-2 grid-row-4 ml-10 mr-5 leading-4 text-xl mb-auto">
     <div class="my-auto text-left py-6">
       <p>หยุดนิ่งเพียง 5 นาที</p>
       <p>เพื่อรู้จักตัวตนของเราให้มากขึ้น</p>
@@ -34,7 +30,7 @@
     </button>
 
     <div class="text-left py-5">
-      <p class="super-bold text-7xl">{{total_users}}</p>
+      <p class="super-bold text-7xl">{{ total_users }}</p>
       <p>ค้นพบตัวตน</p>
       <p>ของตนเองเเล้ว</p>
     </div>
@@ -42,7 +38,9 @@
     <div></div>
 
     <div class="text-blue-900 text-center mb-0">
-      <p class="text-orange-500 super-bold text-7xl leading-10">{{total_hope_risers}}</p>
+      <p class="text-orange-500 super-bold text-7xl leading-10">
+        {{ total_hope_risers }}
+      </p>
       <h1 class="font-black text-2xl">HOPERAISER</h1>
 
       <div class="my-4 leading-6">
@@ -52,10 +50,9 @@
       </div>
 
       <button
-        class="hover:bg-red-400 rounded-full btn bg-red-700 
-                text-white text-2xl"
+        class="hover:bg-red-400 rounded-full btn bg-red-700 text-white text-2xl"
       >
-        <a href={{mission_link}}>ทำภารกิจด้วยกัน!</a>
+        <a href="{{ mission_link }}">ทำภารกิจด้วยกัน!</a>
       </button>
     </div>
 
@@ -66,13 +63,13 @@
         ก็เพื่อรวมกันให้ได้เเสงสว่างที่สุด
       </p>
 
-      <div class="flex my-2">
+      <div class="flex my-2 pb-28">
         <p class="my-2 mr-2">
           เเชร์หน้านี้ให้คนที่คุณอยากให้มาเปล่งประกายด้วยกัน
         </p>
 
         <button class="svg-button">
-          <a href="{{share_link}}">
+          <a href="{{ share_link }}">
             <svg
               class="w-5 h-5"
               viewBox="0 -0.5 25 25"
@@ -103,14 +100,12 @@
     </div>
   </div>
 
-  <div class="text-white text-center 
-                fixed bottom-0 font-thin w-full
-                mt-auto">
+  <div class="text-white text-center fixed bottom-0 font-thin w-full mt-auto">
     <div class="bg-blue-500 w-full py-2 flex justify-center items-center gap-2">
       <p>รู้จัก youth talk : Hope is</p>
       <!-- instragram icon -->
       <button class="svg-button">
-        <a href={{ig_link}}>
+        <a href="{{ ig_link }}">
           <svg
             class="w-5 h-5"
             id="Layer_1"
@@ -127,7 +122,7 @@
       </button>
 
       <button class="svg-button">
-        <a href={{website_link}}>
+        <a href="{{ website_link }}">
           <svg
             class="w-5 h-5"
             viewBox="0 0 24 24"
@@ -164,30 +159,17 @@
     </div>
     <div class="bg-blue-950 w-full flex justify-end p-2">
       <div class="flex gap-2">
-        <button>
-          <a href={{goodgeek_link}}>
-            <img
-              width="30"
-              height="30"
-              src="/images/goodgeeklogo-256.png"
-              alt=""
-            />
-          </a>
-        </button>
+        <img width="30" height="30" src="/images/goodgeeklogo-256.png" alt="" />
         <!-- GoodGeek icon -->
-        <button>
-          <a href={{youth_link}}>
-            <img
-              width="30"
-              height="30"
-              src="/images/logo-white-square.png"
-              alt=""
-            />
-          </a>
-        </button>
+
+        <img
+          width="30"
+          height="30"
+          src="/images/logo-white-square.png"
+          alt=""
+        />
         <!-- youth icon -->
       </div>
     </div>
   </div>
-  
 </div>

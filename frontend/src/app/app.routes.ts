@@ -10,6 +10,7 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,7 @@ export const routes: Routes = [
   {
     path: 'mission',
     component: MissionComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

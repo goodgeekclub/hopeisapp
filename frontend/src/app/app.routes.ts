@@ -10,6 +10,7 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,11 @@ export const routes: Routes = [
         component: ResultComponent,
       },
     ],
+  },
+  {
+    path: 'landing-page',
+    component: LandingPageComponent,
+    pathMatch: 'full',
   },
   {
     path: 'world-explore',

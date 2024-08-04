@@ -61,25 +61,65 @@ export class WorldExploreComponent implements OnInit{
        
        const background = new PIXI.Sprite(BackgroundTexture);
        
-      background.scale.set(0.3);
+       if (window.innerWidth < 1900 && window.innerWidth > 800) { 
+      background.scale.set(0.4);
+      background.x = 230;
+       }
+       else if (window.innerWidth < 800)
+       {
+        background.scale.set(0.3);
+        background.x = 1;
+       }
+       else {
+        background.scale.set(0.3);
+        background.x = 800;
+       }
       
        app.stage.addChild(background);
 
        const layer1 = new PIXI.Sprite(layer1Texture);
        
-       if (window.innerWidth < 420) {
-       layer1.scale.set(0.5);
-       layer1.x = -2;
-       layer1.y = 760;
-       app.stage.addChild(layer1);
+       if (window.innerWidth < 1900 && window.innerWidth > 600) { 
+       layer1.scale.set(0.9);
+       layer1.x = 200;
+       layer1.y = 1300;
        }
+       else if (window.innerWidth < 600)
+       {
+        layer1.scale.set(0.5);
+       layer1.x = -2;
+       layer1.y = 700;
+       }
+       else {
+        layer1.scale.set(0.6);
+        layer1.x = 800;
+        layer1.y = 870;
+       }
+       app.stage.addChild(layer1);
+       
        
 
        const rocket = new PIXI.Sprite(RocketTexture);
+
+       if (window.innerWidth < 1900 && window.innerWidth > 800) { 
        rocket.scale.set(0.3);
        rocket.anchor.set(0.5);
        rocket.x = app.screen.width / 2;
+       rocket.y = 1400;
+       }
+       else if (window.innerWidth < 800)
+       {
+        rocket.scale.set(0.5);
+       rocket.anchor.set(0.5);
+       rocket.x = app.screen.width / 2;
        rocket.y = 760;
+       }
+       else{
+        rocket.scale.set(0.3);
+       rocket.anchor.set(0.5);
+       rocket.x = app.screen.width / 2;
+       rocket.y = 870;
+       }
        app.stage.addChild(rocket);
 
       
@@ -98,11 +138,9 @@ export class WorldExploreComponent implements OnInit{
           if (this.usersProcessed < this.users.length) {
             this.usersProcessed += this.batchSize;
 
-            // Continue moving until all users are processed or the destination is reached
+           
             requestAnimationFrame(moveRocket);
-          } else {
-            console.log('All users processed.');
-          }
+          } 
         };
         moveRocket();
       };

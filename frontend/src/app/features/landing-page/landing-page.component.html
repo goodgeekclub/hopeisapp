@@ -70,8 +70,8 @@
           เเชร์หน้านี้ให้คนที่คุณอยากให้มาเปล่งประกายด้วยกัน
         </p>
 
-        <button class="svg-button">
-          <a href="{{ share_link }}">
+        <button class="svg-button"
+                (click)="onClick()">
             <svg
               class="w-5 h-5"
               viewBox="0 -0.5 25 25"
@@ -96,7 +96,6 @@
                 ></path>
               </g>
             </svg>
-          </a>
         </button>
       </div>
     </div>

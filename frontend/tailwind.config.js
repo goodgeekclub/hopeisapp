@@ -45,8 +45,9 @@ module.exports = {
         characred: "url('../public/images/bg/page_33_34_red.png') ",
         characyellow: "url('../public/images/bg/page_33_34_yellow.png') ",
         hopelogin: "url('../public/images/bg/page_login_32_bg.png') ",
-        hopelading: "url('../public/images/bg/page_landing_bg.png')",
+        hopelanding: "url('../public/images/bg/page_landing_bg.png')",
       },
+      
     },
   },
   daisyui: {

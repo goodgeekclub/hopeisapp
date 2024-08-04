@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormControl, FormControlDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormControlDirective,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { LocalStorageService, ProfileService } from '../../../services';
 
 @Component({
@@ -14,7 +20,7 @@ import { LocalStorageService, ProfileService } from '../../../services';
 export class NameInputComponent implements OnInit {
   showModal: boolean = false;
   inputNameValue = new FormControl<string>('', {
-    validators: [Validators.minLength(3),Validators.maxLength(10)]
+    validators: [Validators.minLength(3), Validators.maxLength(10)],
   });
 
   constructor(
@@ -32,7 +38,7 @@ export class NameInputComponent implements OnInit {
   saveToLocalStorage() {
     if (this.inputNameValue.value && this.inputNameValue.value.trim() !== '') {
       this.profileService.createProfile(this.inputNameValue.value);
-      this.router.navigate(['/quiz/start']);
+      this.router.navigate(['/story']);
     }
   }
 
@@ -46,5 +52,4 @@ export class NameInputComponent implements OnInit {
     this.localStorageService.clear();
     this.showModal = false;
   }
-
 }

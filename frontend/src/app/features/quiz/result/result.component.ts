@@ -24,9 +24,12 @@ export class ResultComponent implements OnInit {
   public isClikedToShowText = false;
   public character = '';
 
+  profile: any;
+
   constructor(private profileService: ProfileService) {}
   ngOnInit(): void {
-    this.getResult();
+    this.profile = JSON.parse('');
+    // this.getResult();
   }
 
   public showResult(): void {
@@ -41,9 +44,9 @@ export class ResultComponent implements OnInit {
 
   private getResult(): void {
     setTimeout(() => {
-      const profile = this.profileService.getProfile();
-      if (profile) {
-        this.character = profile.characterType;
+      this.profile = this.profileService.getProfile();
+      if (this.profile) {
+        this.character = this.profile.characterType;
         this.hasResult = true;
       }
     }, 1000);

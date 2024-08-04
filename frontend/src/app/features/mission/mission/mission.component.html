@@ -1,48 +1,168 @@
-<section class="w-full h-full relative">
-    <app-background src="images/bg/page_35_bg.png" [isScrolling]="false"></app-background>
-    <article class="w-full h-full flex flex-col items-center justify-between">
-        <div class="w-full flex justify-end p-2">
-            <svg-icon src="icons/profile.svg" [svgStyle]="{ 'width.px':30, 'height.px':30 }"
-                class="flex items-center"></svg-icon>
+<div
+  class="w-full max-w-[430px] relative h-dvh mx-auto bg-hopemission justify-items-end flex flex-col"
+>
+  <div class="flex justify-center flex-grow max-h-[100px]">
+    <img src="/images/logo-light-hope-up.png" alt="logo" width="100px" />
+  </div>
+  <!-- getmision -->
+  <div
+    *ngIf="missionType === 'getMission'"
+    class="z-10 flex justify-center flex-grow mt-12 btn btn-link lg:h-64"
+    (click)="getMission()"
+  >
+    <img src="/images/mission/rocket.png" alt="rocket" />
+  </div>
+  <!-- show mission -->
+  <div
+    *ngIf="missionType === 'showMission'"
+    class="relative grid flex-grow px-10 justify-items-center lg:h-64"
+  >
+    <h3 class="z-10 px-6 py-2 font-black text-[#1B3461] text-2xl text-center">
+      {{ missionTitle }}
+    </h3>
+    <img
+      class="absolute z-0 mx-auto"
+      src="/images/mission/mission.png"
+      alt="rocket"
+    />
+    <img
+      class="z-10 h-40 max-h-40 aspect-square"
+      src="{{ missionImgUrl }}"
+      alt="rocket"
+    />
+    <button class="z-10 btn btn-link" (click)="sendMission()">
+      <img src="/images/mission/send_mission.png" alt="send_mission" />
+    </button>
+    <p class="bottom-0 z-10 pt-4 text-center text-[#4F4F4F] text-sm">
+      มีเวลาทำมิชชัน {{ missionTime }} ชั่วโมง
+    </p>
+  </div>
+  <!-- upload mission -->
+  <div
+    *ngIf="missionType === 'uploadMission'"
+    class="relative grid flex-grow px-10 justify-items-center lg:h-64"
+  >
+    <div
+      class="z-10 text-center absolute w-10/12 h-[130%] bg-[#232E48] rounded-3xl"
+    >
+      <h2 class="text-[#FCC462] text-2xl font-black p-4 pt-10">
+        ส่งภาพการทำมิชชั่นที่นี่
+      </h2>
+      <button type="button" class="absolute top-2 btn btn-link right-2">
+        <img src="/images/mission/question.png" alt="question" />
+      </button>
+      <label
+        for="upload-zone"
+        class="flex justify-center justify-items-center bg-[#3A62A6] mx-auto rounded-3xl w-5/6 h-3/5"
+      >
+        <div class="flex justify-center w-24 h-24 my-auto justify-items-center">
+          <img *ngIf="!file" src="/images/mission/upload.png" alt="upload" />
         </div>
-        <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="150px">
-        <div class="w-full flex flex-col justify-center">
-            <img src="images/mission/rocket.png" alt="rocket" class="w-full">
-            <p class="text-center text-[30px] font-bold text-[#e6a342]">100</p>
-            <p class="text-center text-[16px] font-normal text-white">coins
-                จากการส่งมิชชั่นด้วยความตั้งใจของเธอ</p>
-        </div>
-        <div class="w-full bg-secondlevelcloud py-4 flex flex-col justify-center">
-            <p class="text-center text-[30px] font-bold text-[#e6a342]">10000</p>
-            <p class="text-center text-[16px] font-normal text-white">coins จาก HopeRaiser Team
-                ที่ตั้งใจทำภารกิจเพื่อรวบรวมทุนสนับสนุนให้กับมูลนิธิคนพิการ</p>
-            <!-- <img src="images/mission/second-lvl-cloud.png" alt="second-lvl-cloud" class="w-full -my-10"> -->
-        </div>
-        <div class="w-full bg-thirdlevelcloud py-4 flex flex-col justify-center">
-            <p class="text-center text-[30px] font-bold text-[#e6a342]">5000</p>
-            <p class="text-center text-[16px] font-normal text-white">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team
-                ซึ่งกำลังเปล่งประกายแห่งความหวังร่วมกัน</p>
-            <p class="text-center text-[18px] font-normal text-[#96a4c2]">สำรวจแสงแห่งความหวังที่นี่</p>
-            <!-- <img src="images/mission/third-lvl-cloud.png" alt="third-lvl-cloud" class="w-full -my-10"> -->
-        </div>
-        <div class="w-full bg-forthlevelcloud flex flex-col justify-center py-4">
-            <!-- <img src="images/mission/forth-lvl-cloud.png" alt="forth-lvl-cloud" class="w-full -my-4"> -->
-            <div class="flex gap-4 justify-center">
-                <p class="text-center text-[18px] font-normal text-white">รู้จัก Youth Talk: Hope is</p>
-                <div class="flex gap-1">
-                    <div class="p-2 rounded-full bg-[#B3DBFF]">
-                        <svg-icon src="icons/Instagram_Glyph_Blue.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }"
-                            class="flex items-center"></svg-icon>
-                    </div>
-                    <div class="p-2 rounded-full bg-[#B3DBFF]">
-                        <svg-icon src="icons/globe.svg" [svgStyle]="{ 'width.px':20, 'height.px':20 }"
-                            class="flex items-center"></svg-icon>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </article>
-    <div class="bg-[#2A437C] w-full">
-        <app-footer></app-footer>
+        <img
+          *ngIf="!!file"
+          [src]="fileSrc"
+          alt="upload"
+          class="object-contain"
+        />
+      </label>
+      <input
+        type="file"
+        class="hidden"
+        id="upload-zone"
+        (change)="handleFileInput($event)"
+      />
+      <button
+        class="px-10 py-2 m-3 text-2xl text-white border border-white btn btn-ghost rounded-3xl"
+        (click)="uploadMission()"
+      >
+        ส่ง
+      </button>
     </div>
-</section>
+  </div>
+  <!-- send rocket -->
+  <div
+    *ngIf="missionType === 'finishMission'"
+    class="relative grid flex-grow px-10 justify-items-center lg:h-64"
+  >
+    <div
+      class="z-10 text-center absolute w-10/12 h-fit pb-10 to-[#232E48] bg-gradient-to-b from-[#30384F] rounded-3xl"
+    >
+      <button
+        class="absolute text-[#9B9C9E] no-underline btn btn-link top-2 right-2 hover:no-underline"
+        (click)="closeMission()"
+      >
+        X
+      </button>
+      <div class="p-4 pt-20 text-[#FCC462] text-3xl font-black">
+        <h2>กระสวยอวกาศ</h2>
+        <h2>กำลังนำความหวังไปส่ง!</h2>
+      </div>
+      <div>
+        <img src="/images/mission/finish.png" alt="rocket" />
+      </div>
+    </div>
+  </div>
+  <!-- no more mission -->
+  <div
+    *ngIf="missionType === 'noMission'"
+    class="z-10 flex justify-center flex-grow mt-12 btn btn-link lg:h-64"
+  >
+    <img
+      src="/images/mission/no_mission.png"
+      alt="no mission"
+      class="translate-y-10"
+    />
+  </div>
+  <!-- moon -->
+  <div
+    class="relative flex flex-col justify-end text-center bg-center bg-cover bg-hopemoon h-fit"
+  >
+    <div
+      class="p-2"
+      [ngClass]="{
+        'pt-14': missionType === 'getMission' || missionType === 'noMission',
+        'pt-6': missionType === 'showMission'
+      }"
+    >
+      <p class="text-[35px] font-bold text-[#F29E23]">{{ coins }}</p>
+      <p class="text-lg text-white">
+        coins จากการส่งมิชชั่นด้วยความตั้งใจของเธอ
+      </p>
+    </div>
+    <div class="p-2">
+      <p class="text-[35px] font-bold text-[#F29E23]">{{ totalCoins }}</p>
+      <p class="text-lg text-white">
+        coins จาก HopeRaiser Team ที่ตั้งใจทำภารกิจ
+      </p>
+      <p class="text-lg text-white">
+        เพื่อรวบรวมทุนสนับสนุนให้กับมูลนิธิคนพิการ
+      </p>
+    </div>
+    <div class="p-2">
+      <p class="text-[35px] font-bold text-[#F29E23]">{{ totalMember }}</p>
+      <p class="text-lg text-white">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team</p>
+      <p class="text-lg text-white">ซึ่งกำลังเปล่งประกายแห่งความหวังร่วมกัน</p>
+    </div>
+    <div>
+      <button
+        class="text-lg text-[#92A5C4] no-underline btn btn-link hover:no-underline"
+        type="button"
+        (click)="goToExplore()"
+      >
+        สำรวจแสงแห่งความหวังที่นี่
+      </button>
+    </div>
+    <div class="p-2">
+      <p class="text-lg text-white">รู้จัก Youth Talk: Hope is</p>
+    </div>
+  </div>
+  <div
+    class="bg-[#214580] bottom-0 flex flex-row items-center justify-end w-full gap-2 px-2 py-1"
+  >
+    <img src="/images/goodgeeklogo-256.png" alt="GoodGeek Club" width="35px" />
+    <img src="/images/logo-white-square.png" alt="GoodGeek Club" width="35px" />
+  </div>
+  <div class="absolute top-0 right-0 p-3 btn btn-link" (click)="openMenu()">
+    <img src="/images/user_icon.png" alt="user" />
+  </div>
+</div>

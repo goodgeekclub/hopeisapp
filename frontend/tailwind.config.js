@@ -47,6 +47,7 @@ module.exports = {
         hopelogin: "url('../public/images/bg/page_login_32_bg.png') ",
         hopemission: "url('../public/images/bg/page_35_bg.png') ",
         hopemoon: "url('../public/images/mission/moon.png') ",
+        hopemissionpaper: "url('../public/images/mission/mission.png') ",
       },
     },
   },

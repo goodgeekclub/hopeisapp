@@ -11,7 +11,6 @@ import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
 import { AuthGuard } from './auth.guard';
-import { ResultComponent } from './features/quiz/result/result.component';
 
 export const routes: Routes = [
   {
@@ -39,10 +38,6 @@ export const routes: Routes = [
       {
         path: 'question/:id',
         component: QuestionComponent,
-      },
-      {
-        path: 'result',
-        component: ResultComponent,
       },
     ],
   },

@@ -1,0 +1,30 @@
+.bold-and-center {
+  text-align: center;
+  font-weight: 900;
+}
+
+p {
+  font-weight: 100;
+}
+
+.super-bold {
+  font-weight: 900;
+}
+
+.svg-button {
+  background: whitesmoke;
+  border-radius: 100%;
+  border-width: 2px;
+  border-color: black;
+  padding: 4px;
+}
+
+.svg-button:hover {
+  background: white;
+}
+
+.background {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% auto;
+}

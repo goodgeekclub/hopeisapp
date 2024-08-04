@@ -15,6 +15,11 @@ import { LandingPageComponent } from './features/landing-page/landing-page.compo
 export const routes: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
   },
@@ -45,11 +50,7 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: 'landing-page',
-    component: LandingPageComponent,
-    pathMatch: 'full',
-  },
+
   {
     path: 'world-explore',
     component: WorldExploreComponent,

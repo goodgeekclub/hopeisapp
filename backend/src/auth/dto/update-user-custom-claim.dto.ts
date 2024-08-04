@@ -1,6 +1,12 @@
-import { IsEmail, IsObject, IsOptional, IsString, ValidateIf, ValidateNested } from "class-validator";
-import { UpdateCustomClaimDto } from "./update-custom-claim.dto";
-import { Type } from "class-transformer";
+import {
+  IsEmail,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { UpdateCustomClaimDto } from './update-custom-claim.dto';
+import { Type } from 'class-transformer';
 
 export class UpdateUserCustomClaimDto {
   @IsOptional()
@@ -14,5 +20,5 @@ export class UpdateUserCustomClaimDto {
   @Type(() => UpdateCustomClaimDto)
   @ValidateNested()
   @IsObject()
-  data: UpdateCustomClaimDto
+  data: UpdateCustomClaimDto;
 }

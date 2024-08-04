@@ -3,7 +3,7 @@ import { auth } from 'firebase-admin';
 
 @Injectable()
 export class AuthService {
-  constructor() { }
+  constructor() {}
   getHello(): string {
     return 'Hello World!';
   }
@@ -12,7 +12,7 @@ export class AuthService {
     return auth().listUsers(100, pageToken);
   }
 
-  getUser(search: { uid?: string, email?: string }) {
+  getUser(search: { uid?: string; email?: string }) {
     const { uid, email } = search;
     if (uid) {
       return auth().getUser(uid);
@@ -22,16 +22,17 @@ export class AuthService {
     }
   }
 
-  setCustomClaim(target: { uid?: string, email?: string }, data?: any) {
+  setCustomClaim(target: { uid?: string; email?: string }, data?: any) {
     return this.getUser(target)
       .then((user) => auth().setCustomUserClaims(user.uid, data))
-      .then((_) => this.getUser(target));
+      .then(() => this.getUser(target));
   }
 
   createCustomToken(uid: string) {
-    return auth().createCustomToken(uid)
-      .then(accessToken => ({
-        accessToken
+    return auth()
+      .createCustomToken(uid)
+      .then((accessToken) => ({
+        accessToken,
       }));
   }
 }

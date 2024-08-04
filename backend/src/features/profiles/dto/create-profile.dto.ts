@@ -9,6 +9,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { Character } from 'src/models/character.model';
 
 class MetaDataDTO {
   @IsNumber()
@@ -53,17 +54,12 @@ export class CreateProfileDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'first_name' })
-  firstName?: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ example: 'last_name' })
-  lastName?: string;
+  fullName: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({ example: 'example@mail.com' })
-  email?: string;
+  email: string;
 
   @IsEnum(Gender)
   @IsOptional()
@@ -73,25 +69,26 @@ export class CreateProfileDto {
   @IsDateString()
   @IsOptional()
   @ApiProperty({ example: new Date() })
-  birthday: Date;
+  birthday?: Date;
 
   @ValidateNested()
   @Type(() => MetaDataDTO)
   @ApiProperty({ type: MetaDataDTO })
-  metadata: MetaDataDTO;
+  metadata?: MetaDataDTO;
 
   @IsString()
-  @IsOptional()
   @ApiProperty({ example: 'photo_url' })
   photoUrl: string;
 
   @IsString()
-  @IsOptional()
   @ApiProperty({ example: 'firebase_id' })
   firebaseId: string;
 
   @ValidateNested()
   @Type(() => CharacterDTO)
   @ApiProperty({ type: CharacterDTO })
-  character: CharacterDTO;
+  character: Character;
+
+  @IsString()
+  quizResult: string;
 }

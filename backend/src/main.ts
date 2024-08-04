@@ -6,7 +6,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { MongooseInterceptor } from './interceptors/mongoose.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { initializeApp } from 'firebase-admin/app';
 import { firebaseConfig } from './configs/firebase.config';
 

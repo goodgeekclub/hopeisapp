@@ -1,3 +1,13 @@
-<div class="bg-hopehome bg-cover bg-no-repeat bg-center h-dvh w-full flex justify-center items-center">
-  <img width="225" height="255" ngSrc="/assets/images/Logoforhomepage.png" priority />
+<div
+  class="flex items-center justify-center w-full bg-center bg-no-repeat bg-cover bg-hopehome h-dvh"
+>
+  <img
+    (click)="toName()"
+    class="hover:scale-[1.5] transition delay-150 duration-300 ease-in-out cursor-pointer"
+    alt="Hope Logo"
+    width="225"
+    height="255"
+    ngSrc="/assets/images/Logoforhomepage.png"
+    priority
+  />
 </div>

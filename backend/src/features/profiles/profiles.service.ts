@@ -15,12 +15,11 @@ export class ProfilesService {
 
   create(createProfileDto: CreateProfileDto) {
     const profile = new this.model(createProfileDto);
-    return from(profile.save());
+    return profile.save();
   }
 
   findAll() {
-    const allProfile = this.model.find().exec();
-    return from(allProfile);
+    return this.model.find().exec();
   }
 
   findOne(id: string) {
@@ -28,9 +27,11 @@ export class ProfilesService {
   }
 
   findByFbId(fbId: string) {
-    return this.model.findOne({
-      firebaseId: fbId
-    })
+    return this.model
+      .findOne({
+        firebaseId: fbId,
+      })
+      .populate('quizResult');
   }
 
   update(id: string, body: UpdateProfileDto) {
@@ -41,9 +42,12 @@ export class ProfilesService {
     if (body.firebaseId) {
       delete body.firebaseId;
     }
-    return this.model.updateOne({
-      firebaseId: fbId
-    }, body);
+    return this.model.updateOne(
+      {
+        firebaseId: fbId,
+      },
+      body,
+    );
   }
 
   remove(id: string) {

@@ -6,7 +6,7 @@ export enum DataType {
   missions = 'MISSION',
   stats = 'STAT',
   quizes = 'QUIZ',
-  characters = 'CHARACTER'
+  characters = 'CHARACTER',
 }
 
 @Schema({

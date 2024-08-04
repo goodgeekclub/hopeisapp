@@ -20,6 +20,10 @@ export class WorldExploreComponent implements OnInit{
 
   stars: PIXI.Sprite[] = [];
   users: User[] = [];
+  angle: number = 0;
+  destinationY: number = 0;
+  usersProcessed: number = 100;
+
   batchSize: number = 1; // Number of stars to create per batch
   displayLimit: number = 0; //limit user display
 
@@ -78,8 +82,30 @@ export class WorldExploreComponent implements OnInit{
        rocket.y = 760;
        app.stage.addChild(rocket);
 
-    
+      
      
+
+       const processUserBatches = () => {
+        const moveRocket = () => {
+          if (!rocket) return;
+
+          // Move the rocket in a sine wave pattern along the Y-axis
+          const speed = 2;
+          this.angle += Math.PI / 180;
+          rocket.x = app.screen.width / 2 + Math.sin(this.angle * 2) * 50; // Adjust this value for amplitude
+          rocket.y -= speed;
+
+          if (this.usersProcessed < this.users.length) {
+            this.usersProcessed += this.batchSize;
+
+            // Continue moving until all users are processed or the destination is reached
+            requestAnimationFrame(moveRocket);
+          } else {
+            console.log('All users processed.');
+          }
+        };
+        moveRocket();
+      };
      
 
 
@@ -109,6 +135,7 @@ export class WorldExploreComponent implements OnInit{
       };
       createNextBatch();
       shuffleUsers();
+      processUserBatches();
     }
     
   );
@@ -162,6 +189,9 @@ export class WorldExploreComponent implements OnInit{
 
     return star;
   }
+
+
+
 
   closeProfile() {
     this.selectedUser = null;

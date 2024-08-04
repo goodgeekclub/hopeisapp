@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './background.component.css'
 })
 export class BackgroundComponent {
-  @Input() public src!: string;
+  @Input() public src?: string;
   @Input() public isScrolling!: boolean;
 }

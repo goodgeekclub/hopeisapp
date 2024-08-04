@@ -31,12 +31,13 @@ export class CreateProfileActivityDto {
   text?: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsUrl()
-  photoUrl: string;
+  photoUrl?: string;
 
   @ApiProperty()
   @IsMongoId()
-  profile: string;
+  profileId: string;
 
   @ApiProperty()
   @IsMongoId()

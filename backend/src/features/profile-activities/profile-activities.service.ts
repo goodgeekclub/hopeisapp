@@ -26,23 +26,25 @@ export class ProfileActivitiesService {
     private dataService: DataService,
   ) {}
   async create(dto: CreateProfileActivityDto) {
+    const { date, status, profileId, missionId } = dto;
     const activity = new this.model(dto);
-    if (!dto.date) {
+    if (!date) {
       activity.date = DateTime.now().setZone('UTC+7').toISODate();
     }
-    if (!dto.status) {
+    if (!status) {
       activity.status = ActivityStatus.TODO;
     }
-    const profile = await this.profilesService.findOne(dto.profile);
+    const profile = await this.profilesService.findOne(profileId);
     if (!profile) {
-      throw new BadRequestException(`profile ${dto.profile} does not existed`);
+      throw new BadRequestException(`profile ${profileId} does not existed`);
     }
     const mission = await this.dataService
       .getModel()
       .findById<Mission>(dto.missionId);
     if (!mission) {
-      throw new BadRequestException(`mission ${dto.profile} does not existed`);
+      throw new BadRequestException(`mission ${missionId} does not existed`);
     }
+    activity.profile = profile;
     activity.mission = mission;
     activity.character = profile.character;
     return activity.save();
@@ -68,9 +70,10 @@ export class ProfileActivitiesService {
     });
   }
 
-  ListbyPId(pid: string) {
+  ListbyPId(pid: string, query?: any) {
     return this.model.find({
       profile: pid,
+      ...query,
     });
   }
 

@@ -37,3 +37,15 @@ html {
 body {
   min-height: 100%;
 }
+
+@media only screen and ( max-width: 400px ) {
+  .margin-responsive {
+    margin-left: 20px;
+  }
+}
+
+@media only screen and ( min-width: 410px ) {
+  .margin-responsive {
+    margin-left: 40px;
+  }
+}

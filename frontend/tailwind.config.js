@@ -32,10 +32,12 @@ module.exports = {
         },
       },
       backgroundImage: {
+        hopehome: "url('../public/images/bg/page_home.png')",
         hopeone: "url('../public/images/bg/page_3_bg.png')",
         hopetwo: "url('../public/images/bg/page_4_7_bg.png') ",
         hopethree: "url('../public/images/bg/page_8_9_bg.png') ",
         hopefour: "url('../public/images/bg/page_11_31_bg.png') ",
+        hopefive: "url('../public/images/bg/page_10_bg.png')",
         characblue: "url('../public/images/bg/page_33_34_blue.png') ",
         characgreen: "url('../public/images/bg/page_33_34_green.png') ",
         characorange: "url('../public/images/bg/page_33_34_orange.png') ",

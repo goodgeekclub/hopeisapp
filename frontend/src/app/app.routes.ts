@@ -10,6 +10,7 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
+import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'result',
         component: ResultComponent,
+      },
+      {
+        path: 'result/:id',
+        component: ResultCharacterComponent,
       },
     ],
   },

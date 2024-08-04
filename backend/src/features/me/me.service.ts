@@ -94,13 +94,7 @@ export class MeService {
   }
 
   updateActivity(profile: string, id: string, body: any) {
-    return this.activitiesService.getModel().updateOne(
-      {
-        profile,
-        id,
-      },
-      body,
-    );
+    return this.activitiesService.update(id, body);
   }
 
   getActiveActivity(profileId: string) {

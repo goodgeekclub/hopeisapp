@@ -12,7 +12,7 @@ export enum DataType {
 @Schema({
   timestamps: true,
 })
-export class Data {
+export class Data<T> {
   @Prop({ unique: true, required: true })
   @ApiProperty({ example: 'My Name' })
   name: string;
@@ -27,9 +27,9 @@ export class Data {
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
   @ApiProperty()
-  data?: any;
+  data?: T;
 }
 
-export type DataDocument = HydratedDocument<Data>;
+export type DataDocument = HydratedDocument<Data<any>>;
 
 export const DataSchema = SchemaFactory.createForClass(Data);

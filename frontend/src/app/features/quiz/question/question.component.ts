@@ -74,9 +74,9 @@ export class QuestionComponent implements OnInit {
   }
 
   async answerQuestion(answer: Choice) {
-    await this.profileService.saveAnswer(this.currentQuestionId, answer.title);
     this.isDisabled = true;
-
+    await this.profileService
+      .saveAnswer(this.currentQuestionId, answer.title)
     setTimeout(() => {
       this.goToNextQuestion();
       this.isDisabled = false;
@@ -87,8 +87,8 @@ export class QuestionComponent implements OnInit {
     const nextQuestionId = this.currentQuestionId + 1;
 
     if (this.currentQuestionId === this.totalQuestions) {
-      // this.logTotalScores();
-      // this.logHighTypeScore();
+      this.logTotalScores();
+      this.logHighTypeScore();
 
       this.router.navigate(['/quiz/result']);
     } else {

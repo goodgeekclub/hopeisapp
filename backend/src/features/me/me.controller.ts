@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -66,17 +67,25 @@ export class MeController {
   @Get('activities/:id')
   @UseInterceptors(FbProfilesInterceptor)
   getActivities(@ProfileUser() profile, @Param('id') id) {
-    return this.meService.getActivity(profile._id, id);
+    return this.meService.getActivity(profile._id, id).then((activity) => {
+      if (!activity) {
+        throw new NotFoundException('Activities does not exist for this user');
+      }
+      return activity;
+    });
   }
 
   @Patch('activities/:id')
   @UseInterceptors(FbProfilesInterceptor)
-  updateActivity(
-    @ProfileUser() profile,
+  async updateActivity(
     @Param('id') id,
     @Body() body: UpdateMeActivityDto,
+    @ProfileUser() profile,
   ) {
-    body.profile = profile._id;
+    const activity = await this.meService.getActivity(profile._id, id);
+    if (!activity) {
+      throw new NotFoundException('Activities does not exist for this user');
+    }
     return this.meService.updateActivity(profile._id, id, body);
   }
 }

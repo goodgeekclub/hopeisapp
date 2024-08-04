@@ -14,8 +14,6 @@ export class LandingPageComponent {
   share_link : string = "https://www.google.com";
   ig_link : string = "http://ig";
   website_link : string = "http/website";
-  goodgeek_link : string = "http/gg";
-  youth_link : string = "http/youth_link";
   mission_link : string = "";
   
   ngOnInit () {

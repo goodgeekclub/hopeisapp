@@ -4,6 +4,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { StoryTextComponent } from './storytext.component';
 import { RouterModule, Router } from '@angular/router';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-story',
@@ -19,7 +20,7 @@ import { RouterModule, Router } from '@angular/router';
   styleUrl: './story.component.css',
 })
 export class StoryComponent {
-  @Input() name = 'hazamashoken';
+  name = 'hazamashoken';
   currentPage: number = 1;
 
   textIndex: number = 0;
@@ -63,26 +64,40 @@ export class StoryComponent {
       'ที่จะทำให้โลกนี้ดีขึ้นนั้นเอง',
     ],
     ['มาตามหาแสงแห่งความหวัง', 'แบบฉบับของตัวเองกัน', 'ต่อไป'],
+    [],
   ];
 
   maxPages: number = 7;
 
   animationPage: number = 8;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private profileService: ProfileService) {}
 
-  ngAfterViewChecked() {
-    console.log(
-      this.textIndex === this.textContents[this.currentPage - 1].length
-    );
-    console.log(
-      this.currentPage === 3 &&
-        this.textIndex !== this.textContents[this.currentPage - 1].length
-    );
-    console.log(this.currentPage);
-    console.log(this.textIndex);
-    console.log(this.textContents[this.currentPage - 1].length);
+  ngOnInit() {
+    this.getResult();
   }
+
+  private getResult(): void {
+    setTimeout(() => {
+      const profile = this.profileService.getProfile();
+      if (profile) {
+        this.name = profile.user;
+      }
+    }, 1000);
+  }
+
+  // ngAfterViewChecked() {
+  //   console.log(
+  //     this.textIndex === this.textContents[this.currentPage - 1].length
+  //   );
+  //   console.log(
+  //     this.currentPage === 3 &&
+  //       this.textIndex !== this.textContents[this.currentPage - 1].length
+  //   );
+  //   console.log(this.currentPage);
+  //   console.log(this.textIndex);
+  //   console.log(this.textContents[this.currentPage - 1].length);
+  // }
 
   revealNextLine() {
     if (this.textIndex < this.textContents[this.currentPage - 1].length) {
@@ -122,7 +137,7 @@ export class StoryComponent {
   startAnimation() {
     this.currentPage = this.maxPages + 1;
     setTimeout(() => {
-      this.router.navigate(['/test/start']);
+      this.router.navigate(['/quiz/start']);
     }, 4000);
   }
 }

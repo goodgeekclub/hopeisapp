@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { User } from 'firebase/auth';
@@ -15,16 +15,16 @@ import { AuthService } from '../../services';
 export class HomeComponent implements OnInit {
   public user?: User;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
-     
-  }
+  ngOnInit() {}
 
-  public async register(): Promise<void> {
-    const user = await this.authService.register();
-    if (user) {
-      this.user = user;
-    }
+  public async toName(): Promise<void> {
+    setTimeout(() => {
+      this.router.navigate(['/quiz/enter-your-name']);
+    }, 1500);
   }
 }

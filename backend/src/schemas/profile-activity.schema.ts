@@ -33,7 +33,7 @@ export class ProfileActivity {
   @ApiProperty()
   text?: string;
 
-  @Prop({ required: true })
+  @Prop()
   @ApiProperty()
   photoUrl: string;
 

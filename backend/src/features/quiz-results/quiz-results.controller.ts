@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  NotFoundException,
+} from '@nestjs/common';
 import { QuizResultsService } from './quiz-results.service';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
 import { QueryOptions } from 'src/decorators/query-options.decorator';
@@ -22,8 +29,14 @@ export class QuizResultsController {
     return this.quizResultsService.findAll(options);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.quizResultsService.findOne(id);
+    return this.quizResultsService.findOne(id).then((profile) => {
+      if (!profile) {
+        throw new NotFoundException('QuizResult does not existed');
+      }
+      return profile;
+    });
   }
 }

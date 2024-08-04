@@ -14,8 +14,9 @@ export class LandingPageComponent {
   //please edit below links;
   ig_link : string = "http://ig";
   website_link : string = "http/website";
-  mission_link : string = "";
-  let_do_the_test_link : string = "";
+
+  let_do_the_test_link : string = "/home";
+  let_do_the_mission_link : string = "/mission";
   //share
   title : string = "มาหาเเสงของตัวเองกันเถอะ";
   url : string = "http....";
@@ -32,9 +33,7 @@ export class LandingPageComponent {
           title : this.title,
           url : this.url
         }
-      ).then(() => {
-        console.log("hello world");
-      })
+      )
     } else {
       navigator.clipboard.writeText(this.url);
       alert("copied url: " + this.url );

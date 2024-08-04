@@ -1,6 +1,5 @@
-<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="w-full h-full relative"
+<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="w-full bg-center bg-no-repeat bg-cover bg-hopelogin h-dvh"
     (click)="showResult()">
-    <app-background src="images/bg-32.png" [isScrolling]="false"></app-background>
     <article *ngIf="isClikedToShowText" class="w-full h-full flex flex-col items-center justify-between">
         <div class="h-full flex flex-col justify-center mt-24">
             <p class="text-center text-[18px] font-normal text-white">จริง ๆ แล้ว</p>

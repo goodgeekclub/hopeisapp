@@ -1,14 +1,12 @@
-<section class="relative w-full overflow-auto">
-  <app-background
-    [src]="characterData.bgLink"
-    [isScrolling]="true"
-  ></app-background>
-  <article class="flex flex-col items-center w-full h-full gap-4 px-6 pt-6">
-    <img
-      src="images/logo-light-hope-up.png"
-      alt="Light Hope Up"
-      width="150px"
-    />
+<section class="relative w-full">
+  <section
+    class="flex flex-col items-center w-full bg-bottom bg-no-repeat bg-cover bg-blueupbg h-fit min:h-dvh gap-4 px-6 pt-6">
+    <div class="w-full flex justify-between">
+      <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="75px" />
+      <div class="flex items-center">
+        <p class="text-center text-[18px] font-normal text-white h-full align-middle">Share</p>
+      </div>
+    </div>
     <p class="text-center text-[50px] font-bold text-white">
       {{ characterData.characterNameEn }}
     </p>
@@ -18,55 +16,42 @@
     <p class="text-center text-[18px] font-bold text-white">
       {{ characterData.characterTitle }}
     </p>
-    <img
-      [src]="characterData.characterImgLink"
-      alt="Light Hope Up"
-      width="300px"
-    />
+    <img [src]="characterData.characterImgLink" alt="Light Hope Up" width="300px" />
     <p class="text-center text-[18px] font-normal text-white">
       {{ characterData.characterDescription }}
     </p>
-    <app-character-attributes
-      [characterAttributes]="characterData.characterAttributes"
-      [color]="characterData.attributesChipColor"
-    ></app-character-attributes>
+    <app-character-attributes [characterAttributes]="characterData.characterAttributes"
+      [color]="characterData.attributesChipColor"></app-character-attributes>
     <p class="text-center text-[18px] font-bold text-white">
       วิธีการเปล่งประกาย
     </p>
     <p class="text-center text-[18px] font-normal text-white">
       {{ characterData.shinningMethod }}
     </p>
+  </section>
 
-    <div
-      class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3"
-    >
+  <section
+    class="-mt-1 flex flex-col items-center w-full bg-top bg-no-repeat bg-cover bg-bluedownbg h-fit gap-4 px-6 pt-8">
+    <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3">
       <p class="text-center text-[26px] font-bold text-white">12700 คน</p>
       <p class="text-center text-[14px] font-normal text-white">
         กำลังปฏิบัติภารกิจเพื่อทำอะไรสักอย่างไม่รู้
       </p>
-      <app-button
-        class="text-[18px] font-light text-[#b06257] rounded-full bg-white"
-        (click)="signUp()"
-        >JOIN US</app-button
-      >
+      <app-button class="text-[18px] font-light text-[#b06257] rounded-full bg-white" (click)="signUp()">JOIN
+        US</app-button>
       <p class="text-center text-[18px] text-white">
         เล่นมิชชันสะสม coins กับเรา เพื่อสร้างอะไรสักอย่าง
       </p>
     </div>
-    <div
-      class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3"
-    >
+    <div class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3">
       <img src="images/youthtalk.png" alt="Youthtalk" width="100px" />
       <div class="flex flex-col items-center justify-center gap-3">
         <p class="text-center text-[18px] font-normal text-white">
           ฟังเสียงแห่งความหวัง จากแสงที่ออกเดินทางจริง ณ หอศิลป์ (BACC)
         </p>
-        <app-button
-          class="text-[18px] font-light text-[#b06257] rounded-full bg-white"
-          >BUY TICKET</app-button
-        >
+        <app-button class="text-[18px] font-light text-[#b06257] rounded-full bg-white">BUY TICKET</app-button>
       </div>
     </div>
     <app-footer class="w-full"></app-footer>
-  </article>
+  </section>
 </section>

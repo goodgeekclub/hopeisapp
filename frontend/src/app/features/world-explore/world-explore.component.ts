@@ -21,7 +21,7 @@ export class WorldExploreComponent implements OnInit{
   stars: PIXI.Sprite[] = [];
   users: User[] = [];
   batchSize: number = 1; // Number of stars to create per batch
-  displayLimit: number = 70; //limit user display
+  displayLimit: number = 0; //limit user display
 
   selectedUser: User | null = null;
   selectedUserImage: string | null = null;
@@ -40,29 +40,48 @@ export class WorldExploreComponent implements OnInit{
       document.body.appendChild(app.canvas);
 
       // Add the assets to load
-      PIXI.Assets.add({ alias: 'background', src: './assets/images/light-hope.png' });
       PIXI.Assets.add({ alias: 'star1', src: './assets/images/star1.png' });
       PIXI.Assets.add({ alias: 'star2', src: './assets/images/star2.png' });
       PIXI.Assets.add({ alias: 'star3', src: './assets/images/star3.png' });
+     await PIXI.Assets.add({ alias: 'rocket', src: './assets/images/Rocket.png' });
+     await PIXI.Assets.add({ alias: 'layer1', src: './assets/images/layer1.png' });
+     await PIXI.Assets.add({ alias: 'background', src: './assets/images/BG-39.png' });
       // Allow the assets to load in the background
-      await PIXI.Assets.backgroundLoad(['background','star1', 'star2', 'star3']);
+      await PIXI.Assets.backgroundLoad(['star1', 'star2', 'star3','rocket','layer1','background']);
        PIXI.Assets.load('star1')
        PIXI.Assets.load('star2')
        PIXI.Assets.load('star3')
-      // Load the background image
-      PIXI.Assets.load('background').then((backgroundTexture) => {
-        const background = new PIXI.Sprite(backgroundTexture);
+       const BackgroundTexture = await PIXI.Assets.load('background')
+       const layer1Texture = await PIXI.Assets.load('layer1')
+       const RocketTexture = await PIXI.Assets.load('rocket')
+       
+       const background = new PIXI.Sprite(BackgroundTexture);
+       
+      background.scale.set(0.3);
+      
+       app.stage.addChild(background);
 
-         if (window.innerWidth < 1100) { 
-          background.width = app.screen.width;
-          background.height = app.screen.height;
-        } else {
-        background.width = app.screen.width;
-        background.height = app.screen.height;
-        }
-        
-        app.stage.addChild(background);
-      });
+       const layer1 = new PIXI.Sprite(layer1Texture);
+       
+       if (window.innerWidth < 420) {
+       layer1.scale.set(0.5);
+       layer1.x = -2;
+       layer1.y = 760;
+       app.stage.addChild(layer1);
+       }
+       
+
+       const rocket = new PIXI.Sprite(RocketTexture);
+       rocket.scale.set(0.3);
+       rocket.anchor.set(0.5);
+       rocket.x = app.screen.width / 2;
+       rocket.y = 760;
+       app.stage.addChild(rocket);
+
+    
+     
+     
+
 
       const shuffleUsers = () => {
         for (let i = this.users.length - 1; i > 0; i--) {
@@ -148,4 +167,6 @@ export class WorldExploreComponent implements OnInit{
     this.selectedUser = null;
     this.selectedUserImage = null;
   }
+
+ 
 }

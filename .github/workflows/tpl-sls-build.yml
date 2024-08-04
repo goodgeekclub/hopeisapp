@@ -33,6 +33,6 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: dist
+          name: dist-backend-${{ github.sha }}
           path: |
             backend/dist

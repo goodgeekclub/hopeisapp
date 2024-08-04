@@ -1,10 +1,16 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsMongoId, IsNumber, IsNumberString, IsOptional, IsString, IsUrl } from "class-validator";
-import { ActivityStatus, ProfileActivity } from "src/schemas/profile-activity.schema";
-import { Profile } from "src/schemas";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsDate,
+  IsEnum,
+  IsMongoId,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
+import { ActivityStatus } from 'src/schemas/profile-activity.schema';
 
 export class CreateProfileActivityDto {
-
   @ApiProperty()
   @IsEnum(ActivityStatus)
   @IsOptional()
@@ -25,12 +31,13 @@ export class CreateProfileActivityDto {
   text?: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsUrl()
-  photoUrl: string;
+  photoUrl?: string;
 
   @ApiProperty()
   @IsMongoId()
-  profile: string;
+  profileId: string;
 
   @ApiProperty()
   @IsMongoId()

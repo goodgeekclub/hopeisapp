@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean } from "class-validator";
+import { IsArray } from 'class-validator';
 
 export class UpdateCustomClaimDto {
   @IsArray()

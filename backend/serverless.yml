@@ -1,7 +1,7 @@
 service: hopeisapp
-
+useDotenv: true
 plugins:
-  # - serverless-plugin-browserifier
+  - serverless-dotenv-plugin
   - serverless-offline
 
 package:
@@ -37,6 +37,8 @@ provider:
     usagePlan: ${self:custom.usagePlans.${sls:stage}}
 
 custom:
+  serverless-offline:
+    useChildProcesses: true
   usagePlans:
     dev:
       quota:
@@ -85,3 +87,4 @@ functions:
   - ${file(sls-templates/quiz-results-function.yml)}
   - ${file(sls-templates/profile-activities-function.yml)}
   - ${file(sls-templates/me-function.yml)}
+  - ${file(sls-templates/crons-function.yml)}

@@ -1,0 +1,10 @@
+crons:
+  name: ${self:service}-crons-${sls:stage}
+  handler: dist/functions/crons.handler
+  events:
+    - schedule:
+        name: event-bridge-custom-name
+        rate: rate(1 minute)
+        enabled: true
+        input:
+          key1: value1

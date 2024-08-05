@@ -16,6 +16,12 @@ module.exports = {
         "db-helvethaica-x-bold": ['"DB Helvethaica X Bold"', "sans-serif"],
         "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
         "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
+        "kanit-regular": ['"Kanit Regular"', "sans-serif"],
+        "kanit-light": ['"Kanit Light"', "sans-serif"],
+        "kanit-bold": ['"Kanit Bold"', "sans-serif"],
+        "kanit-thin": ['"Kanit Thin"', "sans-serif"],
+        "kanit-medium": ['"Kanit Medium"', "sans-serif"],
+        "kanit-semibold": ['"Kanit Semibold"', "sans-serif"],
       },
       animation: {
         fade: "fadeIn .5s ease-in-out",

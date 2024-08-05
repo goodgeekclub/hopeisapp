@@ -5,34 +5,75 @@
 
 /* Light */
 @font-face {
-  font-family: "DB Helvethaica X Light";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Li Cond.ttf")
-    format("truetype");
+  font-family: 'DB Helvethaica X Light';
+  src: url('/assets/fonts/DB_Font/DB Helvethaica X Li Cond.ttf')
+    format('truetype');
 }
 
 /* Bold */
 @font-face {
-  font-family: "DB Helvethaica X Bold";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Bd v3.2.ttf")
-    format("truetype");
+  font-family: 'DB Helvethaica X Bold';
+  src: url('/assets/fonts/DB_Font/DB Helvethaica X Bd v3.2.ttf')
+    format('truetype');
 }
 
 /* Thin */
 @font-face {
-  font-family: "DB Helvethaica X Thin";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Thin v3.2.ttf")
-    format("truetype");
+  font-family: 'DB Helvethaica X Thin';
+  src: url('/assets/fonts/DB_Font/DB Helvethaica X Thin v3.2.ttf')
+    format('truetype');
 }
 
 /* Medium */
 @font-face {
-  font-family: "DB Helvethaica X Medium";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Med v3.2.ttf")
-    format("truetype");
+  font-family: 'DB Helvethaica X Medium';
+  src: url('/assets/fonts/DB_Font/DB Helvethaica X Med v3.2.ttf')
+    format('truetype');
 }
 
 /* Base */
 @font-face {
-  font-family: "DB Helvethaica X";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X v3.2.ttf") format("truetype");
+  font-family: 'DB Helvethaica X';
+  src: url('/assets/fonts/DB_Font/DB Helvethaica X v3.2.ttf') format('truetype');
+}
+
+/* Light */
+@font-face {
+  font-family: 'Kanit Light';
+  src: url('/assets/fonts/DB_Font/Kanit-Light.ttf')
+    format('truetype');
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Kanit Bold';
+  src: url('/assets/fonts/DB_Font/Kanit-Bold.ttf')
+    format('truetype');
+}
+
+/* Thin */
+@font-face {
+  font-family: 'Kanit Thin';
+  src: url('/assets/fonts/DB_Font/Kanit-Thin.ttf')
+    format('truetype');
+}
+
+/* Medium */
+@font-face {
+  font-family: 'Kanit Medium';
+  src: url('/assets/fonts/DB_Font/Kanit-Medium.ttf')
+    format('truetype');
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Kanit Regular';
+  src: url('/assets/fonts/DB_Font/Kanit-Regular.ttf') format('truetype');
+}
+
+/* Semibold */
+@font-face {
+  font-family: 'Kanit Semibold';
+  src: url('/assets/fonts/DB_Font/Kanit-SemiBold.ttf')
+    format('truetype');
 }

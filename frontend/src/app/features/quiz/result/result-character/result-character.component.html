@@ -27,13 +27,13 @@
           <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':25 }"></svg-icon>
         </div>
       </div>
-      <p class="text-center text-[18px] font-normal" [ngClass]="characterData ? characterData.displayNameColor : 'text-white'">
+      <p class="text-center text-[18px] font-kanit-medium" [ngClass]="characterData ? characterData.displayNameColor : 'text-white'">
         {{ displayName }} คือ
       </p>
-      <p class="text-center text-[50px] font-bold text-white">
+      <p class="text-center text-[50px] font-kanit-bold text-white">
         {{ characterData?.characterTitle }}
       </p>
-      <p class="text-center text-[18px] font-semibold text-white">
+      <p class="text-center text-[18px] font-kanit-semibold text-white">
         {{ characterData?.characterNameTh }}
       </p>
       <!-- <p class="text-center text-[18px] font-bold text-white">{{ characterData?.characterTitle }}</p> -->
@@ -42,17 +42,17 @@
         alt="Light Hope Up"
         width="300px"
       />
-      <p class="text-center text-[18px] font-normal text-white">
+      <p class="text-center text-[18px] font-kanit-medium text-white">
         {{ characterData?.characterDescription }}
       </p>
       <app-character-attributes
         [characterAttributes]="characterData?.characterAttributes"
         [color]="characterData?.attributesChipColor"
       ></app-character-attributes>
-      <p class="text-center text-[18px] font-bold text-white">
+      <p class="text-center text-[18px] font-kanit-bold text-white">
         วิธีการเปล่งประกาย
       </p>
-      <p class="text-center text-[18px] font-normal text-white">
+      <p class="text-center text-[18px] font-kanit-medium text-white">
         {{ characterData?.shinningMethod }}
       </p>
     </article>
@@ -60,12 +60,12 @@
       <div
         class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3"
       >
-        <p class="text-center text-[50px] font-semibold text-white">{{totalPlayer.toLocaleString()}} คน</p>
-        <p class="text-center text-[14px] font-normal text-white">
+        <p class="text-center text-[50px] font-kanit-semibold text-white">{{totalPlayer.toLocaleString()}} คน</p>
+        <p class="text-center text-[14px] font-kanit-medium text-white">
           กำลังเปล่งประกายแสงแห่งความหวังร่วมกัน
         </p>
         <button
-          class="px-6 py-2 text-[18px] font-light rounded-full bg-white"
+          class="px-6 py-2 text-[18px] font-kanit-light rounded-full bg-white"
           [ngClass]="characterData ? characterData.buttonColor : 'text-black'"
           >เข้าร่วมกับเรา</button
         >
@@ -78,11 +78,11 @@
       >
         <img src="images/youthtalk.png" alt="Youthtalk" width="100px" />
         <div class="flex flex-col justify-center items-center gap-3">
-          <p class="text-center text-[18px] font-normal text-white">
+          <p class="text-center text-[18px] font-kanit-medium text-white">
             ฟังเสียงแห่งความหวัง จากแสงที่ออกเดินทางจริง ณ หอศิลป์ (BACC)
           </p>
           <button
-            class="px-6 py-2 text-[18px] font-regular text-[#b06257] rounded-full bg-white"
+            class="px-6 py-2 text-[18px] font-kanit-regular text-[#b06257] rounded-full bg-white"
             [ngClass]="characterData ? characterData.buttonColor : 'text-black'"
             >BUY TICKET</button
           >

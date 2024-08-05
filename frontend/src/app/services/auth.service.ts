@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   Auth,
   authState,
-  getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  user,
 } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
 
@@ -22,9 +20,9 @@ export class AuthService {
   public async register(): Promise<User | null> {
     const registeredUser = await signInWithPopup(
       this.auth,
-      this.googleAuthProvider
+      this.googleAuthProvider,
     )
-      .then(async (result) => {
+      .then(() => {
         return this.auth.currentUser;
       })
       .catch((error) => {
@@ -45,7 +43,7 @@ export class AuthService {
   getAccessToken(): Observable<string> {
     return authState(this.auth).pipe(
       map((auth: any) => auth!.accessToken),
-      tap((token) => console.log('token:', token))
+      tap((token) => console.log('token:', token)),
     );
   }
 }

@@ -7,17 +7,20 @@ import {
 import { Auth } from '@angular/fire/auth';
 import { Observable, from, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
+
 export function authInjectInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  const user = inject(Auth).currentUser;
-
+  const user = inject(AuthService).getCurrentUser();
+  console.log('Interceptor')
   const noAuthReq = req.clone({
     setHeaders: {
       'x-api-key': `${environment.backend.apiKey}`,
     },
   });
+  console.log('user', user);
   
   if (user) {
     return from(user.getIdToken(true)).pipe(

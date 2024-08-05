@@ -36,16 +36,20 @@ export class Profile {
   fullName?: string;
 
   @Prop()
-  @ApiProperty({ example: 'example@mail.com' })
+  @ApiProperty({ required: false, example: 'example@mail.com' })
   email?: string;
 
   @Prop({ enum: Gender })
-  @ApiProperty({ example: 'FEMALE', enum: Gender })
+  @ApiProperty({ required: false, example: 'FEMALE', enum: Gender })
   gender?: Gender;
 
   @Prop()
-  @ApiProperty({ example: new Date() })
+  @ApiProperty({ required: false, example: new Date() })
   birthday?: Date;
+
+  @Prop()
+  @ApiProperty({ required: false, example: 'dfds' })
+  fcmToken?: string;
 
   @Prop({
     type: MetaDataSchema,
@@ -55,11 +59,11 @@ export class Profile {
   metadata: MetaData;
 
   @Prop()
-  @ApiProperty({ example: 'photo_url' })
+  @ApiProperty({ required: false, example: 'photo_url' })
   photoUrl?: string;
 
   @Prop()
-  @ApiProperty({ example: 'firebase_id' })
+  @ApiProperty({ required: false, example: 'firebase_id' })
   firebaseId?: string;
 
   @Prop({ type: Character, required: true })

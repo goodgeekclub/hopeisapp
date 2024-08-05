@@ -33,4 +33,8 @@ export class Mission {
   @ArrayMinSize(1)
   @ArrayUnique()
   characterIds: string[];
+
+  @ApiProperty()
+  @IsString()
+  photoUrl?: string;
 }

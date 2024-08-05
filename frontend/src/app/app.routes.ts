@@ -11,6 +11,8 @@ import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { AuthGuard } from './auth.guard'
+import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +29,7 @@ export const routes: Routes = [
   {
     path: 'admin-console',
     component: AdminConsole,
+    canActivate: [AuthGuard],
   },
   {
     path: 'quiz',
@@ -47,6 +50,10 @@ export const routes: Routes = [
       {
         path: 'result',
         component: ResultComponent,
+      },
+      {
+        path: 'result/:id',
+        component: ResultCharacterComponent,
       },
     ],
   },

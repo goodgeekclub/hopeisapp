@@ -10,7 +10,7 @@ import { from } from 'rxjs';
 export class DataService {
   constructor(
     @InjectConnection() private connection: Connection,
-    @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data>,
+    @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data<any>>,
   ) {}
 
   getModel() {

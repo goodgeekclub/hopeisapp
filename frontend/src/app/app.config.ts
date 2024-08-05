@@ -14,7 +14,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
 
 import { authInjectInterceptor } from './services/http.service';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 

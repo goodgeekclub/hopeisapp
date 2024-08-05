@@ -1,13 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Messaging, getToken, onMessage, deleteToken } from "@angular/fire/messaging";
 import { environment } from "../../environments/environment.development";
+import { MeService } from "./me.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class FcmService {
-  constructor(private messaging: Messaging){
-    console.log(Notification.permission)
+  private fcmToken?: string;
+
+  constructor(private messaging: Messaging, private meService: MeService){
     Notification.requestPermission().then(
       (notificationPermissions: NotificationPermission) => {
         if (notificationPermissions === "granted") {
@@ -23,11 +25,16 @@ export class FcmService {
     this.listen();
   }
 
+  getFcmToken() {
+    return this.fcmToken;
+  }
+
   requestPermission() {
     getToken(this.messaging, {vapidKey: environment.vapidKey})
-      .then((currentToken) => {
-        if (currentToken) {
-          console.log('FCM Token:', currentToken);
+      .then((fcmToken) => {
+        if (fcmToken) {
+          console.log('FCM Token:', fcmToken);
+          this.fcmToken = fcmToken;
         } else {
           console.log('No registration token available. Request permission to generate one.');
         }

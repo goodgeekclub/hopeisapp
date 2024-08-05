@@ -7,6 +7,8 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { AuthService } from './services';
 import { environment } from '../environments/environment';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { MeService } from './services/me.service';
+import { EMPTY, filter, iif, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 export class AppComponent implements OnInit {
   title = 'frontend';
   private analytics = inject(Analytics);
-  constructor(private authService: AuthService, private FcmService: FcmService) {
+  constructor(private authService: AuthService, private fcmService: FcmService, private meService: MeService) {
   }
 
   ngOnInit(): void {
@@ -34,6 +36,18 @@ export class AppComponent implements OnInit {
         console.log(user);
         console.log('accessToken', await user.getIdToken());
       }
+      // FCM Store Token
+      const fcmToken = this.fcmService.getFcmToken();
+      this.meService.fetchProfile().pipe(
+        filter(profile => profile.fcmToken !== fcmToken),
+        switchMap(() => {
+          return this.meService.patchProfile({ fcmToken: fcmToken });
+        })
+      ).subscribe(profile => {
+        if (!environment.production) {
+          console.log(profile);
+        }
+      });
     });
   }
 }

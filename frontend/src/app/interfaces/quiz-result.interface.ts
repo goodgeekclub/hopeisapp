@@ -1,4 +1,4 @@
-import { CharacterData } from './character-data.interface'
+import { CharacterData } from './character-data.interface';
 
 export interface QuizResult {
   _id?: string;

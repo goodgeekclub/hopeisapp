@@ -9,34 +9,35 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './admin-console.component.html',
   styleUrls: ['./admin-console.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class AdminConsole {
-
   getData: any;
-  missions: Mission[] = [];  // Initialize missions as an empty array
-  index: number = 0;
-  status: string = '';
+  missions: Mission[] = []; // Initialize missions as an empty array
+  index = 0;
+  status = '';
 
-  constructor(private missionService: MissionService, private http: HttpClient) {
+  constructor(
+    private missionService: MissionService,
+    private http: HttpClient,
+  ) {
     this.missionService.getMission().subscribe((missions: Mission[]) => {
-      this.missions = missions;  // Assign the full list of missions to this.missions
+      this.missions = missions; // Assign the full list of missions to this.missions
       this.getData = this.missions[this.index];
     });
   }
 
-  
-
   nextMission() {
-      const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
-      this.updateMissionStatus(currentMissionId, this.status)
-        .subscribe((updatedMission: Mission) => {
-          this.getData.status = this.status;
-          this.missionService.getMission().subscribe((missions: Mission[]) => {
-            this.missions = missions;  // Assign the full list of missions to this.missions
-            this.getData = this.missions[this.index];
-          });
+    const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
+    this.updateMissionStatus(currentMissionId, this.status).subscribe(
+      (updatedMission: Mission) => {
+        this.getData.status = this.status;
+        this.missionService.getMission().subscribe((missions: Mission[]) => {
+          this.missions = missions; // Assign the full list of missions to this.missions
+          this.getData = this.missions[this.index];
         });
+      },
+    );
   }
 
   updateMissionStatus(missionId: string, status: string) {
@@ -50,5 +51,4 @@ export class AdminConsole {
   deniedMission() {
     this.status = 'FAILED';
   }
-
 }

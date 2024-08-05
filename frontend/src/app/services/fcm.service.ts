@@ -1,24 +1,32 @@
-import { Injectable } from "@angular/core";
-import { Messaging, getToken, onMessage, deleteToken } from "@angular/fire/messaging";
-import { environment } from "../../environments/environment.development";
-import { MeService } from "./me.service";
+import { Injectable } from '@angular/core';
+import {
+  Messaging,
+  getToken,
+  onMessage,
+} from '@angular/fire/messaging';
+import { environment } from '../../environments/environment.development';
+import { MeService } from './me.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FcmService {
   private fcmToken?: string;
 
-  constructor(private messaging: Messaging, private meService: MeService){
-    Notification.requestPermission().then(
-      (notificationPermissions: NotificationPermission) => {
-        if (notificationPermissions === "granted") {
-          console.log("Granted");
+  constructor(
+    private messaging: Messaging,
+    private meService: MeService,
+  ) {
+    Notification.requestPermission()
+      .then((notificationPermissions: NotificationPermission) => {
+        if (notificationPermissions === 'granted') {
+          console.log('Granted');
         }
-        if (notificationPermissions === "denied") {
-          console.log("Denied");
+        if (notificationPermissions === 'denied') {
+          console.log('Denied');
         }
-      }).catch(e => {
+      })
+      .catch((e) => {
         console.log(e);
       });
     this.requestPermission();
@@ -30,15 +38,18 @@ export class FcmService {
   }
 
   requestPermission() {
-    getToken(this.messaging, {vapidKey: environment.vapidKey})
+    getToken(this.messaging, { vapidKey: environment.vapidKey })
       .then((fcmToken) => {
         if (fcmToken) {
           console.log('FCM Token:', fcmToken);
           this.fcmToken = fcmToken;
         } else {
-          console.log('No registration token available. Request permission to generate one.');
+          console.log(
+            'No registration token available. Request permission to generate one.',
+          );
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log('Error:', err);
       });
   }
@@ -46,7 +57,7 @@ export class FcmService {
     onMessage(this.messaging, {
       next: (payload) => {
         console.log(payload);
-        alert(JSON.stringify(payload.notification))
+        alert(JSON.stringify(payload.notification));
       },
       error: (error) => console.log('Message error', error),
       complete: () => console.log('Done listening to messages'),

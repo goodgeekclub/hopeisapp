@@ -1,5 +1,5 @@
-import { QuizResult } from "./quiz-result.interface";
-import { CharacterData } from './character-data.interface'
+import { QuizResult } from './quiz-result.interface';
+import { CharacterData } from './character-data.interface';
 
 export interface Me {
   _id: string;

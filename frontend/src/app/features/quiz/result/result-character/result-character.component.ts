@@ -21,15 +21,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./result-character.component.css'],
 })
 export class ResultCharacterComponent implements OnInit {
-  @Input() public character: string = '';
-  public displayName: string = '';
+  @Input() public character = '';
+  public displayName = '';
   public characterData?: Character;
-  public isLoading: boolean = true;
+  public isLoading = true;
   quizResultId: string | undefined;
 
   constructor(
     private quizResultService: QuizResultService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +41,7 @@ export class ResultCharacterComponent implements OnInit {
   }
 
   private setCharacterInfo(): void {
-    const characterBackgrounds: { [key: string]: string } = {
+    const characterBackgrounds: Record<string, string> = {
       brave: '/images/red-bg-full.png',
       wisdom: '/images/purple-bg-full.png',
       planful: '/images/blue-bg-full.png',
@@ -50,7 +50,7 @@ export class ResultCharacterComponent implements OnInit {
       esthetician: '/images/orange-bg-full.png',
     };
 
-    const characterChipColor: { [key: string]: string } = {
+    const characterChipColor: Record<string, string> = {
       brave: 'bg-[#eb4d3d]',
       wisdom: 'bg-[#b491d9]',
       planful: 'bg-[#355dbd]',
@@ -91,7 +91,7 @@ export class ResultCharacterComponent implements OnInit {
       (resultError) => {
         console.error('Error fetching quiz result by ID:', resultError);
         this.isLoading = false; // Set loading to false in case of an error
-      }
+      },
     );
   }
 }

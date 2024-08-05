@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -38,7 +38,7 @@ export class QuestionService {
         }
 
         const questionData = response[0].data.questions.find(
-          (q: any) => q.idx === parseInt(id)
+          (q: any) => q.idx === parseInt(id),
         );
 
         if (!questionData) {
@@ -56,7 +56,7 @@ export class QuestionService {
             type: choice.type,
           })),
         };
-      })
+      }),
     );
   }
 
@@ -73,8 +73,7 @@ export class QuestionService {
         }
 
         return response[0].data.questions.length;
-      })
+      }),
     );
   }
 }
-

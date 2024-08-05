@@ -58,6 +58,7 @@ module.exports = {
         redupbg: "url('../public/images/bg/red-up-bg.png')",
         yellowdownbg: "url('../public/images/bg/yellow-down-bg.png')",
         yellowupbg: "url('../public/images/bg/yellow-up-bg.png')",
+        hopelanding: "url('../public/images/bg/page_landing_bg.png')",
         // brave: "url('../public/images/blue-bg-full.png')",
         // wisdom: "url('../public/images/purple-bg-full.png')",
         // planful: "url('../public/images/blue-bg-full.png')",
@@ -65,6 +66,7 @@ module.exports = {
         // sincere: "url('../public/images/green-bg-full.png')",
         // esthetician: "url('../public/images/orange-bg-full.png')",
       },
+      
     },
   },
   daisyui: {

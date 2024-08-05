@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
-import { AdminConsole } from './features/admin-console/admin-console.component';
+import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 import { WorldExploreComponent } from './features/world-explore/world-explore.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { testRoutes } from './features/test/test.routes';
@@ -10,19 +10,25 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
-import { AuthGuard } from './auth.guard';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { AuthGuard } from './auth.guard'
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
   },
   ...testRoutes,
   {
     path: 'admin-console',
-    component: AdminConsole,
+    component: AdminConsoleComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -51,6 +57,7 @@ export const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'world-explore',
     component: WorldExploreComponent,

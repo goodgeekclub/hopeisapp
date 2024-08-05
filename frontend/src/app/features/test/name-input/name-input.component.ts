@@ -18,7 +18,7 @@ import { LocalStorageService, ProfileService } from '../../../services';
   styleUrls: ['./name-input.component.css'],
 })
 export class NameInputComponent implements OnInit {
-  showModal: boolean = false;
+  showModal = false;
   inputNameValue = new FormControl<string>('', {
     validators: [Validators.minLength(3), Validators.maxLength(10)],
   });
@@ -26,7 +26,7 @@ export class NameInputComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {

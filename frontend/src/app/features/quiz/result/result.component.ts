@@ -20,21 +20,21 @@ import { QuizResultService } from '../../../services/quiz-result.service'; // Im
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css'],
 })
-export class ResultComponent {
+export class ResultComponent implements OnInit {
   public hasResult = false;
   public displayIndex = 0;
   public isClickedToShowResult = false;
   public isClikedToShowText = false;
   public character = '';
   public characterData: any;
-  public displayName: string = '';
-  public quizResultId: string = '';
+  public displayName = '';
+  public quizResultId = '';
 
   constructor(
     private router: Router, // Inject Router service
     private profileService: ProfileService,
     private characterService: CharacterService,
-    private quizResultService: QuizResultService // Inject QuizResultService
+    private quizResultService: QuizResultService, // Inject QuizResultService
   ) {}
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class ResultComponent {
         (response) => {
           console.log('Fetched character data:', response);
           const matchingCharacter = response.find(
-            (char: any) => char.name.trim().toLowerCase() === this.character
+            (char: any) => char.name.trim().toLowerCase() === this.character,
           );
 
           if (matchingCharacter) {
@@ -98,7 +98,7 @@ export class ResultComponent {
               },
               (postError) => {
                 console.error('Error posting data:', postError);
-              }
+              },
             );
           } else {
             console.log('Character not found.');
@@ -106,7 +106,7 @@ export class ResultComponent {
         },
         (error) => {
           console.error('Error fetching character data:', error);
-        }
+        },
       );
     } else {
       console.error('Profile not found');

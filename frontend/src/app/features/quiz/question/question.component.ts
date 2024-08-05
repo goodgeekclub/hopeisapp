@@ -32,7 +32,7 @@ export class QuestionComponent implements OnInit {
     private router: Router,
     private profileService: ProfileService,
     private localStorageService: LocalStorageService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
   ) {}
 
   @Input()
@@ -56,7 +56,7 @@ export class QuestionComponent implements OnInit {
           } else {
             throw new Error('Question ID is missing in the route parameters.');
           }
-        })
+        }),
       )
       .subscribe((total) => {
         this.totalQuestions = total;
@@ -75,8 +75,7 @@ export class QuestionComponent implements OnInit {
 
   async answerQuestion(answer: Choice) {
     this.isDisabled = true;
-    await this.profileService
-      .saveAnswer(this.currentQuestionId, answer.title)
+    await this.profileService.saveAnswer(this.currentQuestionId, answer.title);
     setTimeout(() => {
       this.goToNextQuestion();
       this.isDisabled = false;

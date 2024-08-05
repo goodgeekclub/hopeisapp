@@ -1,49 +1,90 @@
 <section class="w-full overflow-auto relative">
-    <ng-container *ngIf="isLoading">
+  <ng-container *ngIf="isLoading">
+    <div
+      class="w-dvw h-dvh flex items-center justify-center bg-hopesix bg-cover bg-no-repeat bg-center"
+    >
+      <div
+        class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+        role="status"
+      >
+        <span
+          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+          >Loading...</span
+        >
+      </div>
+    </div>
+  </ng-container>
 
-        <div class="w-dvw h-dvh flex items-center justify-center bg-hopesix bg-cover bg-no-repeat bg-center">
-            <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-                role="status">
-                <span
-                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
-            </div>
+  <ng-container *ngIf="!isLoading">
+    <app-background
+      [src]="characterData?.bgLink"
+      [isScrolling]="true"
+    ></app-background>
+    <article class="flex flex-col items-center gap-4 w-full h-full pt-6 px-6">
+      <img
+        src="images/logo-light-hope-up.png"
+        alt="Light Hope Up"
+        width="150px"
+      />
+      <p class="text-center text-[50px] font-bold text-white">
+        {{ displayName }} คือ
+      </p>
+      <p class="text-center text-[50px] font-bold text-white">
+        {{ characterData?.characterTitle }}
+      </p>
+      <p class="text-center text-[14px] font-light text-white">
+        {{ characterData?.characterNameTh }}
+      </p>
+      <!-- <p class="text-center text-[18px] font-bold text-white">{{ characterData?.characterTitle }}</p> -->
+      <img
+        [src]="[characterData?.characterImgLink]"
+        alt="Light Hope Up"
+        width="300px"
+      />
+      <p class="text-center text-[18px] font-normal text-white">
+        {{ characterData?.shinningMethod }}
+      </p>
+      <app-character-attributes
+        [characterAttributes]="characterData?.characterAttributes"
+        [color]="characterData?.attributesChipColor"
+      ></app-character-attributes>
+      <p class="text-center text-[18px] font-bold text-white">
+        วิธีการเปล่งประกาย
+      </p>
+      <p class="text-center text-[18px] font-normal text-white">
+        {{ characterData?.shinningMethod }}
+      </p>
+
+      <div
+        class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3"
+      >
+        <p class="text-center text-[26px] font-bold text-white">12700 คน</p>
+        <p class="text-center text-[14px] font-normal text-white">
+          กำลังปฏิบัติภารกิจเพื่อทำอะไรสักอย่างไม่รู้
+        </p>
+        <app-button
+          class="text-[18px] font-light text-[#b06257] rounded-full bg-white"
+          >JOIN US</app-button
+        >
+        <p class="text-center text-[18px] text-white">
+          เล่นมิชชันสะสม coins กับเราเพื่อสร้างอะไรสักอย่าง
+        </p>
+      </div>
+      <div
+        class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3"
+      >
+        <img src="images/youthtalk.png" alt="Youthtalk" width="100px" />
+        <div class="flex flex-col justify-center items-center gap-3">
+          <p class="text-center text-[18px] font-normal text-white">
+            ฟังเสียงแห่งความหวัง จากแสงที่ออกเดินทางจริง ณ หอศิลป์ (BACC)
+          </p>
+          <app-button
+            class="text-[18px] font-light text-[#b06257] rounded-full bg-white"
+            >BUY TICKET</app-button
+          >
         </div>
-
-    </ng-container>
-
-    <ng-container *ngIf="!isLoading">
-        <app-background [src]="characterData?.bgLink" [isScrolling]="true"></app-background>
-        <article class="flex flex-col items-center gap-4 w-full h-full pt-6 px-6">
-            <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="150px">
-            <p class="text-center text-[50px] font-bold text-white">{{ displayName }} คือ</p>
-            <p class="text-center text-[50px] font-bold text-white">{{ characterData?.characterTitle }}</p>
-            <p class="text-center text-[14px] font-light text-white">{{ characterData?.characterNameTh }}</p>
-            <!-- <p class="text-center text-[18px] font-bold text-white">{{ characterData?.characterTitle }}</p> -->
-            <img [src]=[characterData?.characterImgLink] alt="Light Hope Up" width="300px">
-            <p class="text-center text-[18px] font-normal text-white">{{ characterData?.shinningMethod}}</p>
-            <app-character-attributes [characterAttributes]="characterData?.characterAttributes"
-                [color]="characterData?.attributesChipColor"></app-character-attributes>
-            <p class="text-center text-[18px] font-bold text-white">วิธีการเปล่งประกาย</p>
-            <p class="text-center text-[18px] font-normal text-white">{{ characterData?.shinningMethod }}</p>
-
-            <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3">
-                <p class="text-center text-[26px] font-bold text-white">12700 คน</p>
-                <p class="text-center text-[14px] font-normal text-white">กำลังปฏิบัติภารกิจเพื่อทำอะไรสักอย่างไม่รู้
-                </p>
-                <app-button class="text-[18px] font-light text-[#b06257] rounded-full bg-white">JOIN US</app-button>
-                <p class="text-center text-[18px] text-white">เล่นมิชชันสะสม coins กับเราเพื่อสร้างอะไรสักอย่าง</p>
-            </div>
-            <div class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3">
-                <img src="images/youthtalk.png" alt="Youthtalk" width="100px">
-                <div class="flex flex-col justify-center items-center gap-3">
-                    <p class="text-center text-[18px] font-normal text-white">ฟังเสียงแห่งความหวัง
-                        จากแสงที่ออกเดินทางจริง ณ
-                        หอศิลป์ (BACC)</p>
-                    <app-button class="text-[18px] font-light text-[#b06257] rounded-full bg-white">BUY
-                        TICKET</app-button>
-                </div>
-            </div>
-            <app-footer class="w-full"></app-footer>
-        </article>
-    </ng-container>
+      </div>
+      <app-footer class="w-full"></app-footer>
+    </article>
+  </ng-container>
 </section>

@@ -1,42 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MissionService } from '../../services/mission.service';
-import { Mission } from '../../interfaces/mission';
+import { IProfileActivities } from '../../interfaces/mission.interface';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-admin-console',
   templateUrl: './admin-console.component.html',
   styleUrls: ['./admin-console.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
-export class AdminConsole {
-
-  getData: any;
-  missions: Mission[] = [];  // Initialize missions as an empty array
-  index: number = 0;
-  status: string = '';
-
-  constructor(private missionService: MissionService, private http: HttpClient) {
-    this.missionService.getMission().subscribe((missions: Mission[]) => {
-      this.missions = missions;  // Assign the full list of missions to this.missions
+export class AdminConsoleComponent {
+  getData: IProfileActivities|null=null;
+  missions: IProfileActivities[] = []; // Initialize missions as an empty array
+  index = 0;
+  status = '';
+  
+  constructor(
+    private missionService: MissionService,
+    private http: HttpClient,
+  ) {
+    this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
+      this.missions = missions; // Assign the full list of missions to this.missions
       this.getData = this.missions[this.index];
-    });
+      console.log(this.getData)
+    });  
   }
 
-  
-
   nextMission() {
-      const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
-      this.updateMissionStatus(currentMissionId, this.status)
-        .subscribe((updatedMission: Mission) => {
-          this.getData.status = this.status;
-          this.missionService.getMission().subscribe((missions: Mission[]) => {
-            this.missions = missions;  // Assign the full list of missions to this.missions
-            this.getData = this.missions[this.index];
-          });
+    if(!this.getData){
+      return
+    }
+    const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
+    this.updateMissionStatus(currentMissionId, this.status).subscribe(
+      () => {
+        this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
+          this.missions = missions; // Assign the full list of missions to this.missions
+          this.getData = this.missions[this.index];
         });
+      },
+    );
   }
 
   updateMissionStatus(missionId: string, status: string) {
@@ -50,5 +54,4 @@ export class AdminConsole {
   deniedMission() {
     this.status = 'FAILED';
   }
-
 }

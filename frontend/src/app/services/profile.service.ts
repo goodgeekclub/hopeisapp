@@ -28,7 +28,7 @@ export class ProfileService {
   constructor(
     private storageService: LocalStorageService,
     private questionService: QuestionService,
-    private characterService: CharacterService
+    private characterService: CharacterService,
   ) {}
 
   createProfile(userName: string): void {
@@ -63,7 +63,7 @@ export class ProfileService {
           const choice = question.choices.find((c) => c.title === choiceTitle);
           if (choice) {
             const existingAnswerIndex = profile.answers.findIndex(
-              (answer) => answer.questionId === questionId
+              (answer) => answer.questionId === questionId,
             );
 
             const answer: Answer = {
@@ -113,20 +113,23 @@ export class ProfileService {
     return profile ? profile.currentQuestionId : 1;
   }
 
-  getScores(): { [key: string]: { scores: number[]; total: number } } {
+  getScores(): Record<string, { scores: number[]; total: number }> {
     const profile = this.getProfile();
     if (profile) {
-      return profile.answers.reduce((acc, answer) => {
-        if (!acc[answer.type]) {
-          acc[answer.type] = { scores: [0, 0, 0, 0, 0], total: 0 };
-        }
-        const scoreIndex = answer.questionId - 1;
-        if (scoreIndex >= 0 && scoreIndex < 5) {
-          acc[answer.type].scores[scoreIndex] = answer.score;
-        }
-        acc[answer.type].total += answer.score;
-        return acc;
-      }, {} as { [key: string]: { scores: number[]; total: number } });
+      return profile.answers.reduce(
+        (acc, answer) => {
+          if (!acc[answer.type]) {
+            acc[answer.type] = { scores: [0, 0, 0, 0, 0], total: 0 };
+          }
+          const scoreIndex = answer.questionId - 1;
+          if (scoreIndex >= 0 && scoreIndex < 5) {
+            acc[answer.type].scores[scoreIndex] = answer.score;
+          }
+          acc[answer.type].total += answer.score;
+          return acc;
+        },
+        {} as Record<string, { scores: number[]; total: number }>,
+      );
     }
     return {};
   }

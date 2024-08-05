@@ -3,10 +3,13 @@ import { IsEmpty, IsMongoId } from 'class-validator';
 
 export class CreateMeProfileDto {
   @IsEmpty()
-  @ApiProperty({ description: 'Forbidden to override firebaseId' })
+  @ApiProperty({
+    required: false,
+    description: 'Forbidden to override firebaseId',
+  })
   firebaseId?: string;
 
   @IsMongoId()
-  @ApiProperty()
+  @ApiProperty({ example: 'abcde' })
   quizResultId: string;
 }

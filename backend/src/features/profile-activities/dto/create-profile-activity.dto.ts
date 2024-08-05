@@ -11,26 +11,29 @@ import {
 import { ActivityStatus } from 'src/schemas/profile-activity.schema';
 
 export class CreateProfileActivityDto {
-  @ApiProperty()
+  @ApiProperty({ required: false, example: ActivityStatus.PENDING })
   @IsEnum(ActivityStatus)
   @IsOptional()
   status?: ActivityStatus;
 
-  @ApiProperty()
+  @ApiProperty({ example: '2024-08-05' })
   @IsDate()
   @IsOptional()
   date?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 0 })
   @IsNumber()
   coinValue: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false, example: 'my submission' })
   @IsString()
   @IsOptional()
   text?: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+    example: 'https://dev-media.hopeis.us/example.jpg',
+  })
   @IsOptional()
   @IsUrl()
   photoUrl?: string;

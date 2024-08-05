@@ -29,13 +29,15 @@
                 "input": "public"
               },
               "src/assets/images",
-              "src/assets/fonts"
+              "src/assets/fonts",
+              "src/assets/firebase-messaging-sw.js"
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
-            
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {

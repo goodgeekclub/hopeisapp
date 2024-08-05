@@ -32,6 +32,14 @@ me-profile:
           headers: ${self:custom.cors.headers}
           allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
+        method: PATCH
+        path: /me/profile
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
         method: ANY
         path: /me/profile/{any+}
         private: true
@@ -54,6 +62,14 @@ me-activities:
           allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: POST
+        path: /me/activities
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: PATCH
         path: /me/activities
         private: true
         cors:

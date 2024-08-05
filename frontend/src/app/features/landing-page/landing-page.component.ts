@@ -12,7 +12,7 @@ export class LandingPageComponent {
   total_users : string = "50k+";
   total_hope_risers : string = "1000";
   //please edit below links;
-  ig_link : string = "http://ig";
+  ig_link : string = "https://www.instagram.com/youthday_th?igsh=MXZ1dnc3N3dmY2dpdA%3D%3D&utm_source=qr";
   website_link : string = "http/website";
 
   let_do_the_test_link : string = "/home";

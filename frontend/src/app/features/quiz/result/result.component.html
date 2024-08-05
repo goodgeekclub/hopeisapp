@@ -1,19 +1,35 @@
-<section *ngIf="!hasResult || !isClickedToShowResult; else result" class="w-full h-full relative"
-    (click)="showResult()">
-    <app-background src="images/bg-32.png" [isScrolling]="false"></app-background>
-    <article *ngIf="isClikedToShowText" class="w-full h-full flex flex-col items-center justify-between">
-        <div class="h-full flex flex-col justify-center mt-24">
-            <p class="text-center text-[18px] font-normal text-white">จริง ๆ แล้ว</p>
-            <p class="text-center text-[18px] font-normal text-white">แสงแห่งความหวัง</p>
-            <p class="text-center text-[18px] font-normal text-white mt-8">เปล่งประกายขึ้นมา</p>
-            <p class="text-center text-[18px] font-normal text-white">ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้</p>
-            <p class="text-center text-[18px] font-normal text-white">ให้ดีขึ้นแล้วล่ะ</p>
-        </div>
-        <div>
-            <p class="text-center text-[18px] font-light text-white opacity-50 mb-48">มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน</p>
-        </div>
-    </article>
+<section
+  *ngIf="!hasResult || !isClickedToShowResult; else result"
+  class="w-full h-full relative"
+  (click)="showResult()"
+>
+  <app-background src="images/bg-32.png" [isScrolling]="false"></app-background>
+  <article
+    *ngIf="isClikedToShowText"
+    class="w-full h-full flex flex-col items-center justify-between"
+  >
+    <div class="h-full flex flex-col justify-center mt-24">
+      <p class="text-center text-[18px] font-normal text-white">จริง ๆ แล้ว</p>
+      <p class="text-center text-[18px] font-normal text-white">
+        แสงแห่งความหวัง
+      </p>
+      <p class="text-center text-[18px] font-normal text-white mt-8">
+        เปล่งประกายขึ้นมา
+      </p>
+      <p class="text-center text-[18px] font-normal text-white">
+        ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้
+      </p>
+      <p class="text-center text-[18px] font-normal text-white">
+        ให้ดีขึ้นแล้วล่ะ
+      </p>
+    </div>
+    <div>
+      <p class="text-center text-[18px] font-light text-white opacity-50 mb-48">
+        มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน
+      </p>
+    </div>
+  </article>
 </section>
 <ng-template #result>
-    <app-result-character [character]="character"></app-result-character>
+  <app-result-character [character]="character"></app-result-character>
 </ng-template>

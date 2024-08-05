@@ -1,39 +1,54 @@
 <section class="h-dvh bg-hopefour bg-cover flex justify-center flex-col">
-    <div class="flex justify-center items-center flex-col">
-        <div class="m-1 p-4 rounded-lg shadow-md">
-            <div class="bg-white p-4 rounded-lg shadow-lg">
-                <div>
-                  <div *ngIf="!!getData">
-                      <div
-                      class="w-[250px] h-[350px] overflow-hidden mx-auto my-3 relative top-[15px] rounded-[10px] 
-                      border flex justify-center items-center flex-col overflow-y-scroll">
-                      <img [src]="getData.mission.photoUrl" class=""/>
-                      <div class="p-[15px] font-sans float-left db-helvethaica-x-base">
-                        <h3 class="text-[20px] db-helvethaica-x-base">{{ getData.mission.name }}</h3>
-                        <h5 class="text-[16px] db-helvethaica-x-base">{{ getData.mission.description }}</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div *ngIf="!getData">
-                    <div
-                      class="w-[250px] h-[350px] overflow-hidden mx-auto my-3 relative top-[15px] rounded-[10px] 
-                      border flex justify-center items-center flex-col text-center text-4xl font-black text-gray db-helvethaica-x-base">
-                      <h4>No More Mission <br>ヾ(´･ ･｀｡)ノ”</h4>
-                    </div>
-                  </div>
-                </div>
-            <div class="flex justify-between items-center mt-4">
-                <button (click)="deniedMission()"class="m-1 p-5 bg-red-500 text-white rounded-full cursor-pointer focus:bg-red-700">
-                NO
-                </button>
-                <button (click)="submitMission()" class="m-1 p-5 bg-green-500 text-white rounded-full cursor-pointer hover:shadow-lg focus:bg-green-700 outline-2 ">
-                YES
-                </button>
+  <div class="flex justify-center items-center flex-col">
+    <div class="m-1 p-4 rounded-lg shadow-md">
+      <div class="bg-white p-4 rounded-lg shadow-lg">
+        <div>
+          <div *ngIf="!!getData">
+            <div
+              class="w-[250px] h-[350px] overflow-hidden mx-auto my-3 relative top-[15px] rounded-[10px] border flex justify-center items-center flex-col overflow-y-scroll"
+            >
+              <img [src]="getData.mission.photoUrl" alt="photo" />
+              <div class="p-[15px] font-sans float-left db-helvethaica-x-base">
+                <h3 class="text-[20px] db-helvethaica-x-base">
+                  {{ getData.mission.name }}
+                </h3>
+                <h5 class="text-[16px] db-helvethaica-x-base">
+                  {{ getData.mission.description }}
+                </h5>
+              </div>
             </div>
+          </div>
+          <div *ngIf="!getData">
+            <div
+              class="w-[250px] h-[350px] overflow-hidden mx-auto my-3 relative top-[15px] rounded-[10px] border flex justify-center items-center flex-col text-center text-4xl font-black text-gray db-helvethaica-x-base"
+            >
+              <h4>No More Mission <br />ヾ(´･ ･｀｡)ノ”</h4>
             </div>
-            <div class="flex flex-end">
-                <button (click)="nextMission()" class="mt-10 ml-[200px] p-3 bg-white text-primary rounded-full cursor-pointer hover:bg-primary hover:text-white ">NEXT</button>
-            </div>
+          </div>
         </div>
+        <div class="flex justify-between items-center mt-4">
+          <button
+            (click)="deniedMission()"
+            class="m-1 p-5 bg-red-500 text-white rounded-full cursor-pointer focus:bg-red-700"
+          >
+            NO
+          </button>
+          <button
+            (click)="submitMission()"
+            class="m-1 p-5 bg-green-500 text-white rounded-full cursor-pointer hover:shadow-lg focus:bg-green-700 outline-2"
+          >
+            YES
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-end">
+        <button
+          (click)="nextMission()"
+          class="mt-10 ml-[200px] p-3 bg-white text-primary rounded-full cursor-pointer hover:bg-primary hover:text-white"
+        >
+          NEXT
+        </button>
+      </div>
     </div>
+  </div>
 </section>

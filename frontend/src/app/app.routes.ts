@@ -10,12 +10,18 @@ import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
-import { AuthGuard } from './auth.guard';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { AuthGuard } from './auth.guard'
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
   },
@@ -51,6 +57,7 @@ export const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'world-explore',
     component: WorldExploreComponent,

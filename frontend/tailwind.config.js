@@ -46,6 +46,7 @@ module.exports = {
         characred: "url('../public/images/bg/page_33_34_red.png') ",
         characyellow: "url('../public/images/bg/page_33_34_yellow.png') ",
         hopelogin: "url('../public/images/bg/page_login_32_bg.png') ",
+        hopelanding: "url('../public/images/bg/page_landing_bg.png')",
         // brave: "url('../public/images/blue-bg-full.png')",
         // wisdom: "url('../public/images/purple-bg-full.png')",
         // planful: "url('../public/images/blue-bg-full.png')",
@@ -53,6 +54,7 @@ module.exports = {
         // sincere: "url('../public/images/green-bg-full.png')",
         // esthetician: "url('../public/images/orange-bg-full.png')",
       },
+      
     },
   },
   daisyui: {

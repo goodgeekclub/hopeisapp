@@ -1,12 +1,24 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "HopeisUs",
+  "short_name": "Hope",
+  "theme_color": "#72747c",
+  "background_color": "#151734",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
   "icons": [
+    {
+      "src": "icons/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
     {
       "src": "icons/icon-72x72.png",
       "sizes": "72x72",
@@ -34,6 +46,12 @@
     {
       "src": "icons/icon-152x152.png",
       "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-180x180.png",
+      "sizes": "180x180",
       "type": "image/png",
       "purpose": "maskable any"
     },

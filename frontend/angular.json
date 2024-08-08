@@ -20,7 +20,8 @@
             "allowedCommonJsDependencies": [
               "fast-xml-parser",
               "bowser",
-              "earcut"
+              "earcut",
+              "html2canvas-pro"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [

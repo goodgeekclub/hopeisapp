@@ -37,8 +37,13 @@ provider:
     usagePlan: ${self:custom.usagePlans.${sls:stage}}
 
 custom:
-  serverless-offline:
-    useChildProcesses: true
+  crons:
+    dev:
+      rate: rate(6 hours)
+    uat:
+      rate: rate(6 hours)
+    prod:
+      rate: rate(1 hour)
   usagePlans:
     dev:
       quota:

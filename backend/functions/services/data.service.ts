@@ -29,13 +29,11 @@ export class DataService {
       totalCoin: await this.geTotalCoin(),
       totalBudget: 0,
     };
-    console.log('Stats:', stats.data);
     return stats.save();
   }
 
   async getStats() {
     return this.model.findOne({ type: 'STAT' }).then((stats) => {
-      console.log(stats);
       return stats || new this.model(this.defaultStats());
     });
   }

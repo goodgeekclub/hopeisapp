@@ -17,6 +17,8 @@ interface User {
 })
 export class WorldExploreComponent implements OnInit{
   app: PIXI.Application | undefined;
+  rocket: PIXI.Sprite | undefined;
+  trail: PIXI.Graphics | undefined;
 
   stars: PIXI.Sprite[] = [];
   users: User[] = [];
@@ -24,8 +26,8 @@ export class WorldExploreComponent implements OnInit{
   destinationY: number = 0;
   usersProcessed: number = 100;
 
-  batchSize: number = 1; // Number of stars to create per batch
-  displayLimit: number = 0; //limit user display
+  batchSize: number = 1; 
+  displayLimit: number = 0; 
 
   selectedUser: User | null = null;
   selectedUserImage: string | null = null;
@@ -33,42 +35,47 @@ export class WorldExploreComponent implements OnInit{
   async ngOnInit() {
     const app = new PIXI.Application();
     this.app = app;
-    const numberOfUsers = 100000; // test Number of user
+    const numberOfUsers = 100000; 
     for (let i = 1; i <= numberOfUsers; i++) {
       this.users.push({ id: i, name: `User ${i}`, score: Math.floor(Math.random() * 1000) });
     }
 
     app.init({ resizeTo: window }).then(async () => {
 
-      // Append the application canvas to the document body
+      
       document.body.appendChild(app.canvas);
 
-      // Add the assets to load
+    
       PIXI.Assets.add({ alias: 'star1', src: './assets/images/star1.png' });
       PIXI.Assets.add({ alias: 'star2', src: './assets/images/star2.png' });
       PIXI.Assets.add({ alias: 'star3', src: './assets/images/star3.png' });
      await PIXI.Assets.add({ alias: 'rocket', src: './assets/images/Rocket.png' });
      await PIXI.Assets.add({ alias: 'layer1', src: './assets/images/layer1.png' });
      await PIXI.Assets.add({ alias: 'background', src: './assets/images/BG-39.png' });
-      // Allow the assets to load in the background
+      
       await PIXI.Assets.backgroundLoad(['star1', 'star2', 'star3','rocket','layer1','background']);
        PIXI.Assets.load('star1')
        PIXI.Assets.load('star2')
        PIXI.Assets.load('star3')
        const BackgroundTexture = await PIXI.Assets.load('background')
        const layer1Texture = await PIXI.Assets.load('layer1')
-       const RocketTexture = await PIXI.Assets.load('rocket')
+       
        
        const background = new PIXI.Sprite(BackgroundTexture);
        
-       if (window.innerWidth < 1900 && window.innerWidth > 800) { 
+       if (window.innerWidth < 1900 && window.innerWidth > 900) { 
       background.scale.set(0.4);
       background.x = 230;
        }
-       else if (window.innerWidth < 800)
+       else if (window.innerWidth < 900 )
        {
         background.scale.set(0.3);
         background.x = 1;
+       }
+       else if (window.innerWidth < 800)
+        {
+         background.scale.set(0.2);
+         background.x = 1;
        }
        else {
         background.scale.set(0.3);
@@ -84,11 +91,11 @@ export class WorldExploreComponent implements OnInit{
        layer1.x = 200;
        layer1.y = 1300;
        }
-       else if (window.innerWidth < 600)
+       else if (window.innerWidth < 900)
        {
         layer1.scale.set(0.5);
-       layer1.x = -2;
-       layer1.y = 700;
+       layer1.x = -30;
+       layer1.y = 730;
        }
        else {
         layer1.scale.set(0.6);
@@ -99,51 +106,54 @@ export class WorldExploreComponent implements OnInit{
        
        
 
-       const rocket = new PIXI.Sprite(RocketTexture);
+      // Load assets and create rocket as before...
+    const RocketTexture = await PIXI.Assets.load('rocket');
+    this.rocket = new PIXI.Sprite(RocketTexture);
+    this.rocket.scale.set(0.3);
+    this.rocket.anchor.set(0.5);
+    this.rocket.x = app.screen.width / 2;
+    this.rocket.y = 870;
+    app.stage.addChild(this.rocket);
 
-       if (window.innerWidth < 1900 && window.innerWidth > 800) { 
-       rocket.scale.set(0.3);
-       rocket.anchor.set(0.5);
-       rocket.x = app.screen.width / 2;
-       rocket.y = 1400;
-       }
-       else if (window.innerWidth < 800)
-       {
-        rocket.scale.set(0.5);
-       rocket.anchor.set(0.5);
-       rocket.x = app.screen.width / 2;
-       rocket.y = 760;
-       }
-       else{
-        rocket.scale.set(0.3);
-       rocket.anchor.set(0.5);
-       rocket.x = app.screen.width / 2;
-       rocket.y = 870;
-       }
-       app.stage.addChild(rocket);
+
+    this.trail = new PIXI.Graphics();
+    app.stage.addChild(this.trail);
+
+    app.stage.setChildIndex(this.trail, app.stage.children.length - 1);
+
+
+   
 
       
      
 
        const processUserBatches = () => {
         const moveRocket = () => {
-          if (!rocket) return;
-
-          // Move the rocket in a sine wave pattern along the Y-axis
+          if (!this.rocket || !this.trail) return;
+    
           const speed = 2;
-          this.angle += Math.PI / 180;
-          rocket.x = app.screen.width / 2 + Math.sin(this.angle * 2) * 50; // Adjust this value for amplitude
-          rocket.y -= speed;
+          this.angle += Math.PI / 180; // Increase the angle for sine wave movement
+          this.rocket.x = app.screen.width / 2 + Math.sin(this.angle) * 50;
+          this.rocket.y -= speed;
+    
+          
+           // Clear previous trail before drawing the new one
+      this.trail.clear();
+      this.trail.lineStyle(5, 0x0000ff, 1); // Set the color and thickness for the trail
 
-          if (this.usersProcessed < this.users.length) {
-            this.usersProcessed += this.batchSize;
-
-           
-            requestAnimationFrame(moveRocket);
-          } 
+      // Draw the trail behind the rocket using bezier curve
+      this.trail.moveTo(this.rocket.x, this.rocket.y);
+      this.trail.bezierCurveTo(
+        this.rocket.x, this.rocket.y - 100,   // Control point 1
+        this.rocket.x - 100, this.rocket.y + 100, // Control point 2
+        this.rocket.x - 200, this.rocket.y // End point
+          );
+    
+          requestAnimationFrame(moveRocket);
         };
+        
         moveRocket();
-      };
+      }
      
 
 

@@ -12,11 +12,14 @@ p {
 }
 
 .svg-button {
-  background: whitesmoke;
   border-radius: 100%;
   border-width: 2px;
   border-color: black;
   padding: 4px;
+}
+
+.know-hope {
+  background-color: rgb(157, 171, 203);
 }
 
 .svg-button:hover {

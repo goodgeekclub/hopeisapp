@@ -1,16 +1,28 @@
 quiz-result:
   name: ${self:service}-quiz-result-${sls:stage}
-  handler: dist/lambda.handler
+  handler: dist/main.handler
   events:
     - http:
         method: GET
-        path: /quiz-results
+        path: /quiz-results/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: POST
-        path: /quiz-results
+        path: /quiz-results/
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
     - http:
         method: ANY
-        path: /quiz-results/{proxy+}
+        path: /quiz-results/{any+}
         private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}

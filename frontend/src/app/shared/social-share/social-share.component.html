@@ -1,5 +1,5 @@
 <div #toBeShare>
-  <table  id="table" class="table table-striped">
+  <table id="table" class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -31,21 +31,18 @@
   </table>
 </div>
 
-<button
-  aria-label="Share button"
-  class="btn btn-primary"
- (click)="onClick()"
->Share</button>
+<button aria-label="Share button" class="btn btn-primary" (click)="onClick()">
+  Share
+</button>
 
-<div >
-  <button
-  aria-label="Share button"
-  class="btn btn-primary"
-  (click)="check()"
-  > Check Img</button>
-  <div *ngIf="clicked" class="absolute left-0 p-2 mt-2 text-white bg-gray-700 rounded" >
+<div>
+  <button aria-label="Share button" class="btn btn-primary" (click)="check()">
+    Check Img
+  </button>
+  <div
+    *ngIf="clicked"
+    class="absolute left-0 p-2 mt-2 text-white bg-gray-700 rounded"
+  >
     copied
   </div>
 </div>
-
-

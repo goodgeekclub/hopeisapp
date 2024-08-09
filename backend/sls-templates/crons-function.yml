@@ -1,0 +1,8 @@
+crons-stats:
+  name: ${self:service}-crons-${sls:stage}
+  handler: dist/functions/crons.handler
+  events:
+    - schedule:
+        name: ${self:service}-stats-${sls:stage}
+        rate: ${self:custom.crons.${sls:stage}.rate}
+        enabled: true

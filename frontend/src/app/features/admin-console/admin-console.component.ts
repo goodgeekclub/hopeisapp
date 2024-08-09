@@ -1,163 +1,57 @@
-import { Component ,OnInit } from '@angular/core';
-// import { User } from '../../models/user.model';
-// import { AdminUserService } from '../../services/admin_user.service';
-
-interface User{
-      displayName: string,
-      email: string,
-      token: string,
-      phoneNumber: string,
-      status: string,
-}
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MissionService } from '../../services/mission.service';
+import { IProfileActivities } from '../../interfaces/mission.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-console',
-  standalone: true,
-  imports: [],
   templateUrl: './admin-console.component.html',
-  styleUrl: './admin-console.component.css',
+  styleUrls: ['./admin-console.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
-
-export class AdminConsole implements OnInit{
+export class AdminConsoleComponent {
+  getData: IProfileActivities|null=null;
+  missions: IProfileActivities[] = []; // Initialize missions as an empty array
+  index = 0;
+  status = '';
   
-  users: Array<User> =[
-    {
-      displayName: 'Kullanan',
-      email: 'kullananzaza@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'approve'
-    },
-    {
-      displayName: 'Art',
-      email: 'Art@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'approve'
-    },
-    {
-      displayName: 'Kullanan',
-      email: 'NNnam1.privatemail@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'approve'
-    },
-    {
-      displayName: 'Kullanan',
-      email: 'NNnam1.privatemail@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'approve'
-    },
-    {
-      displayName: 'Kullanan',
-      email: 'NNnam1.privatemail@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'waiting'
-    },
-    {
-      displayName: 'Nay',
-      email: 'Araiva@gmail.com',
-      token: 'fssffsfsf',
-      phoneNumber: '08573829902',
-      status: 'waiting'
-    },{
-      displayName: 'Kullanan',
-      email: 'NNnam1.privatemail@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'waiting'
-    },
-    {
-      displayName: 'Nay',
-      email: 'Araiva@gmail.com',
-      token: 'fssffsfsf',
-      phoneNumber: '08573829902',
-      status: 'waiting'
-    },{
-      displayName: 'Kullanan',
-      email: 'NNnam1.privatemail@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'waiting'
-    },
-    {
-      displayName: 'Nay',
-      email: 'Araiva@gmail.com',
-      token: 'fssffsfsf',
-      phoneNumber: '08573829902',
-      status: 'approve'
-    },
-    {
-      displayName: 'Nay',
-      email: 'Araiva@gmail.com',
-      token: 'fssffsfsf',
-      phoneNumber: '08573829902',
-      status: 'approve'
-    },
-    {
-      displayName: 'Art',
-      email: 'Art@gmail.com',
-      token: '34534535353',
-      phoneNumber: '0649932001',
-      status: 'approve'
-    },
-  ]
-
-  currentPage : number = 1;
-  pageSize : number = 10;
-
-  filterUsers: Array<User> = this.users;
-  pagestatus: Array<string> = [ 'approve',  'waiting']
-  
-  ngOnInit(): void {
-    this.visibleData();
-    // this.pageNumber();
-
-  }
-  visibleData(){
-    let startIndex = (this.currentPage -1)* this.pageSize ;
-    let endIndex = startIndex + this.pageSize;
-    return this.filterUsers.slice(startIndex, endIndex);
+  constructor(
+    private missionService: MissionService,
+    private http: HttpClient,
+  ) {
+    this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
+      this.missions = missions; // Assign the full list of missions to this.missions
+      this.getData = this.missions[this.index];
+      console.log(this.getData)
+    });  
   }
 
-  nextPage(){
-    this.currentPage++;
-    this.visibleData();
-  }
-
-  previousPage(){
-    this.currentPage--;
-    if(this.currentPage == 0){
-      this.currentPage = 1;
+  nextMission() {
+    if(!this.getData){
+      return
     }
-    this.visibleData();
+    const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
+    this.updateMissionStatus(currentMissionId, this.status).subscribe(
+      () => {
+        this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
+          this.missions = missions; // Assign the full list of missions to this.missions
+          this.getData = this.missions[this.index];
+        });
+      },
+    );
   }
 
-
-  changePage(pageNumber:number){
-    this.currentPage = pageNumber;
-    this.visibleData();
-  }
-  filterData(searchTerm:string){
-    if (searchTerm) {
-      this.filterUsers = this.users.filter(user =>
-        Object.values(user).some(val =>
-          val.toString().toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    } else {
-      this.filterUsers = [...this.users];
-    }
-    this.visibleData();
+  updateMissionStatus(missionId: string, status: string) {
+    return this.missionService.updateMissionStatus(missionId, status);
   }
 
-  // filteredPagestatus = this.pagestatus.filter(item => item.status === 'approved' || item.status === 'waiting');
+  submitMission() {
+    this.status = 'SUCCESS';
+  }
 
-  // changePageStatus(value: string) {
-  //   this.filteredPagestatus = this.pagestatus.filter(item => item.status === 'approved' || item.status === 'waiting');
-  //   this.visibleData();
-  // }
-
+  deniedMission() {
+    this.status = 'FAILED';
+  }
 }

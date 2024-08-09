@@ -1,28 +1,31 @@
-<section>
-  <div class="h-dvh flex flex-col justify-center items-center">
-    <div class="p-5 m-5 border rounded-lg">
-      <h2 class="pb-5 text-xl font-bold">คำอธิบายการทำแบบสอบถาม</h2>
-      <ul class="list-inside list-disc">
-        <li>Lorem ipsum dolor sit amet.</li>
-        <li>Lorem ipsum dolor sit amet.</li>
-        <li>Lorem ipsum dolor sit amet.</li>
-      </ul>
-    </div>
-    <button class="btn btn-outline" (click)="startQuiz()">START</button>
+<div
+  class="p-5 animate-fade h-dvh flex flex-col justify-center items-center text-center text-white space-y-8 bg-hopefive bg-no-repeat bg-cover bg-center"
+>
+  <div>
+    <p>การค้นหาแสงแห่งความหวังของเธอ</p>
+    <p>อ้างอิงจากแบบทดสอบของ HABITSCAN</p>
   </div>
-
-  @if (showModal) {
-  <div class="fixed inset-0 flex items-center justify-center z-50" *ngIf="showModal">
-    <div class="modal modal-open">
-      <div class="modal-box">
-        <h3 class="text-lg font-bold">Confirm Start</h3>
-        <p class="py-4">Are you sure you want to start the quiz?</p>
-        <div class="modal-action">
-          <button class="btn btn-primary" type="submit" (click)="confirmStart()">Confirm</button>
-          <button class="btn" type="button" (click)="cancelStart()">Cancel</button>
-        </div>
-      </div>
-    </div>
+  <div>
+    <p>เธอเตรียมตัวให้พร้อม</p>
+    <p>คำถามมี 30 ข้อ ไม่มีการจับเวลา</p>
+    <p>ไม่มีถูก ไม่มีผิด</p>
+    <p>ตอบเพียงสิ่งที่ตรงกับ</p>
+    <p>ตัวตนของเธอเท่านั้น</p>
   </div>
-  }
-</section>
+  <div>
+    <p>ขอให้เธอมั่นใจในทุกการตอบ</p>
+    <p>เนื่องจากแบบทดสอบ</p>
+    <p>จะไม่ย้อนกลับไปข้อก่อนหน้า</p>
+  </div>
+  <div>
+    <p>ขอให้เธอสูดหายใจเข้า</p>
+    <p>ค่อยๆ ผ่อนคลาย</p>
+    <p>ไปค้นหาแสงสว่างหองเธอกันนะ</p>
+  </div>
+  <button
+    class="p-7 text-gray-400 btn btn-link no-underline hover:no-underline"
+    (click)="startQuiz()"
+  >
+    START
+  </button>
+</div>

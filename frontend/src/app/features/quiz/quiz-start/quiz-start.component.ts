@@ -21,7 +21,7 @@ export class QuizStartComponent implements OnInit {
   }
 
   question$!: Observable<Question>;
-  showModal: boolean = false;
+  showModal = false;
   currentQuestionId!: number;
 
   constructor(
@@ -29,7 +29,7 @@ export class QuizStartComponent implements OnInit {
     private router: Router,
     private profileService: ProfileService,
     private localStorageService: LocalStorageService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
   ) {}
 
   ngOnInit() {
@@ -45,21 +45,12 @@ export class QuizStartComponent implements OnInit {
           }
           this.id = this.currentQuestionId.toString();
           return this.question$;
-        })
+        }),
       )
       .subscribe();
   }
 
   startQuiz() {
-    this.showModal = true;
-  }
-
-  confirmStart() {
-    this.showModal = false;
     this.router.navigate(['/quiz/question', this.currentQuestionId]);
-  }
-
-  cancelStart() {
-    this.showModal = false;
   }
 }

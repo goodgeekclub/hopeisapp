@@ -18,10 +18,10 @@ jobs:
         working-directory: ./frontend
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: actions/download-artifact@master
         with:
-          name: dist
+          name: dist-frontend-${{ github.sha }}
           path: frontend/dist
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,3 +34,4 @@ jobs:
           aws s3 ls
       - name: Sync to S3
         run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }}
+

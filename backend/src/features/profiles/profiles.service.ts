@@ -15,20 +15,36 @@ export class ProfilesService {
 
   create(createProfileDto: CreateProfileDto) {
     const profile = new this.model(createProfileDto);
-    return from(profile.save());
+    return profile.save();
   }
 
   findAll() {
-    const allProfile = this.model.find().exec();
-    return from(allProfile);
+    return this.model.find().exec();
   }
 
   findOne(id: string) {
     return this.model.findById(id);
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto) {
-    return from(this.model.findByIdAndUpdate(id, updateProfileDto));
+  findByFbId(fbId: string) {
+    return this.model
+      .findOne({
+        firebaseId: fbId,
+      })
+      .populate('quizResult');
+  }
+
+  update(id: string, body: UpdateProfileDto) {
+    return from(this.model.findByIdAndUpdate(id, body));
+  }
+
+  updateByFbId(firebaseId: string, body: UpdateProfileDto) {
+    if (body.firebaseId) {
+      delete body.firebaseId;
+    }
+    return this.model
+      .updateOne({ firebaseId }, body)
+      .then(() => this.findByFbId(firebaseId));
   }
 
   remove(id: string) {

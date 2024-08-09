@@ -10,8 +10,12 @@ import { from } from 'rxjs';
 export class DataService {
   constructor(
     @InjectConnection() private connection: Connection,
-    @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data>,
+    @InjectModel(COLLECTION_NAME.DATA) private model: Model<Data<any>>,
   ) {}
+
+  getModel() {
+    return this.model;
+  }
 
   create(createDataDto: CreateDataDto) {
     const data = new this.model(createDataDto);
@@ -19,8 +23,13 @@ export class DataService {
   }
 
   findAll(type?: DataType) {
-    const allData = this.model.find({ type }).exec();
-    return from(allData);
+    // const allData = this.model.find({ type }).exec();
+    console.log(type);
+    let data = this.model.find();
+    if (type) {
+      data = data.where({ type });
+    }
+    return from(data);
   }
 
   findOne(id: string) {

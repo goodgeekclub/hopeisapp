@@ -167,8 +167,14 @@ export class WorldExploreComponent implements OnInit{
 
       let batchIndex = 0;
       const createNextBatch = () => {
-        if (batchIndex < this.users.length && this.stars.length < this.displayLimit) {
-          const endIndex = Math.min(batchIndex + this.batchSize, this.users.length);
+        if (
+          batchIndex < this.users.length &&
+          this.stars.length < this.displayLimit
+        ) {
+          const endIndex = Math.min(
+            batchIndex + this.batchSize,
+            this.users.length,
+          );
           for (let i = batchIndex; i < endIndex; i++) {
             if (this.stars.length < this.displayLimit) {
               const user = this.users[i];

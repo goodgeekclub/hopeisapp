@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const serviceAccount = require('../../firebase-service-key.json');
 import { credential } from 'firebase-admin';
 export const firebaseConfig = {

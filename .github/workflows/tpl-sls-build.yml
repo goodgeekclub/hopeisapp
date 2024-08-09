@@ -1,0 +1,38 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Serverless Framework Build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v4
+      - name: Setup Node.js $
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: ./backend/package-lock.json 
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Prepare Environment
+        run: |
+          echo '${{ secrets.SLS_ENVIRONMENT }}' > .env
+          echo '${{ secrets.FIREBASE_KEY }}' > firebase-service-key.json
+      - name: Build
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: dist-backend-${{ github.sha }}
+          path: |
+            backend/dist

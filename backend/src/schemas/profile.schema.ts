@@ -1,7 +1,8 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as mSchema } from 'mongoose';
 import { Character } from 'src/models/character.model';
+import { QuizResult } from './quiz-result.schema';
 
 @Schema()
 class MetaData {
@@ -32,37 +33,44 @@ export class Profile {
 
   @Prop()
   @ApiProperty({ example: 'first_name' })
-  firstName?: string;
+  fullName?: string;
 
   @Prop()
-  @ApiProperty({ example: 'last_name' })
-  lastName?: string;
-
-  @Prop()
-  @ApiProperty({ example: 'example@mail.com' })
+  @ApiProperty({ required: false, example: 'example@mail.com' })
   email?: string;
 
   @Prop({ enum: Gender })
-  @ApiProperty({ example: 'FEMALE', enum: Gender })
+  @ApiProperty({ required: false, example: 'FEMALE', enum: Gender })
   gender?: Gender;
 
   @Prop()
-  @ApiProperty({ example: new Date() })
+  @ApiProperty({ required: false, example: new Date() })
   birthday?: Date;
 
-  @Prop({ type: MetaDataSchema, required: true, default: { totalCoin: 0, missionSuccess: 0 } })
+  @Prop()
+  @ApiProperty({ required: false, example: 'dfds' })
+  fcmToken?: string;
+
+  @Prop({
+    type: MetaDataSchema,
+    required: true,
+    default: { totalCoin: 0, missionSuccess: 0 },
+  })
   metadata: MetaData;
 
   @Prop()
-  @ApiProperty({ example: 'photo_url' })
+  @ApiProperty({ required: false, example: 'photo_url' })
   photoUrl?: string;
 
   @Prop()
-  @ApiProperty({ example: 'firebase_id' })
+  @ApiProperty({ required: false, example: 'firebase_id' })
   firebaseId?: string;
 
   @Prop({ type: Character, required: true })
   character: Character;
+
+  @Prop({ type: mSchema.Types.ObjectId, ref: 'quiz-results' })
+  quizResult: QuizResult;
 }
 
 export type ProfileDocument = HydratedDocument<Profile>;

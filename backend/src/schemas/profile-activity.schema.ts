@@ -1,8 +1,9 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { ApiProperty } from "@nestjs/swagger";
-import { Character } from "src/models/character.model";
-import { HydratedDocument, Schema as mSchema } from "mongoose";
-import { Profile } from "./profile.schema";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
+import { Character } from 'src/models/character.model';
+import { HydratedDocument, Schema as mSchema } from 'mongoose';
+import { Profile } from './profile.schema';
+import { Mission } from 'src/models/mission.model';
 
 export enum ActivityStatus {
   TODO = 'TODO',
@@ -32,7 +33,7 @@ export class ProfileActivity {
   @ApiProperty()
   text?: string;
 
-  @Prop({ required: true })
+  @Prop()
   @ApiProperty()
   photoUrl: string;
 
@@ -42,9 +43,14 @@ export class ProfileActivity {
 
   @Prop({ type: mSchema.Types.ObjectId, ref: 'profile', required: true })
   @ApiProperty()
-  profile: string | Profile
+  profile: string | Profile;
+
+  @Prop({ type: Mission, require: true })
+  @ApiProperty()
+  mission: Mission;
 }
 
 export type ProfileActivityDocument = HydratedDocument<ProfileActivity>;
 
-export const ProfileActivitySchema = SchemaFactory.createForClass(ProfileActivity);
+export const ProfileActivitySchema =
+  SchemaFactory.createForClass(ProfileActivity);

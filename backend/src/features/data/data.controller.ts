@@ -11,8 +11,6 @@ import {
   Req,
 } from '@nestjs/common';
 import { DataService } from './data.service';
-import { CreateDataDto } from './dto/create-data.dto';
-import { UpdateDataDto } from './dto/update-data.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { DataInterceptor } from './data.interceptor';
 import { DataType } from 'src/schemas/data.schema';
@@ -22,22 +20,22 @@ import { CreateMissionDto } from './dto/mission/create-mission.dto';
 import { UpdateMissionDto } from './dto/mission/update-mission.dto';
 import { UpdateCharacterDto } from './dto/character/update-character.dto';
 import { CreateCharacterDto } from './dto/character/create-character.dto';
+import { AuthRole, Public } from 'src/auth/auth.guard';
+import { Auth } from 'src/decorators/auth.docorator';
 
+@Auth(AuthRole.Admin)
 @ApiTags('Data')
 @Controller('data')
 export class DataController {
   constructor(private readonly dataService: DataService) {}
 
-  // @Post()
-  // create(@Body() createDataDto: CreateDataDto) {
-  //   return this.dataService.create(createDataDto);
-  // }
-
+  @Public()
   @Get()
   findAll(@Query('type') type: DataType) {
     return this.dataService.findAll(type);
   }
 
+  @Public()
   @Get('missions|stats|quizes|characters')
   findAllByType(@Req() req) {
     const paths = req.originalUrl.split('/').filter((p: string) => !!p);
@@ -45,6 +43,7 @@ export class DataController {
     return this.dataService.findAll(type);
   }
 
+  @Public()
   @Get(':id')
   @UseInterceptors(DataInterceptor)
   findOne(@Param('id') id: string) {
@@ -67,7 +66,10 @@ export class DataController {
   }
 
   @Patch('missions/:id')
-  updateMission(@Param('id') id: string, @Body() updateMission: UpdateMissionDto) {
+  updateMission(
+    @Param('id') id: string,
+    @Body() updateMission: UpdateMissionDto,
+  ) {
     return this.dataService.update(id, updateMission);
   }
 
@@ -77,7 +79,10 @@ export class DataController {
   }
 
   @Patch('characters/:id')
-  updateCharacter(@Param('id') id: string, @Body() updateCharacter: UpdateCharacterDto) {
+  updateCharacter(
+    @Param('id') id: string,
+    @Body() updateCharacter: UpdateCharacterDto,
+  ) {
     return this.dataService.update(id, updateCharacter);
   }
 

@@ -1,21 +1,31 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
-import { UpdateQuizResultDto } from './dto/update-quiz-result.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
 import { Model } from 'mongoose';
 import { QuizResult } from 'src/schemas/quiz-result.schema';
 import { from } from 'rxjs';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
+import { ProfilesService } from '../profiles/profiles.service';
 
 @Injectable()
 export class QuizResultsService {
   constructor(
-    @InjectModel(COLLECTION_NAME.QUIZ_RESULT) private model: Model<QuizResult>
+    @InjectModel(COLLECTION_NAME.QUIZ_RESULT) private model: Model<QuizResult>,
+    private profileService: ProfilesService,
   ) {}
-  create(createQuizResultDto: CreateQuizResultDto) {
-    // const quizResult = new this.model(createQuizResultDto);
-    const quizResult = new this.model(createQuizResultDto);
+  async create(body: CreateQuizResultDto) {
+    const quizResult = new this.model(body);
+    if (body.profileId) {
+      const profile = await this.profileService.findOne(body.profileId);
+      if (!profile) {
+        throw new BadRequestException('QuizResult does not existed');
+      }
+    }
     return from(quizResult.save());
   }
 
@@ -23,15 +33,11 @@ export class QuizResultsService {
     const find = this.model.find();
     find.limit(options?.limit);
     find.skip(options?.skip);
-    find.sort({ createdAt: 'asc' })
+    find.sort({ createdAt: 'asc' });
     return this.model.find().exec();
   }
 
   findOne(id: string) {
-    return this.model.findById(id).populate('profile').then(profile => {
-      if (!profile) {
-        throw new NotFoundException('Profile does not existed');
-      }
-    });
+    return this.model.findById(id).populate('profile');
   }
 }

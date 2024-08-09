@@ -1,34 +1,48 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsMongoId, IsNumber, IsNumberString, IsOptional, IsString, IsUrl } from "class-validator";
-import { ActivityStatus, ProfileActivity } from "src/schemas/profile-activity.schema";
-import { Profile } from "src/schemas";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsDate,
+  IsEnum,
+  IsMongoId,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
+import { ActivityStatus } from 'src/schemas/profile-activity.schema';
 
 export class CreateProfileActivityDto {
-
-  @ApiProperty()
+  @ApiProperty({ required: false, example: ActivityStatus.PENDING })
   @IsEnum(ActivityStatus)
   @IsOptional()
   status?: ActivityStatus;
 
-  @ApiProperty()
+  @ApiProperty({ example: '2024-08-05' })
   @IsDate()
   @IsOptional()
   date?: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 0 })
   @IsNumber()
   coinValue: number;
 
-  @ApiProperty()
+  @ApiProperty({ required: false, example: 'my submission' })
   @IsString()
   @IsOptional()
   text?: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+    example: 'https://dev-media.hopeis.us/example.jpg',
+  })
+  @IsOptional()
   @IsUrl()
-  photoUrl: string;
+  photoUrl?: string;
 
   @ApiProperty()
   @IsMongoId()
-  profile: string;
+  profileId: string;
+
+  @ApiProperty()
+  @IsMongoId()
+  missionId: string;
 }

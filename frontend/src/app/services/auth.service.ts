@@ -1,12 +1,10 @@
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
   Auth,
   authState,
-  getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  user,
 } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
 
@@ -22,9 +20,9 @@ export class AuthService {
   public async register(): Promise<User | null> {
     const registeredUser = await signInWithPopup(
       this.auth,
-      this.googleAuthProvider
+      this.googleAuthProvider,
     )
-      .then(async (result) => {
+      .then(() => {
         return this.auth.currentUser;
       })
       .catch((error) => {
@@ -38,13 +36,14 @@ export class AuthService {
     return this.auth.currentUser;
   }
 
-  getUserState() {
+  getUserState(): Observable<User> {
     return authState(this.auth);
   }
 
   getAccessToken(): Observable<string> {
     return authState(this.auth).pipe(
-      map((auth: any) => auth!.accessToken)
+      map((auth: any) => auth!.accessToken),
+      tap((token) => console.log('token:', token)),
     );
   }
 }

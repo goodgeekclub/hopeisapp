@@ -1,0 +1,88 @@
+me:
+  name: ${self:service}-me-${sls:stage}
+  handler: dist/main.handler
+  events:
+    - http:
+        method: GET
+        path: /me/
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+
+me-profile:
+  name: ${self:service}-me-profile-${sls:stage}
+  handler: dist/main.handler
+  events:
+    - http:
+        method: GET
+        path: /me/profile
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: POST
+        path: /me/profile
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: PATCH
+        path: /me/profile
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: ANY
+        path: /me/profile/{any+}
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+
+me-activities:
+  name: ${self:service}-me-activities-${sls:stage}
+  handler: dist/main.handler
+  events:
+    - http:
+        method: GET
+        path: /me/activities
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: POST
+        path: /me/activities
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: PATCH
+        path: /me/activities
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+    - http:
+        method: ANY
+        path: /me/activities/{any+}
+        private: true
+        cors:
+          origins: ${self:custom.cors.origins.${sls:stage}}
+          headers: ${self:custom.cors.headers}
+          allowCredentials: ${self:custom.cors.allowCredentials}
+
+

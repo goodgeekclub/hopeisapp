@@ -1,14 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Choice {
   title: string;
+  subtitle?: string;
   score: number;
+  type: string;
 }
 
 export interface Question {
-  id: string;
+  id: number;
   title: string;
+  subtitle?: string;
   choices: Choice[];
 }
 
@@ -16,77 +21,59 @@ export interface Question {
   providedIn: 'root',
 })
 export class QuestionService {
-  private questions: Question[] = [
-    {
-      id: '1',
-      title: 'You find it easy to introduce yourself to other people.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '2',
-      title:
-        'You often get so lost in thoughts that you ignore or forget your surroundings.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '3',
-      title:
-        'You try to respond to your emails as soon as possible and cannot stand a messy inbox.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '4',
-      title:
-        'You find it easy to stay relaxed and focused even when there is some pressure.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-    {
-      id: '5',
-      title: 'You do not usually initiate conversations.',
-      choices: [
-        { title: 'Strongly Agree', score: 5 },
-        { title: 'Agree', score: 4 },
-        { title: 'Neutral', score: 3 },
-        { title: 'Disagree', score: 2 },
-        { title: 'Strongly Disagree', score: 1 },
-      ],
-    },
-  ];
+  private baseUrl = `${environment.backend.backendUrl}/data/quizes/`;
+
+  constructor(private http: HttpClient) {}
 
   getQuestion(id: string): Observable<Question> {
-    const question = this.questions.find((q) => q.id === id) || {
-      id: '0',
-      title: 'Question not found',
-      choices: [],
-    };
-    return of(question);
+    return this.http.get<any>(this.baseUrl).pipe(
+      map((response) => {
+        if (
+          !response ||
+          !response[0] ||
+          !response[0].data ||
+          !Array.isArray(response[0].data.questions)
+        ) {
+          throw new Error('Invalid API response structure');
+        }
+
+        const questionData = response[0].data.questions.find(
+          (q: any) => q.idx === parseInt(id),
+        );
+
+        if (!questionData) {
+          throw new Error(`Question with id ${id} not found`);
+        }
+
+        return {
+          id: questionData.idx,
+          title: questionData.title,
+          subtitle: questionData.subtitle,
+          choices: questionData.choices.map((choice: any) => ({
+            title: choice.title,
+            subtitle: choice.subtitle,
+            score: choice.score,
+            type: choice.type,
+          })),
+        };
+      }),
+    );
   }
 
-  getTotalQuestions(): number {
-    return this.questions.length;
+  getTotalQuestions(): Observable<number> {
+    return this.http.get<any>(this.baseUrl).pipe(
+      map((response) => {
+        if (
+          !response ||
+          !response[0] ||
+          !response[0].data ||
+          !Array.isArray(response[0].data.questions)
+        ) {
+          throw new Error('Invalid API response structure');
+        }
+
+        return response[0].data.questions.length;
+      }),
+    );
   }
 }

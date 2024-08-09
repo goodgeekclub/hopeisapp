@@ -23,7 +23,7 @@ import { Inject, PLATFORM_ID, AfterViewInit } from '@angular/core';
  * 2. Add the #toBeShare to the element you want to share.
  */
 @Component({
-  selector: 'social-share-button',
+  selector: 'app-social-share-button',
   templateUrl: './social-share.component.html',
   styleUrl: './social-share.component.css',
 })
@@ -79,9 +79,9 @@ export class SocialShareComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.isBrowser) {
-      html2canvas(this.toBeShare?.nativeElement).then(async (canvas) => {
-        const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, 'image/png'),
+      html2canvas(this.toBeShare?.nativeElement).then(async canvas => {
+        const blob = await new Promise<Blob | null>(resolve =>
+          canvas.toBlob(resolve, 'image/png')
         );
         const fileName = 'hope-is-' + new Date().getTime() + '.png';
         this.file = new File([blob!], fileName, {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { SvgIconComponent } from 'angular-svg-icon';
@@ -73,7 +73,7 @@ export class StoryComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private profileService: ProfileService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit() {
@@ -103,6 +103,9 @@ export class StoryComponent implements OnInit {
   // }
 
   revealNextLine() {
+    if (this.currentPage >= this.maxPages) {
+      return;
+    }
     if (this.textIndex < this.textContents[this.currentPage - 1].length) {
       this.textIndex++;
     } else {

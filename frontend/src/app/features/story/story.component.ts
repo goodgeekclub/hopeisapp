@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { SvgIconComponent } from 'angular-svg-icon';
@@ -19,11 +19,11 @@ import { ProfileService } from '../../services/profile.service';
   templateUrl: './story.component.html',
   styleUrl: './story.component.css',
 })
-export class StoryComponent {
+export class StoryComponent implements OnInit {
   name = 'hazamashoken';
-  currentPage: number = 1;
+  currentPage = 1;
 
-  textIndex: number = 0;
+  textIndex = 0;
 
   startContent: string[] = [
     'สวัสดี',
@@ -67,11 +67,14 @@ export class StoryComponent {
     [],
   ];
 
-  maxPages: number = 7;
+  maxPages = 7;
 
-  animationPage: number = 8;
+  animationPage = 8;
 
-  constructor(private router: Router, private profileService: ProfileService) {}
+  constructor(
+    private router: Router,
+    private profileService: ProfileService,
+  ) {}
 
   ngOnInit() {
     this.getResult();

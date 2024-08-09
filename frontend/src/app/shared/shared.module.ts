@@ -6,8 +6,18 @@ import { BackgroundComponent } from './background/background.component';
 import { SocialShareComponent } from './social-share/social-share.component';
 
 @NgModule({
-  declarations: [ButtonComponent, FooterComponent, BackgroundComponent, SocialShareComponent],
+  declarations: [
+    ButtonComponent,
+    FooterComponent,
+    BackgroundComponent,
+    SocialShareComponent,
+  ],
   imports: [CommonModule],
-  exports: [ButtonComponent, FooterComponent, BackgroundComponent, SocialShareComponent],
+  exports: [
+    ButtonComponent,
+    FooterComponent,
+    BackgroundComponent,
+    SocialShareComponent,
+  ],
 })
 export class SharedModule {}

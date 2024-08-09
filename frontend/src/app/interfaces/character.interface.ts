@@ -1,11 +1,13 @@
 export interface Character {
-  bgLink: string;
+  attributesChipColor?: string;
+  bgClass: string[];
+  buttonColor?: string;
+  characterAttributes: string[];
+  characterDescription: string;
+  characterImgLink: string;
   characterNameEn: string;
   characterNameTh: string;
   characterTitle: string;
-  characterImgLink: string;
-  characterDescription: string;
-  characterAttributes: string[];
-  attributesChipColor: string;
+  displayNameColor?: string;
   shinningMethod: string;
 }

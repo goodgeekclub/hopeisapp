@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, from, map, Observable, of, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AssumedRoleUser, AssumeRoleWithWebIdentityCommand, Credentials, STSClient } from '@aws-sdk/client-sts';
+import {
+  AssumedRoleUser,
+  AssumeRoleWithWebIdentityCommand,
+  Credentials,
+  STSClient,
+} from '@aws-sdk/client-sts';
 import { AuthService } from './auth.service';
-import { DateTime } from 'luxon'
+import { DateTime } from 'luxon';
 
 export interface STSToken {
-  Credentials: Credentials,
-  AssumedRoleUser: AssumedRoleUser
+  Credentials: Credentials;
+  AssumedRoleUser: AssumedRoleUser;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IamService {
   private readonly stsToken = new BehaviorSubject<STSToken | null>(null);
@@ -34,24 +47,25 @@ export class IamService {
       map((res: any) => {
         const token = {
           Credentials: res.Credentials,
-          AssumedRoleUser: res.AssumedRoleUser
-        }
+          AssumedRoleUser: res.AssumedRoleUser,
+        };
         this.stsToken.next(token);
         return token;
       }),
       catchError((e: any) => {
         console.log('AssumeRole Error:', e);
         return of(null);
-      })
-    )
+      }),
+    );
   }
 
   getSTSCredential() {
     return {
       accessKeyId: this.getSTSTokenValue()?.Credentials.AccessKeyId as string,
-      secretAccessKey: this.getSTSTokenValue()?.Credentials.SecretAccessKey as string,
+      secretAccessKey: this.getSTSTokenValue()?.Credentials
+        .SecretAccessKey as string,
       sessionToken: this.getSTSTokenValue()?.Credentials.SessionToken as string,
-    }
+    };
   }
 
   getSTSTokenValue(): STSToken | null {
@@ -59,9 +73,14 @@ export class IamService {
   }
 
   getSTSToken(): Observable<STSToken | null> {
-    if (this.stsToken.getValue() &&
-        DateTime.now() < DateTime.fromISO(this.stsToken.getValue()?.Credentials.Expiration?.toISOString() || '')) {
-          return of(this.stsToken.getValue());
+    if (
+      this.stsToken.getValue() &&
+      DateTime.now() <
+        DateTime.fromISO(
+          this.stsToken.getValue()?.Credentials.Expiration?.toISOString() || '',
+        )
+    ) {
+      return of(this.stsToken.getValue());
     } else {
       console.log('Assuming role');
       return this.assumeRole();

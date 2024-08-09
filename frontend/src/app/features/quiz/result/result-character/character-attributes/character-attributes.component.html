@@ -1,5 +1,9 @@
 <div class="flex flex-row justify-center items-center flex-wrap gap-4">
-    <figure *ngFor="let characterAttribute of characterAttributes;"
-        class="text-center text-[18px] font-light text-white rounded-full px-4 py-1" [ngClass]="color">
-        {{characterAttribute}}</figure>
+  <figure
+    *ngFor="let characterAttribute of characterAttributes"
+    class="text-center text-[18px] font-kanit-light text-white rounded-full px-4 py-1"
+    [ngClass]="color"
+  >
+    {{ characterAttribute }}
+  </figure>
 </div>

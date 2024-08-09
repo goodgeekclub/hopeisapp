@@ -26,7 +26,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./frontend/package-lock.json
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
       - name: Prepare Environment
         run: |
           npx ng g environments

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
+import { from, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IamService } from './iam.service';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';

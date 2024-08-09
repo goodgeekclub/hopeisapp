@@ -6,6 +6,7 @@ import { CharacterAttributesComponent } from './character-attributes/character-a
 import { Character } from '../../../../interfaces/character.interface';
 import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute } from '@angular/router';
+import { isThisColorDark } from '../../../../utils/light-or-dark.util';
 
 @Component({
   selector: 'app-result-character',

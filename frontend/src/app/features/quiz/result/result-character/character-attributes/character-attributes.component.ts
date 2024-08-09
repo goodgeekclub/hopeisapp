@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { isThisColorDark } from '../../../../../utils/light-or-dark.util';
 
 @Component({
   selector: 'app-character-attributes',
@@ -14,6 +15,11 @@ export class CharacterAttributesComponent implements OnInit {
   @Input({ required: true }) public color?: string = '';
 
   public colorClass = '';
+  public characterAttributeClass: string = 'text-black';
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (isThisColorDark(this.color?.replace('bg-[', '').replace(']', '') || '#ffffff')) {
+      this.characterAttributeClass = 'text-white';
+    }
+  }
 }

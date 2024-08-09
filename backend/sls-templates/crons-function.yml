@@ -16,6 +16,6 @@ crons-clear-activities:
   events:
     - schedule:
         name: ${self:service}-clear-activities-${sls:stage}
-        # rate: cron(1 17 * * ? *)
-        rate: rate(1 minute)
+        rate: cron(1 17 * * ? *)
+        # rate: rate(1 minute)
         enabled: true

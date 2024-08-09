@@ -6,7 +6,6 @@ import { CharacterAttributesComponent } from './character-attributes/character-a
 import { Character } from '../../../../interfaces/character.interface';
 import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute } from '@angular/router';
-import { isThisColorDark } from '../../../../utils/light-or-dark.util';
 
 @Component({
   selector: 'app-result-character',
@@ -106,13 +105,13 @@ export class ResultCharacterComponent implements OnInit {
           bgClass: bgClass,
           buttonColor: buttonColor,
           characterAttributes: resultCharacter.natures,
-          characterDescription: resultCharacter.detail,
+          characterDescription: resultCharacter.ability,
           characterImgLink: resultCharacter.photoUrl,
-          characterNameEn: resultCharacter.name,
-          characterNameTh: resultCharacter.quote,
-          characterTitle: this.capitalizeFirstLetter(resultCharacter.title),
+          characterNameEn: this.capitalizeFirstLetter(resultCharacter.title),
+          characterNameTh: resultCharacter.description,
+          characterTitle: resultCharacter.quote,
           displayNameColor: displayNameColor,
-          shinningMethod: resultCharacter.ability,
+          shinningMethod: resultCharacter.detail,
         };
         console.log(this.characterData);
 

@@ -79,6 +79,7 @@ export class ResultComponent implements OnInit {
               character: {
                 name: matchingCharacter.data.name,
                 title: matchingCharacter.data.title,
+                description: matchingCharacter.data.description,
                 quote: matchingCharacter.data.quote,
                 detail: matchingCharacter.data.detail,
                 photoUrl: matchingCharacter.data.photoUrl,

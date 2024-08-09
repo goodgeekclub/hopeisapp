@@ -123,13 +123,13 @@ export class ProfileActivitiesService {
   private hookUpdatePayload(data: ProfileActivity) {
     return this.profilesService
       .findOne(data.profile.toString())
-      .then((profile) => ({
+      .then(async (profile) => ({
         content: null,
         embeds: [
           {
             title: data.mission.name,
             description: data.mission.description,
-            url: this.configService.get('FRONTEND_URL'), // wait for admin link
+            url: this.configService.get('FRONTEND_URL') + '/admin-console',
             color: 16776960,
             fields: [
               {
@@ -139,7 +139,7 @@ export class ProfileActivitiesService {
               },
               {
                 name: 'PENDING',
-                value: '100', // wait stat
+                value: await this.model.find({ status: 'PENDING' }).countDocuments(),
                 inline: true,
               },
             ],

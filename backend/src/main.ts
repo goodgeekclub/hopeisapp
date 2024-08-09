@@ -32,9 +32,7 @@ async function bootstrap(): Promise<Handler> {
   SwaggerModule.setup('api', app, document);
 
   const expressApp = app.getHttpAdapter().getInstance();
-  if (process.env.NODE_ENV !== 'production') {
-    app.enableCors();
-  }
+  app.enableCors();
   await app.init();
   return serverlessExpress({ app: expressApp });
 }

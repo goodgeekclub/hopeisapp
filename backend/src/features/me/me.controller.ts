@@ -58,6 +58,12 @@ export class MeController {
     return this.meService.createActivity(profile);
   }
 
+  @Get('activities/today')
+  @UseInterceptors(FbProfilesInterceptor)
+  getTodayActivities(@ProfileUser() profile) {
+    return this.meService.getTodayActivity(profile._id);
+  }
+
   @Get('activities/active')
   @UseInterceptors(FbProfilesInterceptor)
   getActiveActivities(@ProfileUser() profile) {

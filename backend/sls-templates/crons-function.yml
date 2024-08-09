@@ -3,7 +3,7 @@
 #
 crons-stats:
   name: ${self:service}-crons-${sls:stage}
-  handler: build/functions/crons.stats
+  handler: build/crons.stats
   events:
     - schedule:
         name: ${self:service}-stats-${sls:stage}
@@ -12,7 +12,7 @@ crons-stats:
 
 crons-clear-activities:
   name: ${self:service}-clear-activities-${sls:stage}
-  handler: build/functions/crons.clearActivities
+  handler: build/crons.clearActivities
   events:
     - schedule:
         name: ${self:service}-clear-activities-${sls:stage}

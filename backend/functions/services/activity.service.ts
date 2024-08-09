@@ -1,6 +1,13 @@
-import { stats } from './../crons';
+import { DateTime } from 'luxon';
 import { Model, Mongoose } from "mongoose";
-import { ActivityStatus } from "src/schemas/profile-activity.schema";
+
+export enum ActivityStatus {
+  TODO = 'TODO',
+  DOING = 'DOING',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}
 
 export class ActivityService {
   private model: Model<any>;
@@ -11,9 +18,28 @@ export class ActivityService {
     this.conn = conn;
   }
 
-  async list(status?: ActivityStatus) {
+  async listActive(status?: ActivityStatus) {
+    console.log(DateTime.utc().toISO());
     return this.model.find({
-      status
+      status: {
+        $in: ['DOING', 'PENDING']
+      },
+      createdAt: {
+        $lte: DateTime.utc().toJSDate()
+      }
+    })
+  }
+
+  async setExpired() {
+    return this.model.updateMany({
+      status: {
+        $in: [ActivityStatus.DOING, ActivityStatus.PENDING]
+      },
+      createdAt: {
+        $lte: DateTime.utc().toJSDate()
+      }
+    }, {
+      status: ActivityStatus.FAILED
     })
   }
 }

@@ -34,9 +34,10 @@ export const clearActivities: Handler = async (event: any, context: Context) => 
     conn = await connect(conn);
     createModels(conn);
     const activityService = new ActivityService(conn);
-    const act = await activityService.list();
-    console.log(act);
-    // await DiscordService.notify('Stats', stats.data);
+    const active = await activityService.listActive();
+    console.log('Total Active Activity:', active.length);
+    const expiredOpt = await activityService.setExpired();
+    await DiscordService.notify('Stats', expiredOpt);
   } catch (e) {
     console.error(e);
     await DiscordService.error('CronClearActivitiesError', {

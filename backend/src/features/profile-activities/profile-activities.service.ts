@@ -54,6 +54,7 @@ export class ProfileActivitiesService {
     }
     activity.profile = profile;
     activity.mission = mission.data;
+    activity.coinValue = mission.data.coinValue;
     activity.character = profile.character;
     return activity.save();
   }
@@ -70,12 +71,11 @@ export class ProfileActivitiesService {
     return find.exec();
   }
 
-  findOne(id: string) {
-    return this.model.findById(id).then((activity) => {
-      if (!activity) {
-        throw new NotFoundException('ProfileActivity does not existed');
-      }
-    });
+  async findOne(id: string) {
+    const activity = await this.model.findById(id);
+    if (!activity) {
+      throw new NotFoundException('ProfileActivity does not existed');
+    }
   }
 
   ListbyPId(pid: string, query?: any) {
@@ -104,6 +104,20 @@ export class ProfileActivitiesService {
 
   remove(id: string) {
     return this.model.findByIdAndDelete(id);
+  }
+
+  getToday(profileId?: string) {
+    const today = DateTime.now();
+    let query = this.model.find({
+      status: {
+        $in: ['DOING', 'PENDING', 'SUCCESS', 'FAILED'],
+      },
+      date: today.toISODate(),
+    });
+    if (profileId) {
+      query = query.where({ profile: profileId })
+    }
+    return query;
   }
 
   private hookUpdatePayload(data: ProfileActivity) {

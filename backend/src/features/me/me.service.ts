@@ -12,6 +12,7 @@ import { DataService } from '../data/data.service';
 import { Profile } from 'src/schemas';
 import { ActivityStatus } from 'src/schemas/profile-activity.schema';
 import { ListActivityQuery } from './dto/list-activity-query';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class MeService {
@@ -70,10 +71,10 @@ export class MeService {
   }
 
   async createActivity(profile: Profile) {
-    const active = await this.getActiveActivity((profile as any)._id);
-    if (active.length > 0) {
+    const today = await this.getTodayActivity((profile as any)._id);
+    if (today.length > 0) {
       throw new BadRequestException(
-        `Activity has been active in ${active[0]._id.toString()} status ${active[0].status}`,
+        `Activity has been active in ${today[0]._id.toString()} status ${today[0].status}`,
       );
     }
     const relevantMissions = await this.dataService.getModel().find({
@@ -104,5 +105,9 @@ export class MeService {
         $in: ['DOING', 'PENDING'],
       },
     });
+  }
+
+  getTodayActivity(profileId: string) {
+    return this.activitiesService.getToday(profileId);
   }
 }

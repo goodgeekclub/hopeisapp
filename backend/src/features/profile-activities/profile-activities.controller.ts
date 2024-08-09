@@ -37,6 +37,11 @@ export class ProfileActivitiesController {
     return this.profileActivitiesService.findAll(options, query);
   }
 
+  @Get('today')
+  findToday() {
+    return this.profileActivitiesService.getToday();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.profileActivitiesService.findOne(id);

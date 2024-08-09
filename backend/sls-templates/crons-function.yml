@@ -1,6 +1,6 @@
 crons-stats:
   name: ${self:service}-crons-${sls:stage}
-  handler: dist/functions/crons.handler
+  handler: build/crons.handler
   events:
     - schedule:
         name: ${self:service}-stats-${sls:stage}

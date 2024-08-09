@@ -39,7 +39,7 @@ export class MissionComponent {
         return;
       }
       this.missionId = res[0]._id;
-      this.missionTitle = res[0].mission.name;
+      this.missionTitle = res[0].mission.description;
       this.missionImgUrl = res[0].mission.photoUrl;
       this.missionType = 'showMission';
     });

@@ -54,6 +54,7 @@ export class ProfileActivitiesService {
     }
     activity.profile = profile;
     activity.mission = mission.data;
+    activity.coinValue = mission.data.coinValue;
     activity.character = profile.character;
     return activity.save();
   }
@@ -70,12 +71,11 @@ export class ProfileActivitiesService {
     return find.exec();
   }
 
-  findOne(id: string) {
-    return this.model.findById(id).then((activity) => {
-      if (!activity) {
-        throw new NotFoundException('ProfileActivity does not existed');
-      }
-    });
+  async findOne(id: string) {
+    const activity = await this.model.findById(id);
+    if (!activity) {
+      throw new NotFoundException('ProfileActivity does not existed');
+    }
   }
 
   ListbyPId(pid: string, query?: any) {
@@ -106,16 +106,30 @@ export class ProfileActivitiesService {
     return this.model.findByIdAndDelete(id);
   }
 
+  getToday(profileId?: string) {
+    const today = DateTime.now();
+    let query = this.model.find({
+      status: {
+        $in: ['DOING', 'PENDING', 'SUCCESS', 'FAILED'],
+      },
+      date: today.toISODate(),
+    });
+    if (profileId) {
+      query = query.where({ profile: profileId })
+    }
+    return query;
+  }
+
   private hookUpdatePayload(data: ProfileActivity) {
     return this.profilesService
       .findOne(data.profile.toString())
-      .then((profile) => ({
+      .then(async (profile) => ({
         content: null,
         embeds: [
           {
             title: data.mission.name,
             description: data.mission.description,
-            url: this.configService.get('FRONTEND_URL'), // wait for admin link
+            url: this.configService.get('FRONTEND_URL') + '/admin-console',
             color: 16776960,
             fields: [
               {
@@ -125,7 +139,7 @@ export class ProfileActivitiesService {
               },
               {
                 name: 'PENDING',
-                value: '100', // wait stat
+                value: await this.model.find({ status: 'PENDING' }).countDocuments(),
                 inline: true,
               },
             ],

@@ -36,3 +36,4 @@ jobs:
           name: dist-backend-${{ github.sha }}
           path: |
             backend/dist
+            backend/build

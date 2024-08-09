@@ -7,6 +7,7 @@ import {
 import { environment } from '../../environments/environment.development';
 import { MeService } from './me.service';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,18 +18,6 @@ export class FcmService {
     private messaging: Messaging,
     private meService: MeService,
   ) {
-    Notification.requestPermission()
-      .then((notificationPermissions: NotificationPermission) => {
-        if (notificationPermissions === 'granted') {
-          console.log('Granted');
-        }
-        if (notificationPermissions === 'denied') {
-          console.log('Denied');
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
     this.requestPermission();
     this.listen();
   }
@@ -38,20 +27,38 @@ export class FcmService {
   }
 
   requestPermission() {
-    getToken(this.messaging, { vapidKey: environment.vapidKey })
-      .then((fcmToken) => {
-        if (fcmToken) {
-          console.log('FCM Token:', fcmToken);
-          this.fcmToken = fcmToken;
-        } else {
-          console.log(
-            'No registration token available. Request permission to generate one.',
-          );
-        }
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.register('assets/firebase-messaging-sw.js', { type: 'module' }).then(registration => {
+        Notification.requestPermission()
+          .then((notificationPermissions: NotificationPermission) => {
+            if (notificationPermissions === 'granted') {
+              console.log('Granted');
+              return this.getToken();
+            } else {
+              console.log('Denied');
+            }
+            return;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       })
-      .catch((err) => {
-        console.log('Error:', err);
-      });
+    }
+
+  }
+  async getToken() {
+    try {
+      const fcmToken = await getToken(this.messaging, { vapidKey: environment.vapidKey });
+      if (fcmToken) {
+        console.log('FCM Token:', fcmToken);
+        this.fcmToken = fcmToken;
+      } else {
+        console.log(
+          'No registration token available. Request permission to generate one.');
+      }
+    } catch (err) {
+      console.log('Error:', err);
+    }
   }
   listen() {
     onMessage(this.messaging, {

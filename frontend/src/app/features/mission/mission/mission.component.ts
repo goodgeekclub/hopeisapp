@@ -4,6 +4,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { RouterModule, Router } from '@angular/router';
+import { MeService } from '../../../services/me.service';
 
 @Component({
   selector: 'app-mission',
@@ -13,22 +14,46 @@ import { RouterModule, Router } from '@angular/router';
   styleUrl: './mission.component.css',
 })
 export class MissionComponent {
-  coins: string = '1,000';
-  totalCoins: string = '0';
-  totalMember: string = '0';
+  coins = '1,000';
+  totalCoins = '0';
+  totalMember = '0';
 
-  missionType: string = 'getMission';
+  missionType = 'getMission';
 
+  missionId = 'hello';
   missionImgUrl = '/images/mission/rocket.png';
   missionTitle = 'Mission 1';
-  missionTime: string = '1';
+  missionTime = '1';
 
-  testindex: number = 0;
+  testindex = 0;
 
   file: File | null = null;
-  fileSrc: string = '';
+  fileSrc = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private me: MeService
+  ) {
+    this.me.getMission().subscribe(res => {
+      if (res.length === 0) {
+        return;
+      }
+      this.missionId = res[0]._id;
+      this.missionTitle = res[0].mission.name;
+      this.missionImgUrl = res[0].mission.photoUrl;
+      this.missionType = 'showMission';
+    });
+    this.missionTime = this.calculateHourLeft();
+  }
+
+  private calculateHourLeft() {
+    // calculate hour left til the end of the day
+    const now = new Date();
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+    const diff = end.getTime() - now.getTime();
+    return Math.floor(diff / (1000 * 60 * 60)).toString();
+  }
 
   ngOnInit() {
     this.coins = this.numberFormat(1000);
@@ -44,9 +69,21 @@ export class MissionComponent {
   }
 
   public getMission() {
-    this.missionType = 'showMission';
     console.log('get mission');
-    // this.router.navigate(['/explore']);
+    this.me.createDailyMission().subscribe({
+      next: res => {
+        this.missionId = res._id;
+        this.missionTitle = res.mission.name;
+        this.missionImgUrl = res.mission.photoUrl;
+        this.missionType = 'showMission';
+        this.missionTime = this.calculateHourLeft();
+      },
+      error: err => {
+        if (err.error.status === 404) {
+          this.missionType = 'noMission';
+        }
+      },
+    });
   }
   public goToExplore() {
     console.log('go to explore');
@@ -55,7 +92,6 @@ export class MissionComponent {
   public openMenu() {
     this.missionType = 'getMission';
     console.log('go to explore');
-    // this.router.navigate(['/explore']);
   }
 
   public sendMission() {
@@ -64,7 +100,13 @@ export class MissionComponent {
 
   public uploadMission() {
     console.log('upload mission');
-    this.missionType = 'finishMission';
+    // this.missionType = 'finishMission';
+    if (!this.file) {
+      return;
+    }
+    this.me.uploadMission(this.missionId, this.file!).subscribe(() => {
+      this.missionType = 'finishMission';
+    });
   }
 
   public closeMission() {

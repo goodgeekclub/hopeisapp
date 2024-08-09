@@ -9,9 +9,10 @@ import { QuizStartComponent } from './features/quiz/quiz-start/quiz-start.compon
 import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
+import { MissionComponent } from './features/mission/mission/mission.component';
+import { AuthGuard } from './auth.guard';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { AuthGuard } from './auth.guard'
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [
@@ -65,6 +66,11 @@ export const routes: Routes = [
   {
     path: 'story',
     component: StoryComponent,
+  },
+  {
+    path: 'mission',
+    component: MissionComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

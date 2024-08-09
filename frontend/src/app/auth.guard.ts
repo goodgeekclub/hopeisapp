@@ -14,13 +14,12 @@ import { catchError, from, map } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly router: Router,
-    private readonly angularFireAuth: Auth,
+    private readonly angularFireAuth: Auth
   ) {}
 
-  public canActivate(
-    // route: ActivatedRouteSnapshot,
-    // state: RouterStateSnapshot,
-  ) {
+  public canActivate() // route: ActivatedRouteSnapshot,
+  // state: RouterStateSnapshot,
+  {
     return from(idToken(this.angularFireAuth)).pipe(
       map((token: string | null) => {
         if (token === null) {
@@ -28,10 +27,10 @@ export class AuthGuard implements CanActivate {
         }
         return true;
       }),
-      catchError((error) => {
+      catchError(error => {
         console.error('AuthGuard.canActivate: ', error);
-        return this.router.navigate(['/test/login']);
-      }),
+        return this.router.navigate(['/']);
+      })
     );
   }
 }

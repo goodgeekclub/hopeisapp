@@ -3,7 +3,6 @@ import { from, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IamService } from './iam.service';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { fromWebToken } from '@aws-sdk/credential-providers';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +18,7 @@ export class S3Service {
       ContentType: filebody.type,
     });
     return from(client.send(command)).pipe(
-      map((data) => `https://${environment.aws.bucket}/${filepath}`)
+      map(() => `https://${environment.aws.bucket}/${filepath}`)
     );
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ import { QuizResultService } from '../../../services/quiz-result.service'; // Im
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css'],
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent {
   public hasResult = false;
   public displayIndex = 0;
   public isClickedToShowResult = false;
@@ -34,16 +34,10 @@ export class ResultComponent implements OnInit {
     private router: Router, // Inject Router service
     private profileService: ProfileService,
     private characterService: CharacterService,
-    private quizResultService: QuizResultService, // Inject QuizResultService
+    private quizResultService: QuizResultService // Inject QuizResultService
   ) {}
 
   profile: any;
-
-  constructor(private profileService: ProfileService) {}
-  ngOnInit(): void {
-    this.profile = JSON.parse('');
-    // this.getResult();
-  }
 
   public showResult(): void {
     if (this.displayIndex === 0) {
@@ -64,10 +58,10 @@ export class ResultComponent implements OnInit {
       this.hasResult = true;
 
       this.characterService.getCharacterByType(this.character).subscribe(
-        (response) => {
+        response => {
           console.log('Fetched character data:', response);
           const matchingCharacter = response.find(
-            (char: any) => char.name.trim().toLowerCase() === this.character,
+            (char: any) => char.name.trim().toLowerCase() === this.character
           );
 
           if (matchingCharacter) {
@@ -93,24 +87,24 @@ export class ResultComponent implements OnInit {
             let hasPosted = false;
 
             this.quizResultService.postQuizResult(postData).subscribe(
-              (postResponse) => {
+              postResponse => {
                 if (!hasPosted) {
                   console.log('POST response:', postResponse);
                   this.quizResultId = postResponse._id;
                   hasPosted = true;
                 }
               },
-              (postError) => {
+              postError => {
                 console.error('Error posting data:', postError);
-              },
+              }
             );
           } else {
             console.log('Character not found.');
           }
         },
-        (error) => {
+        error => {
           console.error('Error fetching character data:', error);
-        },
+        }
       );
     } else {
       console.error('Profile not found');

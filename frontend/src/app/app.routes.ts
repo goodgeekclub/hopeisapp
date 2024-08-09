@@ -13,7 +13,6 @@ import { MissionComponent } from './features/mission/mission/mission.component';
 import { AuthGuard } from './auth.guard';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { AuthGuard } from './auth.guard'
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 
 export const routes: Routes = [

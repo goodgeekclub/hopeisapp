@@ -15,14 +15,14 @@ resource "aws_cloudfront_distribution" "distribution" {
     origin_access_control_id = aws_cloudfront_origin_access_control.oac[each.key].id
   }
 
-  comment             = local.cloudfront_comments[each.key]
+  comment             = local.cloudfront_configs[each.key].comment
   enabled             = true
   is_ipv6_enabled     = false
   http_version        = "http2"
   default_root_object = each.value.key
   price_class         = var.cloudfront_price_class
 
-  aliases = concat([aws_s3_bucket.buckets[each.key].bucket], var.cloudfront_alias)
+  aliases = local.cloudfront_configs[each.key].alias
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]

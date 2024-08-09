@@ -11,17 +11,7 @@ module.exports = {
         error: "#C23327",
       },
       fontFamily: {
-        "db-helvethaica-x-base": ['"DB Helvethaica X"', "sans-serif"],
-        "db-helvethaica-x-light": ['"DB Helvethaica X Light"', "sans-serif"],
-        "db-helvethaica-x-bold": ['"DB Helvethaica X Bold"', "sans-serif"],
-        "db-helvethaica-x-thin": ['"DB Helvethaica X Thin"', "sans-serif"],
-        "db-helvethaica-x-medium": ['"DB Helvethaica X Medium"', "sans-serif"],
-        "kanit-regular": ['"Kanit Regular"', "sans-serif"],
-        "kanit-light": ['"Kanit Light"', "sans-serif"],
-        "kanit-bold": ['"Kanit Bold"', "sans-serif"],
-        "kanit-thin": ['"Kanit Thin"', "sans-serif"],
-        "kanit-medium": ['"Kanit Medium"', "sans-serif"],
-        "kanit-semibold": ['"Kanit Semibold"', "sans-serif"],
+        primary: 'Kanit'
       },
       animation: {
         fade: "fadeIn .5s ease-in-out",
@@ -68,14 +58,7 @@ module.exports = {
         yellowdownbg: "url('../public/images/bg/yellow-down-bg.png')",
         yellowupbg: "url('../public/images/bg/yellow-up-bg.png')",
         hopelanding: "url('../public/images/bg/page_landing_bg.png')",
-        // brave: "url('../public/images/blue-bg-full.png')",
-        // wisdom: "url('../public/images/purple-bg-full.png')",
-        // planful: "url('../public/images/blue-bg-full.png')",
-        // harmonious: "url('../public/images/yellow-bg-full.png')",
-        // sincere: "url('../public/images/green-bg-full.png')",
-        // esthetician: "url('../public/images/orange-bg-full.png')",
       },
-      
     },
   },
   daisyui: {

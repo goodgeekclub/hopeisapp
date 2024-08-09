@@ -53,6 +53,7 @@ export class ResultComponent {
   private getResult(): void {
     const profile = this.profileService.getProfile();
     if (profile) {
+      console.log('Profile:', profile);
       this.character = profile.characterType.trim().toLowerCase();
       console.log('Profile character type:', this.character);
       this.hasResult = true;
@@ -68,6 +69,7 @@ export class ResultComponent {
             this.characterData = matchingCharacter.data;
             console.log('Character data assigned:', this.characterData);
 
+            console.log('matchingCharacter:', matchingCharacter);
             // Prepare the data to be POSTed
             const postData = {
               score: profile.characterScore,
@@ -75,6 +77,7 @@ export class ResultComponent {
               character: {
                 name: matchingCharacter.data.name,
                 title: matchingCharacter.data.title,
+                description: matchingCharacter.data.description,
                 quote: matchingCharacter.data.quote,
                 detail: matchingCharacter.data.detail,
                 photoUrl: matchingCharacter.data.photoUrl,

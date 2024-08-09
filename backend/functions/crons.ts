@@ -6,7 +6,7 @@ import { DiscordService } from './utils/discord.util';
 
 let conn: Mongoose;
 
-export const handler: Handler = async (event: any, context: Context) => {
+export const stats: Handler = async (event: any, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false;
   try {
     conn = await connect(conn);
@@ -15,7 +15,6 @@ export const handler: Handler = async (event: any, context: Context) => {
     const stats = await dataService.saveStats();
     console.log(stats);
     await DiscordService.notify('Stats', stats.data);
-    throw new Error('Testing Error');
   } catch (e) {
     console.error(e);
     await DiscordService.error('CronStatsError', {
@@ -27,3 +26,24 @@ export const handler: Handler = async (event: any, context: Context) => {
   }
   return;
 };
+
+export const clearActivities: Handler = async (event: any, context: Context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+  try {
+    conn = await connect(conn);
+    createModels(conn);
+    const dataService = new DataService(conn);
+    const stats = await dataService.saveStats();
+    console.log(stats);
+    await DiscordService.notify('Stats', stats.data);
+  } catch (e) {
+    console.error(e);
+    await DiscordService.error('CronClearActivitiesError', {
+      name: e.name,
+      message: e.message,
+      stack: e.stack,
+      error: e.toString(),
+    });
+  }
+  return;
+}

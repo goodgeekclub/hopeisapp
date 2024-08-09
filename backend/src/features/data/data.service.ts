@@ -22,12 +22,15 @@ export class DataService {
     return from(data.save());
   }
 
-  findAll(type?: DataType) {
+  findAll(type?: DataType, name?: string) {
     // const allData = this.model.find({ type }).exec();
     console.log(type);
     let data = this.model.find();
     if (type) {
       data = data.where({ type });
+    }
+    if (name) {
+      data = data.where({ name });
     }
     return from(data);
   }

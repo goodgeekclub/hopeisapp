@@ -1,3 +1,4 @@
+import { stats } from './../crons';
 import { Model, Mongoose } from "mongoose";
 import { ActivityStatus } from "src/schemas/profile-activity.schema";
 
@@ -12,7 +13,7 @@ export class ActivityService {
 
   async list(status?: ActivityStatus) {
     return this.model.find({
-      status,
+      status
     })
   }
 }

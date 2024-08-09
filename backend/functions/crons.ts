@@ -3,6 +3,7 @@ import { connect, createModels } from './utils/mongoose.util';
 import { Mongoose } from 'mongoose';
 import { DataService } from './services/data.service';
 import { DiscordService } from './utils/discord.util';
+import { ActivityService } from './services/activity.service';
 
 let conn: Mongoose;
 
@@ -32,10 +33,10 @@ export const clearActivities: Handler = async (event: any, context: Context) => 
   try {
     conn = await connect(conn);
     createModels(conn);
-    const dataService = new DataService(conn);
-    const stats = await dataService.saveStats();
-    console.log(stats);
-    await DiscordService.notify('Stats', stats.data);
+    const activityService = new ActivityService(conn);
+    const act = await activityService.list();
+    console.log(act);
+    // await DiscordService.notify('Stats', stats.data);
   } catch (e) {
     console.error(e);
     await DiscordService.error('CronClearActivitiesError', {

@@ -44,6 +44,15 @@ export class DataController {
   }
 
   @Public()
+  @Get('missions|stats|quizes|characters/:name')
+  findAllByTypeName(@Req() req, @Param('name') name) {
+    const paths = req.originalUrl.split('/').filter((p: string) => !!p);
+    const type: DataType = DataType[paths[1]];
+    console.log(name);
+    return this.dataService.findAll(type, name);
+  }
+
+  @Public()
   @Get(':id')
   @UseInterceptors(DataInterceptor)
   findOne(@Param('id') id: string) {

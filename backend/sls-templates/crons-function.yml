@@ -1,6 +1,9 @@
+#
+# Pure Lambda Function
+#
 crons-stats:
   name: ${self:service}-crons-${sls:stage}
-  handler: dist/functions/crons.stats
+  handler: build/functions/crons.stats
   events:
     - schedule:
         name: ${self:service}-stats-${sls:stage}
@@ -9,9 +12,10 @@ crons-stats:
 
 crons-clear-activities:
   name: ${self:service}-clear-activities-${sls:stage}
-  handler: dist/functions/crons.stats
+  handler: build/functions/crons.clearActivities
   events:
     - schedule:
         name: ${self:service}-clear-activities-${sls:stage}
-        rate: cron(1 17 * * ? *)
+        # rate: cron(1 17 * * ? *)
+        rate: rate(1 minute)
         enabled: true

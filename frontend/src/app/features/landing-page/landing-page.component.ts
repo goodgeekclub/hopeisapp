@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-landing-page',
@@ -19,7 +20,7 @@ export class LandingPageComponent {
   let_do_the_mission_link : string = "/mission";
   //share
   title : string = "มาหาเเสงของตัวเองกันเถอะ";
-  url : string = "http....";
+  url : string = environment.domainURL;
 
   ngOnInit () {
     this.total_users = this.numberToKString(50000);

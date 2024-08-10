@@ -2,7 +2,6 @@ import {
   ApplicationConfig,
   importProvidersFrom,
   provideZoneChangeDetection,
-  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -15,47 +14,28 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../environments/environment.development';
 
 import { authInjectInterceptor } from './services/http.service';
-import {
-  provideHttpClient,
-  withInterceptors,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAngularSvgIcon } from 'angular-svg-icon';
-import { provideMessaging, getMessaging } from '@angular/fire/messaging';
-
 import {
   ScreenTrackingService,
   UserTrackingService,
   getAnalytics,
   provideAnalytics,
-} from '@angular/fire/analytics';
-import { provideServiceWorker } from '@angular/service-worker';
+} from "@angular/fire/analytics";
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
     provideHttpClient(withInterceptors([authInjectInterceptor])),
     provideAngularSvgIcon(),
+    provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
     UserTrackingService,
     importProvidersFrom(LoadingBarRouterModule),
-    // Firebase Config
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideAnalytics(() => getAnalytics()),
-    provideMessaging(() => getMessaging()),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
   ],
 };

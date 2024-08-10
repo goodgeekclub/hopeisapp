@@ -1,3 +1,4 @@
+
 import { Character } from '../interfaces/character.interface';
 
 export const characterMockData: Character[] = [

@@ -6,6 +6,8 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './quiz.component.html',
-  styleUrl: './quiz.component.css',
+  styleUrl: './quiz.component.css'
 })
-export class QuizComponent {}
+export class QuizComponent {
+
+}

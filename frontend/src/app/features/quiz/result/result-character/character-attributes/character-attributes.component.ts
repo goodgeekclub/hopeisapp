@@ -15,7 +15,7 @@ export class CharacterAttributesComponent implements OnInit {
   @Input({ required: true }) public color?: string = '';
 
   public colorClass = '';
-  public characterAttributeClass = 'text-black';
+  public characterAttributeClass: string = 'text-black';
 
   ngOnInit(): void {
     if (isThisColorDark(this.color?.replace('bg-[', '').replace(']', '') || '#ffffff')) {

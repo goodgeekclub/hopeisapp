@@ -34,7 +34,7 @@ export class ResultComponent {
     private router: Router, // Inject Router service
     private profileService: ProfileService,
     private characterService: CharacterService,
-    private quizResultService: QuizResultService, // Inject QuizResultService
+    private quizResultService: QuizResultService // Inject QuizResultService
   ) {}
 
   profile: any;
@@ -46,7 +46,6 @@ export class ResultComponent {
     } else if (this.displayIndex === 1 && this.hasResult) {
       this.isClickedToShowResult = true;
       this.displayIndex++;
-      console.log(this.quizResultId)
       this.router.navigate(['/quiz/result/', this.quizResultId]);
     }
   }
@@ -63,7 +62,7 @@ export class ResultComponent {
         response => {
           console.log('Fetched character data:', response);
           const matchingCharacter = response.find(
-            (char: any) => char.name.trim().toLowerCase() === this.character,
+            (char: any) => char.name.trim().toLowerCase() === this.character
           );
 
           if (matchingCharacter) {
@@ -100,7 +99,7 @@ export class ResultComponent {
               },
               postError => {
                 console.error('Error posting data:', postError);
-              },
+              }
             );
           } else {
             console.log('Character not found.');
@@ -108,7 +107,7 @@ export class ResultComponent {
         },
         error => {
           console.error('Error fetching character data:', error);
-        },
+        }
       );
     } else {
       console.error('Profile not found');

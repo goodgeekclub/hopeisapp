@@ -15,5 +15,6 @@
     },
     "[typescript]": {
         "editor.tabSize": 2,
-    }
+    },
+    "liveServer.settings.root": "/frontend/dist/frontend"
 }

@@ -34,11 +34,6 @@ jobs:
           echo "${{ secrets.ANGULAR_ENVIRONMENT }}" > src/environments/environment.development.ts
       - name: Build
         run: npm run build:prod
-      - name: debug
-        run: |
-          pwd
-          ls -al
-          ls -l dist
       - uses: actions/upload-artifact@master
         with:
           name: dist-frontend-${{ github.sha }}

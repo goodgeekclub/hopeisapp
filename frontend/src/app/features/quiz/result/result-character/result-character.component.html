@@ -1,91 +1,72 @@
 <section class="w-full overflow-auto relative">
   <ng-container *ngIf="isLoading">
-    <div
-      class="w-dvw h-dvh flex items-center justify-center bg-hopesix bg-cover bg-no-repeat bg-center"
-    >
+    <div class="w-dvw h-dvh flex items-center justify-center bg-hopesix bg-cover bg-no-repeat bg-center">
       <div
         class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-        role="status"
-      >
+        role="status">
         <span
-          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-          >Loading...</span
-        >
+          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
       </div>
     </div>
   </ng-container>
 
   <ng-container *ngIf="!isLoading">
-    <article class="flex flex-col items-center gap-4 pt-6 px-6 w-dvw h-fit bg-cover bg-no-repeat bg-bottom" [ngClass]="characterData ? characterData.bgClass[0] : 'bg-hopelogin'">
-      <div class="w-full flex items-center justify-between"> 
-        <img
-        src="images/logo-light-hope-up.png"
-        alt="Light Hope Up"
-        width="75px"
-        />
+    <article class="flex flex-col items-center gap-4 pt-6 px-6 w-dvw h-fit bg-cover bg-no-repeat bg-bottom"
+      [ngClass]="preset.backgroundColor[0]">
+      <div class="w-full flex items-center justify-between">
+        <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="75px" />
         <div>
           <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':25 }"></svg-icon>
         </div>
       </div>
-      <p class="text-center text-[18px] font-kanit-medium" [ngClass]="characterData ? characterData.displayNameColor : 'text-white'">
+      <p class="text-center text-[24px]" [ngClass]="preset.nameColor">
         {{ displayName }} คือ
       </p>
-      <p class="text-center text-[50px] font-kanit-bold text-white">
-        {{ characterData?.characterTitle }}
-      </p>
-      <p class="text-center text-[18px] font-kanit-semibold text-white">
-        {{ characterData?.characterNameTh }}
-      </p>
-      <!-- <p class="text-center text-[18px] font-bold text-white">{{ characterData?.characterTitle }}</p> -->
-      <img
-        [src]="[characterData?.characterImgLink]"
-        alt="Light Hope Up"
-        width="300px"
-      />
-      <p class="text-center text-[18px] font-kanit-medium text-white">
-        {{ characterData?.characterDescription }}
-      </p>
-      <app-character-attributes
-        [characterAttributes]="characterData?.characterAttributes"
-        [color]="characterData?.attributesChipColor"
-      ></app-character-attributes>
-      <p class="text-center text-[18px] font-kanit-bold text-white">
-        วิธีการเปล่งประกาย
-      </p>
-      <p class="text-center text-[18px] font-kanit-medium text-white">
-        {{ characterData?.shinningMethod }}
-      </p>
-    </article>
-    <article class="flex flex-col items-center gap-4 pt-6 px-6 -mt-1 w-dvw h-fit bg-cover bg-no-repeat bg-top" [ngClass]="characterData ? characterData.bgClass[1] : 'bg-hopelogin'">
-      <div
-        class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-3"
-      >
-        <p class="text-center text-[50px] font-kanit-semibold text-white">{{totalPlayer.toLocaleString()}} คน</p>
-        <p class="text-center text-[14px] font-kanit-medium text-white">
-          กำลังเปล่งประกายแสงแห่งความหวังร่วมกัน
+      <div class="flex flex-col items-center gap-2">
+        <p class="text-center text-[60px] font-medium text-white">
+          {{ character!.title | titlecase }}
         </p>
-        <button
-          class="px-6 py-2 text-[18px] font-kanit-light rounded-full bg-white"
-          [ngClass]="characterData ? characterData.buttonColor : 'text-black'"
-          >เข้าร่วมกับเรา</button
-        >
-        <p class="text-center text-[18px] text-white">
-          เพื่อรวบรวมทุนสนับสนุนมอบให้กับมูลนิธิผู้พิการ
+        <p class="text-center text-[16px] font-extralight text-white -mt-4"> {{ character!.description }}</p>
+        <p class="text-center text-[20px] text-white">
+          {{ character!.quote }}
         </p>
       </div>
-      <div
-        class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3"
-      >
+      <img [src]="[character!.photoUrl]" alt="Light Hope Up" width="300px" />
+      <p class="text-center text-[18px] font-light text-white">
+        {{ character!.ability }}
+      </p>
+      <app-character-attributes class="py-6" [characterAttributes]="character!.natures"
+        [color]="preset.chipColor"></app-character-attributes>
+      <p class="text-center text-[18px] font-medium text-white">
+        วิธีการเปล่งประกาย
+      </p>
+      <p class="text-justify text-[16px] font-light text-white">
+        {{ character!.detail }}
+      </p>
+    </article>
+    <article class="flex flex-col items-center gap-4 pt-6 px-6 -mt-1 w-dvw h-fit bg-cover bg-no-repeat bg-top"
+      [ngClass]="preset.backgroundColor[1]">
+      <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-12">
+        <div>
+          <p class="text-center text-[60px] font-medium text-white">{{totalPlayer | number }} คน</p>
+          <p class="text-center text-[16px] font-light text-white">
+            กำลังเปล่งประกายแสงแห่งความหวังร่วมกัน
+          </p>
+        </div>
+        <button class="px-6 py-2 text-[18px] rounded-full bg-white"
+          [ngClass]="preset.buttonColor">เข้าร่วมกับเรา</button>
+        <p class="text-center text-[18px] text-white">
+          เพื่อรวบรวมทุนสนับสนุน<br>มอบให้กับมูลนิธิผู้พิการ
+        </p>
+      </div>
+      <div class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3">
         <img src="images/youthtalk.png" alt="Youthtalk" width="100px" />
         <div class="flex flex-col justify-center items-center gap-3">
-          <p class="text-center text-[18px] font-kanit-medium text-white">
-            ฟังเสียงแห่งความหวัง จากแสงที่ออกเดินทางจริง ณ หอศิลป์ (BACC)
+          <p class="text-[18px] text-white">
+            ฟังเสียงแห่งความหวัง<br>จากแสงที่ออกเดินทางจริง<br>ณ หอศิลป์ (BACC)
           </p>
-          <button
-            class="px-6 py-2 text-[18px] font-kanit-regular text-[#b06257] rounded-full bg-white"
-            [ngClass]="characterData ? characterData.buttonColor : 'text-black'"
-            >BUY TICKET</button
-          >
+          <button class="w-full px-6 py-2 text-[18px] text-[#b06257] rounded-full bg-white"
+            [ngClass]="preset.buttonColor">BUY TICKET</button>
         </div>
       </div>
       <app-footer class="w-full"></app-footer>

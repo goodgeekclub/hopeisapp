@@ -36,10 +36,11 @@ export class ResultComponent implements OnInit {
     private characterService: CharacterService,
     private quizResultService: QuizResultService, // Inject QuizResultService
   ) {}
-
   ngOnInit(): void {
-    this.getResult();
+    throw new Error('Method not implemented.');
   }
+
+  profile: any;
 
   public showResult(): void {
     if (this.displayIndex === 0) {
@@ -55,12 +56,13 @@ export class ResultComponent implements OnInit {
   private getResult(): void {
     const profile = this.profileService.getProfile();
     if (profile) {
+      console.log('Profile:', profile);
       this.character = profile.characterType.trim().toLowerCase();
       console.log('Profile character type:', this.character);
       this.hasResult = true;
 
       this.characterService.getCharacterByType(this.character).subscribe(
-        (response) => {
+        response => {
           console.log('Fetched character data:', response);
           const matchingCharacter = response.find(
             (char: any) => char.name.trim().toLowerCase() === this.character,
@@ -70,6 +72,7 @@ export class ResultComponent implements OnInit {
             this.characterData = matchingCharacter.data;
             console.log('Character data assigned:', this.characterData);
 
+            console.log('matchingCharacter:', matchingCharacter);
             // Prepare the data to be POSTed
             const postData = {
               score: profile.characterScore,
@@ -77,6 +80,7 @@ export class ResultComponent implements OnInit {
               character: {
                 name: matchingCharacter.data.name,
                 title: matchingCharacter.data.title,
+                description: matchingCharacter.data.description,
                 quote: matchingCharacter.data.quote,
                 detail: matchingCharacter.data.detail,
                 photoUrl: matchingCharacter.data.photoUrl,
@@ -89,14 +93,14 @@ export class ResultComponent implements OnInit {
             let hasPosted = false;
 
             this.quizResultService.postQuizResult(postData).subscribe(
-              (postResponse) => {
+              postResponse => {
                 if (!hasPosted) {
                   console.log('POST response:', postResponse);
                   this.quizResultId = postResponse._id;
                   hasPosted = true;
                 }
               },
-              (postError) => {
+              postError => {
                 console.error('Error posting data:', postError);
               },
             );
@@ -104,7 +108,7 @@ export class ResultComponent implements OnInit {
             console.log('Character not found.');
           }
         },
-        (error) => {
+        error => {
           console.error('Error fetching character data:', error);
         },
       );

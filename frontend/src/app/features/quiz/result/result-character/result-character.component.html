@@ -12,14 +12,14 @@
 
   <ng-container *ngIf="!isLoading">
     <article class="flex flex-col items-center gap-4 pt-6 px-6 w-dvw h-fit bg-cover bg-no-repeat bg-bottom"
-      [ngClass]="characterData ? characterData.bgClass[0] : 'bg-hopelogin'">
+      [ngClass]="preset.backgroundColor[0]">
       <div class="w-full flex items-center justify-between">
         <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="75px" />
         <div>
           <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':25 }"></svg-icon>
         </div>
       </div>
-      <p class="text-center text-[24px]" [ngClass]="characterData ? characterData.displayNameColor : 'text-white'">
+      <p class="text-center text-[24px]" [ngClass]="preset.nameColor">
         {{ displayName }} คือ
       </p>
       <div class="flex flex-col items-center gap-2">
@@ -36,7 +36,7 @@
         {{ characterData?.characterDescription }}
       </p>
       <app-character-attributes class="py-6" [characterAttributes]="characterData?.characterAttributes"
-        [color]="characterData?.attributesChipColor"></app-character-attributes>
+        [color]="preset.chipColor"></app-character-attributes>
       <p class="text-center text-[18px] font-medium text-white">
         วิธีการเปล่งประกาย
       </p>
@@ -45,7 +45,7 @@
       </p>
     </article>
     <article class="flex flex-col items-center gap-4 pt-6 px-6 -mt-1 w-dvw h-fit bg-cover bg-no-repeat bg-top"
-      [ngClass]="characterData ? characterData.bgClass[1] : 'bg-hopelogin'">
+      [ngClass]="preset.backgroundColor[1]">
       <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-12">
         <div>
           <p class="text-center text-[60px] font-medium text-white">{{totalPlayer.toLocaleString()}} คน</p>
@@ -54,7 +54,7 @@
           </p>
         </div>
         <button class="px-6 py-2 text-[18px] rounded-full bg-white"
-          [ngClass]="characterData ? characterData.buttonColor : 'text-black'">เข้าร่วมกับเรา</button>
+          [ngClass]="preset.buttonColor">เข้าร่วมกับเรา</button>
         <p class="text-center text-[18px] text-white">
           เพื่อรวบรวมทุนสนับสนุน<br>มอบให้กับมูลนิธิผู้พิการ
         </p>
@@ -66,7 +66,7 @@
             ฟังเสียงแห่งความหวัง<br>จากแสงที่ออกเดินทางจริง<br>ณ หอศิลป์ (BACC)
           </p>
           <button class="w-full px-6 py-2 text-[18px] text-[#b06257] rounded-full bg-white"
-            [ngClass]="characterData ? characterData.buttonColor : 'text-black'">BUY TICKET</button>
+            [ngClass]="preset.buttonColor">BUY TICKET</button>
         </div>
       </div>
       <app-footer class="w-full"></app-footer>

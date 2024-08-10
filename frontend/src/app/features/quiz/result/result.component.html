@@ -1,21 +1,19 @@
-<section *ngIf="!hasResult || !isClickedToShowResult; else result"
-  class="w-dvw h-dvh flex items-center justify-center bg-hopelogin bg-cover bg-no-repeat bg-center"
-  (click)="showResult()">
-  <article *ngIf="isClikedToShowText" class="w-full h-full flex flex-col items-center justify-between">
-    <div class="h-full flex flex-col justify-center mt-24">
+<section
+  *ngIf="!hasResult || !isClickedToShowResult; else result"
+  class="flex items-center justify-center bg-center bg-no-repeat bg-cover w-dvw h-dvh bg-hopelogin"
+  (click)="showResult()"
+  aria-hidden="true">
+  <article
+    *ngIf="isClikedToShowText"
+    class="flex flex-col items-center justify-between w-full h-full">
+    <div class="flex flex-col justify-center h-full mt-24">
       <p class="text-center text-[18px] text-white">จริง ๆ แล้ว</p>
-      <p class="text-center text-[18px] text-white">
-        แสงแห่งความหวัง
-      </p>
-      <p class="text-center text-[18px] text-white mt-8">
-        เปล่งประกายขึ้นมา
-      </p>
+      <p class="text-center text-[18px] text-white">แสงแห่งความหวัง</p>
+      <p class="text-center text-[18px] text-white mt-8">เปล่งประกายขึ้นมา</p>
       <p class="text-center text-[18px] text-white">
         ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้
       </p>
-      <p class="text-center text-[18px] text-white">
-        ให้ดีขึ้นแล้วล่ะ
-      </p>
+      <p class="text-center text-[18px] text-white">ให้ดีขึ้นแล้วล่ะ</p>
     </div>
     <div>
       <p class="text-center text-[18px] text-white opacity-50 mb-48">

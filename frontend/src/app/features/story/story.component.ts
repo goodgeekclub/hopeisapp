@@ -75,7 +75,6 @@ export class StoryComponent {
     private router: Router,
     private profileService: ProfileService
   ) {
-    this.textIndex = 1;
     this.getResult();
   }
 
@@ -88,6 +87,7 @@ export class StoryComponent {
       const profile = this.profileService.getProfile();
       if (profile) {
         this.name = profile.user;
+        this.textIndex = 1;
       }
     }, 1000);
   }

@@ -3,7 +3,7 @@ import { HomeComponent } from './features/home/home.component';
 import { WorldExploreComponent } from './features/world-explore/world-explore.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { testRoutes } from './features/test/test.routes';
-import { NameInputComponent } from './features/test/name-input/name-input.component';
+import { NameInputComponent } from './features/quiz/name-input/name-input.component';
 import { QuizStartComponent } from './features/quiz/quiz-start/quiz-start.component';
 import { QuestionComponent } from './features/quiz/question/question.component';
 import { QuizComponent } from './features/quiz/quiz.component';
@@ -34,8 +34,8 @@ export const routes: Routes = [
     component: AdminConsoleComponent,
     canActivate: [AuthGuard],
     data: {
-      roles: [ROLE.SUPERUSER, ROLE.ADMIN]
-    }
+      roles: [ROLE.SUPERUSER, ROLE.ADMIN],
+    },
   },
   {
     path: 'quiz',

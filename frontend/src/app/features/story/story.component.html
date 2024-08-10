@@ -130,7 +130,8 @@
   </div>
   <button
     [ngClass]="{
-      'opacity-0': currentPage >= maxPages,
+      'opacity-0':
+        currentPage >= maxPages || currentPage === 1 || textIndex <= 0,
     }"
     class="absolute z-10 text-gray-500 no-underline transition-opacity duration-500 delay-150 hover:no-underline btn btn-link bottom-10 animate-fade"
     (click)="skip()">

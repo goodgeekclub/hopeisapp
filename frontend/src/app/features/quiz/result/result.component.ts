@@ -20,7 +20,7 @@ import { QuizResultService } from '../../../services/quiz-result.service'; // Im
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css'],
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent {
   public hasResult = false;
   public displayIndex = 0;
   public isClickedToShowResult = false;

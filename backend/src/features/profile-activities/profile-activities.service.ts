@@ -11,7 +11,7 @@ import {
   ProfileActivity,
 } from 'src/schemas/profile-activity.schema';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
-import { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
 import { DateTime } from 'luxon';
@@ -19,10 +19,11 @@ import { ProfilesService } from '../profiles/profiles.service';
 import { DataService } from '../data/data.service';
 import { Mission } from 'src/models/mission.model';
 import { ListActivityQuery } from './dto/list-activity-query';
-import { Data, Profile } from 'src/schemas';
+import { Data } from 'src/schemas';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, from, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import { profile } from 'console';
 @Injectable()
 export class ProfileActivitiesService {
   constructor(
@@ -85,6 +86,27 @@ export class ProfileActivitiesService {
     });
   }
 
+  getStats() {
+    return this.model.aggregate([
+      {
+        $group: {
+          _id: "$profile",
+          total: { $sum: "$status" }
+        }
+      }
+    ]);
+  }
+
+  async getProfileStats(profileId: string) {
+    const query = this.model.find({ profile: profileId })
+    const success = await query.clone().where({ status: ActivityStatus.SUCCESS })
+    return {
+      total: await query.clone().countDocuments(),
+      success: success.length,
+      coin: success.reduce((prev: any, curr) => prev + curr.coinValue, 0),
+    };
+  }
+
   update(id: string, updateProfileActivityDto: UpdateProfileActivityDto) {
     return from(
       this.model.findByIdAndUpdate(id, updateProfileActivityDto),
@@ -145,7 +167,6 @@ export class ProfileActivitiesService {
             ],
             author: {
               name: profile.displayName,
-              // url: '', // quiz result url
               icon_url: profile.photoUrl,
             },
             footer: {

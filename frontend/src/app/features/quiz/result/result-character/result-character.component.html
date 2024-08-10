@@ -24,31 +24,31 @@
       </p>
       <div class="flex flex-col items-center gap-2">
         <p class="text-center text-[60px] font-medium text-white">
-          {{ characterData?.characterNameEn }}
+          {{ character!.title | titlecase }}
         </p>
-        <p class="text-center text-[16px] font-extralight text-white -mt-4"> {{ characterData?.characterNameTh }}</p>
+        <p class="text-center text-[16px] font-extralight text-white -mt-4"> {{ character!.description }}</p>
         <p class="text-center text-[20px] text-white">
-          {{ characterData?.characterTitle }}
+          {{ character!.quote }}
         </p>
       </div>
-      <img [src]="[characterData?.characterImgLink]" alt="Light Hope Up" width="300px" />
+      <img [src]="[character!.photoUrl]" alt="Light Hope Up" width="300px" />
       <p class="text-center text-[18px] font-light text-white">
-        {{ characterData?.characterDescription }}
+        {{ character!.ability }}
       </p>
-      <app-character-attributes class="py-6" [characterAttributes]="characterData?.characterAttributes"
+      <app-character-attributes class="py-6" [characterAttributes]="character!.natures"
         [color]="preset.chipColor"></app-character-attributes>
       <p class="text-center text-[18px] font-medium text-white">
         วิธีการเปล่งประกาย
       </p>
       <p class="text-justify text-[16px] font-light text-white">
-        {{ characterData?.shinningMethod }}
+        {{ character!.detail }}
       </p>
     </article>
     <article class="flex flex-col items-center gap-4 pt-6 px-6 -mt-1 w-dvw h-fit bg-cover bg-no-repeat bg-top"
       [ngClass]="preset.backgroundColor[1]">
       <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-12">
         <div>
-          <p class="text-center text-[60px] font-medium text-white">{{totalPlayer.toLocaleString()}} คน</p>
+          <p class="text-center text-[60px] font-medium text-white">{{totalPlayer | number }} คน</p>
           <p class="text-center text-[16px] font-light text-white">
             กำลังเปล่งประกายแสงแห่งความหวังร่วมกัน
           </p>

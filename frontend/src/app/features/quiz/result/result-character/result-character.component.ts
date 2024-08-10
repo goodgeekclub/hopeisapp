@@ -4,8 +4,9 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
 import { QuizResultService } from '../../../../services/quiz-result.service';
-import { ActivatedRoute } from '@angular/router';
-import { CharacterData } from '../../../../interfaces/character-data.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Character } from '../../../../interfaces/character.interface';
+import { Stats } from '../../../../interfaces/stats.interface';
 
 interface CharacterPreset {
   backgroundColor: string[],
@@ -13,15 +14,15 @@ interface CharacterPreset {
   buttonColor: string,
   nameColor: string,
 }
-export interface CharacterDisplay {
-  characterAttributes: string[];
-  characterDescription: string;
-  characterImgLink: string;
-  characterNameEn: string;
-  characterNameTh: string;
-  characterTitle: string;
-  shinningMethod: string;
-}
+// export interface CharacterDisplay {
+//   natures: string[];
+//   ability: string;
+//   photoUrl: string;
+//   title: string;
+//   description: string;
+//   quote: string;
+//   detail: string;
+// }
 
 @Component({
   selector: 'app-result-character',
@@ -37,39 +38,25 @@ export interface CharacterDisplay {
 })
 export class ResultCharacterComponent implements OnInit {
   displayName = '';
-  characterData?: CharacterDisplay;
+  character?: Character;
   isLoading = true;
   totalPlayer = 0;
   preset = this.getPreset();
 
-  constructor(
-    private quizResultService: QuizResultService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('data', this.route.snapshot.data);
-    const quizResult = this.route.snapshot.data['quizResult'];
-    this.setCharacterDisplay(quizResult.character)
-    this.isLoading = false;
-    this.displayName = quizResult.displayName;
-  }
-
-  public getTotalPlayer(): void {
-    this.totalPlayer = 12700;
-  }
-
-  public setCharacterDisplay(character: CharacterData) {
-    this.preset = this.getPreset(character.name);
-    this.characterData = {
-      characterAttributes: character.natures,
-      characterDescription: character.ability,
-      characterImgLink: character.photoUrl,
-      characterNameEn: this.capitalizeFirstLetter(character.title),
-      characterNameTh: character.description,
-      characterTitle: character.quote,
-      shinningMethod: character.detail,
+    // console.log('Data:', this.route.snapshot.data);
+    if (!this.route.snapshot.data['quizResult']) {
+      this.router.navigate(['/notfound']);
     }
+    const quizResult = this.route.snapshot.data['quizResult'];
+    const stats: Stats = this.route.snapshot.data['stats'];
+    this.preset = this.getPreset(quizResult.character.name);
+    this.character = quizResult.character;
+    this.displayName = quizResult.displayName;
+    this.totalPlayer = stats.totalResult;
+    this.isLoading = false;
   }
 
   private getPreset(name?: string): CharacterPreset {

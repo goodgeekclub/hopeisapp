@@ -11,7 +11,7 @@ import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard, ROLE } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
 import { ResultCharacterResolver } from './resolvers/result-character.resolver';
@@ -33,6 +33,9 @@ export const routes: Routes = [
     path: 'admin-console',
     component: AdminConsoleComponent,
     canActivate: [AuthGuard],
+    data: {
+      roles: [ROLE.SUPERUSER, ROLE.ADMIN]
+    }
   },
   {
     path: 'quiz',
@@ -67,6 +70,7 @@ export const routes: Routes = [
   {
     path: 'world-explore',
     component: WorldExploreComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'story',

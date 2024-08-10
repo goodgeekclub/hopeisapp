@@ -105,3 +105,14 @@ resource "aws_s3_bucket_cors_configuration" "asset_bucket" {
     allowed_origins = ["*"]
   }
 }
+
+resource "aws_s3_bucket_cors_configuration" "web_bucket" {
+  bucket = aws_s3_bucket.buckets["web"].id
+
+  cors_rule {
+    allowed_headers = ["Content-Length", "Authorization"]
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+    max_age_seconds = 30000
+  }
+}

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 
 import { SharedModule } from '../../../shared/shared.module';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { MeService } from '../../../services/me.service';
+import { signOut, Auth } from '@angular/fire/auth';
+import type { Stats } from '../../../interfaces/stats.interface';
 
 @Component({
   selector: 'app-mission',
@@ -13,7 +15,7 @@ import { MeService } from '../../../services/me.service';
   templateUrl: './mission.component.html',
   styleUrl: './mission.component.css',
 })
-export class MissionComponent {
+export class MissionComponent implements OnInit {
   coins = '1,000';
   totalCoins = '0';
   totalMember = '0';
@@ -32,8 +34,12 @@ export class MissionComponent {
 
   constructor(
     private router: Router,
-    private me: MeService
-  ) {
+    private me: MeService,
+    private readonly auth: Auth,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
     this.me.getMission().subscribe(res => {
       if (res.length === 0) {
         return;
@@ -44,6 +50,10 @@ export class MissionComponent {
       this.missionType = 'showMission';
     });
     this.missionTime = this.calculateHourLeft();
+    const stats: Stats = this.route.snapshot.data['stats'];
+    this.coins = this.numberFormat(4242);
+    this.totalCoins = this.numberFormat(stats.totalCoin);
+    this.totalMember = this.numberFormat(stats.totalResult);
   }
 
   private calculateHourLeft() {
@@ -53,15 +63,6 @@ export class MissionComponent {
     end.setHours(23, 59, 59, 999);
     const diff = end.getTime() - now.getTime();
     return Math.floor(diff / (1000 * 60 * 60)).toString();
-  }
-
-  ngOnInit() {
-    this.coins = this.numberFormat(1000);
-    this.totalCoins = this.numberFormat(1000000);
-    this.totalMember = this.numberFormat(1000000);
-    this.missionType = 'getMission';
-    this.missionTitle = 'Mission 1  aerh aerh aerh aerha erha er';
-    this.missionTime = '1';
   }
 
   private numberFormat(num: number): string {
@@ -120,5 +121,11 @@ export class MissionComponent {
       this.file = file;
       this.fileSrc = URL.createObjectURL(file);
     }
+  }
+
+  public signOut() {
+    signOut(this.auth).then(() => {
+      this.router.navigate(['/']);
+    });
   }
 }

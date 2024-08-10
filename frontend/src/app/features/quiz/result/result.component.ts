@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -20,14 +20,12 @@ import { QuizResultService } from '../../../services/quiz-result.service'; // Im
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.css'],
 })
-export class ResultComponent {
+export class ResultComponent implements OnInit {
   public hasResult = false;
   public displayIndex = 0;
   public isClickedToShowResult = false;
   public isClikedToShowText = false;
   public character = '';
-  public characterData: any;
-  public displayName = '';
   public quizResultId = '';
 
   constructor(
@@ -37,9 +35,12 @@ export class ResultComponent {
     private quizResultService: QuizResultService // Inject QuizResultService
   ) {}
 
-  profile: any;
+  ngOnInit() {
+    this.getResult();
+  }
 
   public showResult(): void {
+    console.log(this.quizResultId);
     if (this.displayIndex === 0) {
       this.isClikedToShowText = true;
       this.displayIndex++;
@@ -66,10 +67,6 @@ export class ResultComponent {
           );
 
           if (matchingCharacter) {
-            this.characterData = matchingCharacter.data;
-            console.log('Character data assigned:', this.characterData);
-
-            console.log('matchingCharacter:', matchingCharacter);
             // Prepare the data to be POSTed
             const postData = {
               score: profile.characterScore,

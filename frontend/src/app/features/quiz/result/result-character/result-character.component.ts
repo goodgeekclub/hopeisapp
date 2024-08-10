@@ -7,12 +7,14 @@ import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '../../../../interfaces/character.interface';
 import { Stats } from '../../../../interfaces/stats.interface';
+import { signInWithPopup, Auth, GoogleAuthProvider } from '@angular/fire/auth';
+import { MeService } from '../../../../services/me.service';
 
 interface CharacterPreset {
-  backgroundColor: string[],
-  chipColor: string,
-  buttonColor: string,
-  nameColor: string,
+  backgroundColor: string[];
+  chipColor: string;
+  buttonColor: string;
+  nameColor: string;
 }
 // export interface CharacterDisplay {
 //   natures: string[];
@@ -43,7 +45,17 @@ export class ResultCharacterComponent implements OnInit {
   totalPlayer = 0;
   preset = this.getPreset();
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  googleAuthProvider: GoogleAuthProvider;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: Auth,
+
+    private me: MeService
+  ) {
+    this.googleAuthProvider = new GoogleAuthProvider();
+  }
 
   ngOnInit(): void {
     // console.log('Data:', this.route.snapshot.data);
@@ -96,8 +108,8 @@ export class ResultCharacterComponent implements OnInit {
         chipColor: 'bg-[#ef8923]',
         buttonColor: 'text-[#bc8b4e]',
         nameColor: 'text-[#FAECBE]',
-      }
-    }
+      },
+    };
     if (name && presets.hasOwnProperty(name)) {
       return presets[name];
     } else {
@@ -105,12 +117,29 @@ export class ResultCharacterComponent implements OnInit {
         backgroundColor: ['text-white', 'text-white'],
         chipColor: 'text-white',
         buttonColor: 'text-black',
-        nameColor: 'text-white'
-      }
+        nameColor: 'text-white',
+      };
     }
   }
 
   private capitalizeFirstLetter(word: string): string {
     return word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  public async signUp() {
+    const user = await signInWithPopup(this.auth, this.googleAuthProvider);
+    if (user) {
+      const quizResultId = this.route.snapshot.data['quizResult']._id;
+      this.me.createProfile(quizResultId).subscribe({
+        next: () => {
+          this.router.navigate(['/mission']);
+        },
+        error: error => {
+          if (error.status === 400) {
+            this.router.navigate(['/mission']);
+          }
+        },
+      });
+    }
   }
 }

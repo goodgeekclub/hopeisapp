@@ -60,7 +60,7 @@ export const routes: Routes = [
         resolve: {
           quizResult: ResultCharacterResolver,
           stats: StatsResolver,
-        }
+        },
       },
     ],
   },
@@ -76,6 +76,9 @@ export const routes: Routes = [
     path: 'mission',
     component: MissionComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      stats: StatsResolver,
+    },
   },
   {
     path: '**',

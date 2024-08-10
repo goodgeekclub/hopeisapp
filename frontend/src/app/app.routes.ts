@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
-import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 import { WorldExploreComponent } from './features/world-explore/world-explore.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { testRoutes } from './features/test/test.routes';
@@ -14,6 +13,7 @@ import { AuthGuard } from './auth.guard';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
+import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 
 export const routes: Routes = [
   {

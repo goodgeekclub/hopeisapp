@@ -13,6 +13,7 @@ import { ResultCharacterComponent } from './features/quiz/result/result-characte
 import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 import { AuthGuard, ROLE } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { AdminTableComponent } from './features/admin-table/admin-table.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
 import { ResultCharacterResolver } from './resolvers/result-character.resolver';
 import { StatsResolver } from './resolvers/stats.resolver';
@@ -32,6 +33,14 @@ export const routes: Routes = [
   {
     path: 'admin-console',
     component: AdminConsoleComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: [ROLE.SUPERUSER, ROLE.ADMIN],
+    },
+  },
+  {
+    path: 'admin-console/table',
+    component: AdminTableComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [ROLE.SUPERUSER, ROLE.ADMIN],

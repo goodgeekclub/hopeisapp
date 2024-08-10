@@ -1,0 +1,15 @@
+
+<div class="mx-2 my-4">
+  <h1 class="text-lg">Admin Console</h1>
+  <hr>
+  <div *ngFor="let act of activities; let i = index">
+    <div class="flex justify-around items-center py-2 border-b-2">
+      <img [src]="act.photoUrl || noImgUrl" alt="icon" class="w-16 h-16 object-cover" />
+      <div class="text-left">
+        <h3 class="font-semibold">{{ act.mission.name }}</h3>
+        <p class="text-sm font-light">{{ act.createdAt | date:'mediumDate' }}</p>
+      </div>
+      <p>{{ act.status }}</p>
+    </div>
+  </div>
+</div>

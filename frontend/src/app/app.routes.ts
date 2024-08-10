@@ -10,13 +10,13 @@ import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
-import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
+import { AdminConsoleComponent } from './features/admin/admin-console/admin-console.component';
 import { AuthGuard, ROLE } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { AdminTableComponent } from './features/admin-table/admin-table.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
 import { ResultCharacterResolver } from './resolvers/result-character.resolver';
 import { StatsResolver } from './resolvers/stats.resolver';
+import { AdminTableComponent } from './features/admin/admin-table/admin-table.component';
 
 export const routes: Routes = [
   {
@@ -39,12 +39,22 @@ export const routes: Routes = [
     },
   },
   {
-    path: 'admin-console/table',
+    path: 'admin',
     component: AdminTableComponent,
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     data: {
       roles: [ROLE.SUPERUSER, ROLE.ADMIN],
     },
+    children: [
+      {
+        path: 'console',
+        component: AdminTableComponent,
+      },
+      {
+        path: 'view',
+        component: AdminConsoleComponent,
+      }
+    ]
   },
   {
     path: 'quiz',

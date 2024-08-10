@@ -68,7 +68,7 @@ export class ProfileActivitiesService {
     const find = this.model.find(query);
     find.limit(options?.limit || 5);
     find.skip(options?.skip);
-    find.sort({ createdAt: 'asc' });
+    find.sort({ createdAt: 'desc' });
     return find.exec();
   }
 

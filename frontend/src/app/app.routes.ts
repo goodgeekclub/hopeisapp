@@ -14,6 +14,8 @@ import { AdminConsoleComponent } from './features/admin-console/admin-console.co
 import { AuthGuard } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
+import { ResultCharacterResolver } from './resolvers/result-character.resolver';
+import { StatsResolver } from './resolvers/stats.resolver';
 
 export const routes: Routes = [
   {
@@ -55,6 +57,10 @@ export const routes: Routes = [
       {
         path: 'result/:id',
         component: ResultCharacterComponent,
+        resolve: {
+          quizResult: ResultCharacterResolver,
+          stats: StatsResolver,
+        }
       },
     ],
   },

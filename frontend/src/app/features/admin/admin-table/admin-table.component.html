@@ -1,15 +1,27 @@
 
 <div class="mx-2 my-4">
   <h1 class="text-lg">Admin Console</h1>
+  <h3 class="text-md font-light">Total : {{ activities?.length }} records</h3>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-1 px-2 m-2 rounded" (click)="setStatus('ACTIVE')">
+    ACTIVE
+  </button>
+  <button class="bg-green-500 hover:bg-green-700 text-white text-sm font-bold py-1 px-2 m-2 rounded" (click)="setStatus('FINISH')">
+    FINISH
+  </button>
+  <button class="bg-slate-500 hover:bg-slate-700 text-white text-sm font-bold py-1 px-2 m-2 rounded" (click)="setStatus()">
+    RESET
+  </button>
   <hr>
   <div *ngFor="let act of activities; let i = index">
-    <div class="flex justify-around items-center py-2 border-b-2">
-      <img [src]="act.photoUrl || noImgUrl" alt="icon" class="w-16 h-16 object-cover" />
-      <div class="text-left">
+    <div class="flex flex-row justify-between py-2 px-2 border-b-2">
+      <img [src]="act.photoUrl || noImgUrl" alt="icon" class="flex-none mx-2 w-16 h-16 object-cover" />
+      <div class="flex flex-col justify-around text-left flex-auto">
         <h3 class="font-semibold">{{ act.mission.name }}</h3>
         <p class="text-sm font-light">{{ act.createdAt | date:'mediumDate' }}</p>
       </div>
-      <p>{{ act.status }}</p>
+      <div class="flex-none mx-2 w-16">
+        <p>{{ act.status }}</p>
+      </div>
     </div>
   </div>
 </div>

@@ -20,8 +20,9 @@ export class AdminConsoleComponent implements OnInit {
 
   ngOnInit() {
     this.missionService
-      .getMission()
+      .getMission('PENDING')
       .subscribe((missions: IProfileActivities[]) => {
+        console.log(missions)
         this.missions = missions; // Assign the full list of missions to this.missions
         this.getData = this.missions[this.index];
       });

@@ -17,6 +17,7 @@ import { MissionComponent } from './features/mission/mission/mission.component';
 import { ResultCharacterResolver } from './resolvers/result-character.resolver';
 import { StatsResolver } from './resolvers/stats.resolver';
 import { AdminTableComponent } from './features/admin/admin-table/admin-table.component';
+import { AdminComponent } from './features/admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -31,16 +32,8 @@ export const routes: Routes = [
   },
   ...testRoutes,
   {
-    path: 'admin-console',
-    component: AdminConsoleComponent,
-    canActivate: [AuthGuard],
-    data: {
-      roles: [ROLE.SUPERUSER, ROLE.ADMIN],
-    },
-  },
-  {
     path: 'admin',
-    component: AdminTableComponent,
+    component: AdminComponent,
     canActivateChild: [AuthGuard],
     data: {
       roles: [ROLE.SUPERUSER, ROLE.ADMIN],
@@ -51,9 +44,9 @@ export const routes: Routes = [
         component: AdminTableComponent,
       },
       {
-        path: 'view',
+        path: 'console/panel',
         component: AdminConsoleComponent,
-      }
+      },
     ]
   },
   {

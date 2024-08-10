@@ -9,15 +9,19 @@ import { IProfileActivities } from '../interfaces/mission.interface';
 export class MissionService {
   constructor(private http: HttpClient) {}
 
-  getMission(status?: string): Observable<IProfileActivities[]> {
-    if (!status) {
-      status = 'PENDING'
+  getMission(status?: string, limit?: number): Observable<IProfileActivities[]> {
+    let params = new HttpParams();
+    if (status) {
+      params = params.append('status', status);
+    }
+    if (limit) {
+      params = params.append('limit', limit);
     }
     return this.http.get<IProfileActivities[]>(
       `${environment.backend.backendUrl}/profile-activities/`,
-      // {
-      //   params: new HttpParams().append('status', status),
-      // }
+      {
+        params
+      }
     );
   }
 

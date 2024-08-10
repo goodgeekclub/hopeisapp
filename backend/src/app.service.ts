@@ -12,4 +12,8 @@ export class AppService {
   getCollections() {
     return this.connection.listCollections();
   }
+
+  getDabase() {
+    return this.connection.db.databaseName
+  }
 }

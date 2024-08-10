@@ -6,7 +6,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
   @Get('test')
   getTest() {
-    return this.appService.getCollections();
+    // return this.appService.getCollections();
+    return this.appService.getDabase();
   }
 
   @Get('hello')

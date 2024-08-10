@@ -130,8 +130,15 @@ export class ResultCharacterComponent implements OnInit {
     const user = await signInWithPopup(this.auth, this.googleAuthProvider);
     if (user) {
       const quizResultId = this.route.snapshot.data['quizResult']._id;
-      this.me.createProfile(quizResultId).subscribe(() => {
-        this.router.navigate(['/mission']);
+      this.me.createProfile(quizResultId).subscribe({
+        next: () => {
+          this.router.navigate(['/mission']);
+        },
+        error: error => {
+          if (error.status === 400) {
+            this.router.navigate(['/mission']);
+          }
+        },
       });
     }
   }

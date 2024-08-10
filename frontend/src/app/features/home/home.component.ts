@@ -20,7 +20,11 @@ export class HomeComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.router.navigate(['/quiz/enter-your-name']);
+    }, 3000);
+  }
 
   public async toName(): Promise<void> {
     setTimeout(() => {

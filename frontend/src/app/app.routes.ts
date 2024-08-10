@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { WorldExploreComponent } from './features/world-explore/world-explore.component';
-import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 import { testRoutes } from './features/test/test.routes';
 import { NameInputComponent } from './features/test/name-input/name-input.component';
 import { QuizStartComponent } from './features/quiz/quiz-start/quiz-start.component';

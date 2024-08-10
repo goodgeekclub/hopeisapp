@@ -1,3 +1,4 @@
+import { profile } from 'console';
 import {
   BadRequestException,
   Injectable,
@@ -105,6 +106,10 @@ export class MeService {
         $in: ['DOING', 'PENDING'],
       },
     });
+  }
+
+  getStatsActivities(profileId: string) {
+    return this.activitiesService.getProfileStats(profileId);
   }
 
   getTodayActivity(profileId: string) {

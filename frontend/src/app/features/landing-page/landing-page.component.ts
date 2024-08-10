@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [ RouterModule ],
+  imports: [ RouterModule, CommonModule ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
@@ -20,11 +22,13 @@ export class LandingPageComponent {
   let_do_the_mission_link : string = "/mission";
   //share
   title : string = "มาหาเเสงของตัวเองกันเถอะ";
-  url : string = "http....";
+  url : string = environment.domainURL;
+  isToast : boolean = false;
 
   ngOnInit () {
     this.total_users = this.numberToKString(50000);
     this.total_hope_risers = this.numberFormat(1000);
+    this.isToast = false;
   }
 
   onClick() {
@@ -37,7 +41,8 @@ export class LandingPageComponent {
       )
     } else {
       navigator.clipboard.writeText(this.url);
-      alert("copied url: " + this.url );
+      this.isToast = true;
+      setTimeout(() => {this.isToast = false } , 2000);
     }
   }
 

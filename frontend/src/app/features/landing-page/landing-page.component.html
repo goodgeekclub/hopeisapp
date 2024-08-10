@@ -1,5 +1,10 @@
 <div
-  class="bg-hopelanding background text-white font-db-helvethaica-x-base"
+  class="bg-hopelanding bg-fixed  text-white 
+         flex flex-col justify-between
+         bg-cover 
+         h-fit
+         font-db-helvethaica-x-base
+         text-[14px] font-extralight"
 >
   <div class="flex flex-col items-center py-6">
     <img
@@ -9,17 +14,18 @@
       src="/images/logo-light-hope-up.png"
       alt="logo-light-hope-up"
     />
-    <div class="text-2xl leading-6">
-      <h1 class="bold-and-center">"เมื่อค้นพบเเสงสว่าง</h1>
-      <h1 class="bold-and-center">เราก็จุดประกายความหวังใหม่ ๆ ได้</h1>
-      <h1 class="bold-and-center">โดยไม่ต้องเปลี่ยนตัวเองให้เหมือนใคร "</h1>
+    <div class="text-lg leading-6 text-center font-normal">
+      <h1>"เมื่อค้นพบเเสงสว่าง</h1>
+      <h1>เราก็จุดประกายความหวังใหม่ ๆ ได้</h1>
+      <h1>โดยไม่ต้องเปลี่ยนตัวเองให้เหมือนใคร "</h1>
     </div>
   </div>
 
   <div class="grid grid-cols-2 grid-row-4 
-              mr-5 mb-auto margin-responsive
-              leading-4 text-xl ">
-    <div class="my-auto text-left py-6">
+              mx-10 mr-4 
+              leading-6 text-xl 
+              mb-auto">
+    <div class="my-auto text-left py-6 text-sm">
       <p>หยุดนิ่งเพียง 5 นาที</p>
       <p>เพื่อรู้จักตัวตนของเราให้มากขึ้น</p>
       <p>เเล้วจะได้รู้ว่า เเค่เราเป็นเรา</p>
@@ -28,11 +34,11 @@
     </div>
 
     <button class="row-span-2 mx-auto">
-      <a routerLink="{{ let_do_the_test_link }}"><img width="100px" src="/images/rocket.png" alt="" /></a>
+      <a routerLink={{let_do_the_test_link}}><img width="140px" class=" delay-300 duration-1000 animate-customBounce" src="/images/rocket.png" alt="" /></a>
     </button>
 
-    <div class="text-left py-5">
-      <p class="super-bold text-7xl">{{ total_users }}</p>
+    <div class="text-left py-5 text-base font-medium">
+      <h1 class="super-bold text-5xl">{{ total_users }}</h1>
       <p>ค้นพบตัวตน</p>
       <p>ของตนเองเเล้ว</p>
     </div>
@@ -40,92 +46,96 @@
     <div></div>
 
     <div class="text-blue-900 text-center mb-0">
-      <p class="text-[#FAA426] super-bold text-7xl leading-10">
+      <h1 class="text-[#FAA426] font-medium text-6xl leading-12">
         {{ total_hope_risers }}
-      </p>
-      <h1 class="font-black text-2xl">HOPERAISER</h1>
+      </h1>
+      <h1 class="font-medium text-2xl">HOPERAISER</h1>
 
-      <div class="my-4 leading-6">
+      <div class="my-4 leading-6 text-base font-normal">
         <p>ทำภารกิจสะสม coins กับเรา</p>
         <p>เพื่อเเลกเป็นเงินสนับสนุน</p>
         <p>มอบให้มูลนิธิผู้พิการ</p>
       </div>
 
       <button
-        class="hover:bg-red-400 rounded-full btn bg-red-700 text-white text-2xl"
+        class="rounded-full btn bg-[#FAA426] text-white text-md"
       >
         <a routerLink="{{ let_do_the_mission_link }}">ทำภารกิจด้วยกัน!</a>
       </button>
     </div>
 
-    <div class="text-blue-900 col-span-2 text-left mt-">
-      <p class="font-black text-2xl leading-5">" เเสง "</p>
-      <p class="font-black text-2xl leading-5">มีประกายสีที่ต่างกัน</p>
-      <p class="font-black text-2xl leading-5">
+    <div class="text-blue-900 col-span-2 text-left leading-6
+                font-medium">
+      <p class="">" เเสง "</p>
+      <p class="">มีประกายสีที่ต่างกัน</p>
+      <p class="">
         ก็เพื่อรวมกันให้ได้เเสงสว่างที่สุด
       </p>
 
-      <div class="flex my-2 pb-28">
-        <p class="my-2 mr-2">
+      <div class="flex my-2">
+        <p class="my-2 mr-2 text-sm">
           เเชร์หน้านี้ให้คนที่คุณอยากให้มาเปล่งประกายด้วยกัน
         </p>
 
-        <button class="svg-button"
-                (click)="onClick()">
-            <svg
-              class="w-5 h-5"
-              viewBox="0 -0.5 25 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M14.734 15.8974L19.22 12.1374C19.3971 11.9927 19.4998 11.7761 19.4998 11.5474C19.4998 11.3187 19.3971 11.1022 19.22 10.9574L14.734 7.19743C14.4947 6.9929 14.1598 6.94275 13.8711 7.06826C13.5824 7.19377 13.3906 7.47295 13.377 7.78743V9.27043C7.079 8.17943 5.5 13.8154 5.5 16.9974C6.961 14.5734 10.747 10.1794 13.377 13.8154V15.3024C13.3888 15.6178 13.5799 15.8987 13.8689 16.0254C14.158 16.1521 14.494 16.1024 14.734 15.8974Z"
-                  stroke="#000000"
-                  stroke-width="1.5"
+        <button (click)="onClick()">
+            <div class="btn-link rounded-full border-2 p-1 border-black">
+              <svg
+                class="w-5 h-5"
+                viewBox="0 -0.5 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                ></path>
-              </g>
-            </svg>
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M14.734 15.8974L19.22 12.1374C19.3971 11.9927 19.4998 11.7761 19.4998 11.5474C19.4998 11.3187 19.3971 11.1022 19.22 10.9574L14.734 7.19743C14.4947 6.9929 14.1598 6.94275 13.8711 7.06826C13.5824 7.19377 13.3906 7.47295 13.377 7.78743V9.27043C7.079 8.17943 5.5 13.8154 5.5 16.9974C6.961 14.5734 10.747 10.1794 13.377 13.8154V15.3024C13.3888 15.6178 13.5799 15.8987 13.8689 16.0254C14.158 16.1521 14.494 16.1024 14.734 15.8974Z"
+                    stroke="#000000"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </g>
+              </svg>
+            </div>
         </button>
       </div>
     </div>
   </div>
 
-  <div class="text-white text-center fixed bottom-0 font-thin w-full mt-auto">
+  <footer class="text-white text-center font-thin w-full">
     <div class="bg-blue-500 w-full py-2 flex justify-center items-center gap-2">
       <p>รู้จัก youth talk : Hope is</p>
       <!-- instragram icon -->
-      <button class="svg-button">
-        <a href="{{ ig_link }}">
-          <svg
-            class="w-5 h-5"
-            id="Layer_1"
-            data-name="Layer 1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1000 1000"
-          >
-            <path
-              d="M295.42,6c-53.2,2.51-89.53,11-121.29,23.48-32.87,12.81-60.73,30-88.45,57.82S40.89,143,28.17,175.92c-12.31,31.83-20.65,68.19-23,121.42S2.3,367.68,2.56,503.46,3.42,656.26,6,709.6c2.54,53.19,11,89.51,23.48,121.28,12.83,32.87,30,60.72,57.83,88.45S143,964.09,176,976.83c31.8,12.29,68.17,20.67,121.39,23s70.35,2.87,206.09,2.61,152.83-.86,206.16-3.39S799.1,988,830.88,975.58c32.87-12.86,60.74-30,88.45-57.84S964.1,862,976.81,829.06c12.32-31.8,20.69-68.17,23-121.35,2.33-53.37,2.88-70.41,2.62-206.17s-.87-152.78-3.4-206.1-11-89.53-23.47-121.32c-12.85-32.87-30-60.7-57.82-88.45S862,40.87,829.07,28.19c-31.82-12.31-68.17-20.7-121.39-23S637.33,2.3,501.54,2.56,348.75,3.4,295.42,6m5.84,903.88c-48.75-2.12-75.22-10.22-92.86-17-23.36-9-40-19.88-57.58-37.29s-28.38-34.11-37.5-57.42c-6.85-17.64-15.1-44.08-17.38-92.83-2.48-52.69-3-68.51-3.29-202s.22-149.29,2.53-202c2.08-48.71,10.23-75.21,17-92.84,9-23.39,19.84-40,37.29-57.57s34.1-28.39,57.43-37.51c17.62-6.88,44.06-15.06,92.79-17.38,52.73-2.5,68.53-3,202-3.29s149.31.21,202.06,2.53c48.71,2.12,75.22,10.19,92.83,17,23.37,9,40,19.81,57.57,37.29s28.4,34.07,37.52,57.45c6.89,17.57,15.07,44,17.37,92.76,2.51,52.73,3.08,68.54,3.32,202s-.23,149.31-2.54,202c-2.13,48.75-10.21,75.23-17,92.89-9,23.35-19.85,40-37.31,57.56s-34.09,28.38-57.43,37.5c-17.6,6.87-44.07,15.07-92.76,17.39-52.73,2.48-68.53,3-202.05,3.29s-149.27-.25-202-2.53m407.6-674.61a60,60,0,1,0,59.88-60.1,60,60,0,0,0-59.88,60.1M245.77,503c.28,141.8,115.44,256.49,257.21,256.22S759.52,643.8,759.25,502,643.79,245.48,502,245.76,245.5,361.22,245.77,503m90.06-.18a166.67,166.67,0,1,1,167,166.34,166.65,166.65,0,0,1-167-166.34"
-              transform="translate(-2.5 -2.5)"
-            />
-          </svg>
+      <button>
+        <a href="{{ ig_link }}" >
+          <div class="btn-link rounded-full border-2 p-1 border-black">
+            <svg
+              class="w-5 h-5"
+              id="Layer_1"
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M295.42,6c-53.2,2.51-89.53,11-121.29,23.48-32.87,12.81-60.73,30-88.45,57.82S40.89,143,28.17,175.92c-12.31,31.83-20.65,68.19-23,121.42S2.3,367.68,2.56,503.46,3.42,656.26,6,709.6c2.54,53.19,11,89.51,23.48,121.28,12.83,32.87,30,60.72,57.83,88.45S143,964.09,176,976.83c31.8,12.29,68.17,20.67,121.39,23s70.35,2.87,206.09,2.61,152.83-.86,206.16-3.39S799.1,988,830.88,975.58c32.87-12.86,60.74-30,88.45-57.84S964.1,862,976.81,829.06c12.32-31.8,20.69-68.17,23-121.35,2.33-53.37,2.88-70.41,2.62-206.17s-.87-152.78-3.4-206.1-11-89.53-23.47-121.32c-12.85-32.87-30-60.7-57.82-88.45S862,40.87,829.07,28.19c-31.82-12.31-68.17-20.7-121.39-23S637.33,2.3,501.54,2.56,348.75,3.4,295.42,6m5.84,903.88c-48.75-2.12-75.22-10.22-92.86-17-23.36-9-40-19.88-57.58-37.29s-28.38-34.11-37.5-57.42c-6.85-17.64-15.1-44.08-17.38-92.83-2.48-52.69-3-68.51-3.29-202s.22-149.29,2.53-202c2.08-48.71,10.23-75.21,17-92.84,9-23.39,19.84-40,37.29-57.57s34.1-28.39,57.43-37.51c17.62-6.88,44.06-15.06,92.79-17.38,52.73-2.5,68.53-3,202-3.29s149.31.21,202.06,2.53c48.71,2.12,75.22,10.19,92.83,17,23.37,9,40,19.81,57.57,37.29s28.4,34.07,37.52,57.45c6.89,17.57,15.07,44,17.37,92.76,2.51,52.73,3.08,68.54,3.32,202s-.23,149.31-2.54,202c-2.13,48.75-10.21,75.23-17,92.89-9,23.35-19.85,40-37.31,57.56s-34.09,28.38-57.43,37.5c-17.6,6.87-44.07,15.07-92.76,17.39-52.73,2.48-68.53,3-202.05,3.29s-149.27-.25-202-2.53m407.6-674.61a60,60,0,1,0,59.88-60.1,60,60,0,0,0-59.88,60.1M245.77,503c.28,141.8,115.44,256.49,257.21,256.22S759.52,643.8,759.25,502,643.79,245.48,502,245.76,245.5,361.22,245.77,503m90.06-.18a166.67,166.67,0,1,1,167,166.34,166.65,166.65,0,0,1-167-166.34"
+                transform="translate(-2.5 -2.5)"
+              />
+            </svg>
+          </div>
         </a>
       </button>
 
-      <button class="svg-button">
+      <button>
         <a href="{{ website_link }}">
           <svg
-            class="w-5 h-5"
+            class=" svg-button know-hope hidden w-10 h-10"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -171,6 +181,12 @@
         />
         <!-- youth icon -->
       </div>
+    </div>
+  </footer>
+
+  <div class="toast">
+    <div  *ngIf="isToast==true" class="alert-info alert bg-green-600">
+      <span>Copied</span>
     </div>
   </div>
 </div>

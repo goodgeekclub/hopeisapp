@@ -65,10 +65,16 @@ export class ProfileActivitiesService {
   }
 
   findAll(options?: QueryOptionsDto, query?: ListActivityQuery) {
-    const find = this.model.find(query);
+    let find = this.model.find();
+    if (query.date) {
+      find = find.where({ date: DateTime.fromISO(query.date).toISODate() })
+    }
+    if (query.status) {
+      find = find.where({ status: query.status.split(',') })
+    }
     find.limit(options?.limit || 5);
     find.skip(options?.skip);
-    find.sort({ createdAt: 'asc' });
+    find.sort({ createdAt: 'desc' });
     return find.exec();
   }
 

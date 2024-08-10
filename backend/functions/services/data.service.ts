@@ -74,7 +74,7 @@ export class DataService {
         },
       ])
       .exec();
-    return data[0].total;
+    return data.length > 0 ? data[0].total : 0;
   }
 
   defaultStats(): StatsData {

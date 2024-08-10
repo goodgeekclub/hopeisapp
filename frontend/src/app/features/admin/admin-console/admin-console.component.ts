@@ -1,7 +1,7 @@
 import { Component, type OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MissionService } from '../../services/mission.service';
-import { IProfileActivities } from '../../interfaces/mission.interface';
+import { MissionService } from '../../../services/mission.service';
+import { IProfileActivities } from '../../../interfaces/mission.interface';
 
 @Component({
   selector: 'app-admin-console',
@@ -20,8 +20,9 @@ export class AdminConsoleComponent implements OnInit {
 
   ngOnInit() {
     this.missionService
-      .getMission()
+      .getMission('PENDING')
       .subscribe((missions: IProfileActivities[]) => {
+        console.log(missions)
         this.missions = missions; // Assign the full list of missions to this.missions
         this.getData = this.missions[this.index];
       });

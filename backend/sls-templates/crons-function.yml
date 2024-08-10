@@ -8,6 +8,7 @@ crons-stats:
     - schedule:
         name: ${self:service}-stats-${sls:stage}
         rate: ${self:custom.crons.${sls:stage}.rate}
+        # rate: rate(1 minute)
         enabled: true
 
 crons-clear-activities:
@@ -17,5 +18,4 @@ crons-clear-activities:
     - schedule:
         name: ${self:service}-clear-activities-${sls:stage}
         rate: cron(1 17 * * ? *)
-        # rate: rate(1 minute)
         enabled: true

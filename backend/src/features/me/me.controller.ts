@@ -70,6 +70,12 @@ export class MeController {
     return this.meService.getActiveActivity(profile._id);
   }
 
+  @Get('activities/stats')
+  @UseInterceptors(FbProfilesInterceptor)
+  getStatsActivities(@ProfileUser() profile) {
+    return this.meService.getStatsActivities(profile._id);
+  }
+
   @Get('activities/:id')
   @UseInterceptors(FbProfilesInterceptor)
   getActivities(@ProfileUser() profile, @Param('id') id) {

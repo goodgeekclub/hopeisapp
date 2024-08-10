@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { SvgIconComponent } from 'angular-svg-icon';
@@ -19,7 +19,7 @@ import { ProfileService } from '../../services/profile.service';
   templateUrl: './story.component.html',
   styleUrl: './story.component.css',
 })
-export class StoryComponent implements OnInit {
+export class StoryComponent {
   name = 'hazamashoken';
   currentPage = 1;
 
@@ -74,17 +74,20 @@ export class StoryComponent implements OnInit {
   constructor(
     private router: Router,
     private profileService: ProfileService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.getResult();
   }
+
+  // ngOnInit() {
+  //   this.getResult();
+  // }
 
   private getResult(): void {
     setTimeout(() => {
       const profile = this.profileService.getProfile();
       if (profile) {
         this.name = profile.user;
+        this.textIndex = 1;
       }
     }, 1000);
   }
@@ -103,12 +106,13 @@ export class StoryComponent implements OnInit {
   // }
 
   revealNextLine() {
-    if (this.currentPage >= this.maxPages) {
-      return;
-    }
     if (this.textIndex < this.textContents[this.currentPage - 1].length) {
-      this.textIndex++;
+      // this.textIndex++;
+      this.nextPage();
     } else {
+      if (this.currentPage >= this.maxPages) {
+        return;
+      }
       if (this.currentPage < this.textContents.length) {
         this.currentPage++;
         this.textIndex = 0;

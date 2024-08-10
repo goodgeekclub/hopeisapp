@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MissionService } from '../../services/mission.service';
 import { IProfileActivities } from '../../interfaces/mission.interface';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-console',
@@ -11,36 +10,36 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule],
 })
-export class AdminConsoleComponent {
-  getData: IProfileActivities|null=null;
+export class AdminConsoleComponent implements OnInit {
+  getData: IProfileActivities | null = null;
   missions: IProfileActivities[] = []; // Initialize missions as an empty array
   index = 0;
   status = '';
-  
-  constructor(
-    private missionService: MissionService,
-    private http: HttpClient,
-  ) {
-    this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
-      this.missions = missions; // Assign the full list of missions to this.missions
-      this.getData = this.missions[this.index];
-      console.log(this.getData)
-    });  
+
+  constructor(private missionService: MissionService) {}
+
+  ngOnInit() {
+    this.missionService
+      .getMission()
+      .subscribe((missions: IProfileActivities[]) => {
+        this.missions = missions; // Assign the full list of missions to this.missions
+        this.getData = this.missions[this.index];
+      });
   }
 
   nextMission() {
-    if(!this.getData){
-      return
+    if (!this.getData) {
+      return;
     }
     const currentMissionId = this.getData._id; // assume _id is the MongoDB document ID
-    this.updateMissionStatus(currentMissionId, this.status).subscribe(
-      () => {
-        this.missionService.getMission().subscribe((missions: IProfileActivities[]) => {
+    this.updateMissionStatus(currentMissionId, this.status).subscribe(() => {
+      this.missionService
+        .getMission()
+        .subscribe((missions: IProfileActivities[]) => {
           this.missions = missions; // Assign the full list of missions to this.missions
           this.getData = this.missions[this.index];
         });
-      },
-    );
+    });
   }
 
   updateMissionStatus(missionId: string, status: string) {

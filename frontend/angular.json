@@ -20,7 +20,9 @@
               "zone.js"
             ],
             "allowedCommonJsDependencies": [
-              "fast-xml-parser", "bowser", "earcut"
+              "fast-xml-parser",
+              "bowser",
+              "earcut"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -35,7 +37,6 @@
               "src/styles.css"
             ],
             "scripts": []
-            
           },
           "configurations": {
             "production": {
@@ -101,11 +102,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": "6bb18d4c-58f1-447e-ad61-0dd85d7f1b81"
+    "analytics": "6bb18d4c-58f1-447e-ad61-0dd85d7f1b81",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

@@ -1,5 +1,5 @@
 <div
-  class="relative flex flex-col items-center justify-center h-screen text-white transition-all duration-[1s] delay-150 bg-black bg-cover"
+  class="relative flex flex-col items-center justify-center h-dvh text-white transition-all duration-[1s] delay-150 bg-black bg-cover animate-fade"
   [ngClass]="{
     'bg-hopeone': currentPage === 1,
     'bg-hopetwo': currentPage >= 2 && currentPage <= 5,
@@ -136,7 +136,7 @@
     (click)="skip()">
     SKIP
   </button>
-  <svg-icon
+  <!-- <svg-icon
     *ngIf="currentPage >= 2 && currentPage <= maxPages"
     class="absolute left-0 p-4 text-white no-underline transform rotate-180 -translate-y-1/2 hover:no-underline top-1/2"
     (click)="previousPage()"
@@ -147,5 +147,5 @@
     class="absolute right-0 p-4 text-white no-underline transform -translate-y-1/2 top-1/2 hover:no-underline"
     (click)="nextPage()"
     src="icons/right-thin-chevron.svg"
-    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"></svg-icon>
+    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"></svg-icon> -->
 </div>

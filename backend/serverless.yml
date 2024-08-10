@@ -1,7 +1,7 @@
 service: hopeisapp
-
+useDotenv: true
 plugins:
-  # - serverless-plugin-browserifier
+  - serverless-dotenv-plugin
   - serverless-offline
 
 package:
@@ -11,6 +11,7 @@ package:
     - '!*.md'
     - '!**.ts'
     - '!src/**'
+    - '!functions/**'
 
 provider:
   name: aws
@@ -37,25 +38,32 @@ provider:
     usagePlan: ${self:custom.usagePlans.${sls:stage}}
 
 custom:
+  crons:
+    dev:
+      rate: rate(6 hours)
+    uat:
+      rate: rate(6 hours)
+    prod:
+      rate: rate(1 hour)
   usagePlans:
     dev:
       quota:
         limit: 5000
-        period: MONTH
+        period: DAY
       throttle:
         burstLimit: 200
         rateLimit: 100
     uat:
       quota:
         limit: 5000
-        period: MONTH
+        period: DAY
       throttle:
         burstLimit: 200
         rateLimit: 100
     prod:
       quota:
-        limit: 50000
-        period: MONTH
+        limit: 100000
+        period: DAY
       throttle:
         burstLimit: 2000
         rateLimit: 1000
@@ -85,3 +93,4 @@ functions:
   - ${file(sls-templates/quiz-results-function.yml)}
   - ${file(sls-templates/profile-activities-function.yml)}
   - ${file(sls-templates/me-function.yml)}
+  - ${file(sls-templates/crons-function.yml)}

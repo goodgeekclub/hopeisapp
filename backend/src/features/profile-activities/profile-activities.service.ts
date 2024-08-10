@@ -54,6 +54,7 @@ export class ProfileActivitiesService {
     }
     activity.profile = profile;
     activity.mission = mission.data;
+    activity.coinValue = mission.data.coinValue;
     activity.character = profile.character;
     return activity.save();
   }
@@ -70,12 +71,11 @@ export class ProfileActivitiesService {
     return find.exec();
   }
 
-  findOne(id: string) {
-    return this.model.findById(id).then((activity) => {
-      if (!activity) {
-        throw new NotFoundException('ProfileActivity does not existed');
-      }
-    });
+  async findOne(id: string) {
+    const activity = await this.model.findById(id);
+    if (!activity) {
+      throw new NotFoundException('ProfileActivity does not existed');
+    }
   }
 
   ListbyPId(pid: string, query?: any) {
@@ -106,16 +106,30 @@ export class ProfileActivitiesService {
     return this.model.findByIdAndDelete(id);
   }
 
+  getToday(profileId?: string) {
+    const today = DateTime.now();
+    let query = this.model.find({
+      status: {
+        $in: ['DOING', 'PENDING', 'SUCCESS', 'FAILED'],
+      },
+      date: today.toISODate(),
+    });
+    if (profileId) {
+      query = query.where({ profile: profileId })
+    }
+    return query;
+  }
+
   private hookUpdatePayload(data: ProfileActivity) {
     return this.profilesService
       .findOne(data.profile.toString())
-      .then((profile) => ({
+      .then(async (profile) => ({
         content: null,
         embeds: [
           {
             title: data.mission.name,
             description: data.mission.description,
-            url: this.configService.get('FRONTEND_URL'), // wait for admin link
+            url: this.configService.get('FRONTEND_URL') + '/admin-console',
             color: 16776960,
             fields: [
               {
@@ -125,7 +139,7 @@ export class ProfileActivitiesService {
               },
               {
                 name: 'PENDING',
-                value: '100', // wait stat
+                value: await this.model.find({ status: 'PENDING' }).countDocuments(),
                 inline: true,
               },
             ],
@@ -149,43 +163,3 @@ export class ProfileActivitiesService {
       }));
   }
 }
-
-// {
-//   content: null,
-//   embeds: [
-//     {
-//       title: doc.mission.name,
-//       description: doc.mission.description,
-//       url: 'https://localhost:4200',
-//       color: 16776960,
-//       fields: [
-//         {
-//           name: 'STATUS',
-//           value: doc.status,
-//           inline: true,
-//         },
-//         {
-//           name: 'PENDING',
-//           value: '100',
-//           inline: true,
-//         },
-//       ],
-//       author: {
-//         name: 'Araiva',
-//         url: 'https://s3.ap-southeast-1.amazonaws.com/dev-media.hopeis.us/test/charactor/00.shiny.png',
-//         icon_url:
-//           'https://lh3.googleusercontent.com/a/ACg8ocKBjuxX6lswDCZOqTiIw7hjEzWE9sz-gYGRufns7uHl2ghgchxz=s96-c',
-//       },
-//       footer: {
-//         text: 'Timestamp',
-//       },
-//       timestamp: '2024-08-04T15:15:00.000Z',
-//       image: {
-//         url: 'https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_930/b_white/f_auto/q_auto/ncom/software/switch/70010000056567/18471c57be0c4cc1d1f1b76f1f22ce0c4e9a0f1bec4596072773cd145039980d',
-//       },
-//     },
-//   ],
-//   username: 'Hopeishook',
-//   avatar_url:
-//     'https://cdn-icons-png.flaticon.com/512/1827/1827301.png',
-// }

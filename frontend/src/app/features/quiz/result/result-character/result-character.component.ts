@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
-import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '../../../../interfaces/character.interface';
 import { Stats } from '../../../../interfaces/stats.interface';

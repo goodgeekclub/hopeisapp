@@ -46,6 +46,7 @@ export class ResultComponent {
     } else if (this.displayIndex === 1 && this.hasResult) {
       this.isClickedToShowResult = true;
       this.displayIndex++;
+      console.log(this.quizResultId)
       this.router.navigate(['/quiz/result/', this.quizResultId]);
     }
   }

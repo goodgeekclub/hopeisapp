@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-landing-page',
@@ -8,18 +8,18 @@ import { Component, Input } from '@angular/core';
   styleUrl: './landing-page.component.css'
 })
 
-export class LandingPageComponent {
-  total_users : string = "50k+";
-  total_hope_risers : string = "1000";
+export class LandingPageComponent implements OnInit{
+  total_users = "50k+";
+  total_hope_risers = "1000";
   //please edit below links;
-  ig_link : string = "https://www.instagram.com/youthday_th?igsh=MXZ1dnc3N3dmY2dpdA%3D%3D&utm_source=qr";
-  website_link : string = "http/website";
+  ig_link = "https://www.instagram.com/youthday_th?igsh=MXZ1dnc3N3dmY2dpdA%3D%3D&utm_source=qr";
+  website_link = "http/website";
 
-  let_do_the_test_link : string = "/home";
-  let_do_the_mission_link : string = "/mission";
+  let_do_the_test_link = "/home";
+  let_do_the_mission_link = "/mission";
   //share
-  title : string = "มาหาเเสงของตัวเองกันเถอะ";
-  url : string = "http....";
+  title = "มาหาเเสงของตัวเองกันเถอะ";
+  url = "http....";
 
   ngOnInit () {
     this.total_users = this.numberToKString(50000);

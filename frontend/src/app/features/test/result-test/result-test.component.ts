@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ResultComponent } from '../../quiz/result/result.component';
 
 @Component({
@@ -8,7 +8,5 @@ import { ResultComponent } from '../../quiz/result/result.component';
   templateUrl: './result-test.component.html',
   styleUrl: './result-test.component.css',
 })
-export class ResultTestComponent implements OnInit {
-  constructor() {}
-  ngOnInit(): void {}
+export class ResultTestComponent {
 }

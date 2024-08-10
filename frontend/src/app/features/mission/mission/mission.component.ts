@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 
@@ -13,7 +13,7 @@ import { MeService } from '../../../services/me.service';
   templateUrl: './mission.component.html',
   styleUrl: './mission.component.css',
 })
-export class MissionComponent {
+export class MissionComponent implements OnInit {
   coins = '1,000';
   totalCoins = '0';
   totalMember = '0';

@@ -30,7 +30,7 @@ export const routes: Routes = [
   {
     path: 'admin-console',
     component: AdminConsoleComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'quiz',

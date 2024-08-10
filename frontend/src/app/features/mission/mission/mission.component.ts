@@ -29,6 +29,8 @@ export class MissionComponent implements OnInit {
 
   testindex = 0;
 
+  displayName = '';
+
   file: File | null = null;
   fileSrc = '';
 
@@ -54,6 +56,11 @@ export class MissionComponent implements OnInit {
     this.coins = this.numberFormat(4242);
     this.totalCoins = this.numberFormat(stats.totalCoin);
     this.totalMember = this.numberFormat(stats.totalResult);
+    this.me.fetchProfile().subscribe({
+      next: res => {
+        this.displayName = res.displayName;
+      },
+    });
   }
 
   private calculateHourLeft() {

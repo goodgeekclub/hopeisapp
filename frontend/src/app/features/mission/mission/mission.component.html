@@ -167,19 +167,13 @@
   </div>
   <div class="z-50 drawer-side">
     <label for="my-drawer" class="drawer-overlay"></label>
-    <div class="min-h-full w-80">
-      Hazamashoken
+    <div class="min-h-full bg-[#0F1428] w-80 text-white">
+      {{ displayName }}
       <hr />
-      <ul class="p-4 text-white bg-base-200 menu">
-        <li class="btn btn-link" (click)="signOut()" aria-hidden="true">
+      <ul class="p-4 bg-base-200 menu">
+        <li class="btn btn-primary" (click)="signOut()" aria-hidden="true">
           Sign Out
         </li>
-        <li class="btn btn-link"><a> hello world </a></li>
-        <li class="btn btn-link"><a> hello world </a></li>
-        <li class="btn btn-link"><a> hello world </a></li>
-        <li class="btn btn-link"><a> hello world </a></li>
-        <li class="btn btn-link"><a> hello world </a></li>
-        <li class="btn btn-link"><a> hello world </a></li>
       </ul>
     </div>
   </div>

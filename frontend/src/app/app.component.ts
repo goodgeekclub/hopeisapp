@@ -1,4 +1,4 @@
-import { Analytics, logEvent, setCurrentScreen } from '@angular/fire/analytics';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -6,7 +6,6 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { AuthService } from './services';
 import { environment } from '../environments/environment';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-
 
 @Component({
   selector: 'app-root',
@@ -24,15 +23,21 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 export class AppComponent implements OnInit {
   title = 'frontend';
   private analytics = inject(Analytics);
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    if (environment.production) {
+      console.log = function () {};
+      console.error = function () {};
+      console.warn = function () {};
+    }
+  }
 
   ngOnInit(): void {
     logEvent(this.analytics, 'screen_view');
-    this.authService.getUserState().subscribe(async (user) => {
-      if (!environment.production) {
+    if (!environment.production) {
+      this.authService.getUserState().subscribe(async user => {
         console.log(user);
         console.log('accessToken', await user.getIdToken());
-      }
-    });
+      });
+    }
   }
 }

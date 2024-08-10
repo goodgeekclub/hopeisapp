@@ -4,18 +4,19 @@
     'bg-hopeone': currentPage === 1,
     'bg-hopetwo': currentPage >= 2 && currentPage <= 5,
     'bg-hopethree': currentPage >= 6 && currentPage <= animationPage,
-  }"
->
+  }">
   <!-- Earth -->
   <div
     *ngIf="currentPage !== 0"
     class="fixed transition duration-[1s] ease-in-out delay-50"
     [ngClass]="{
-      'translate-y-[95%] translate-x-[30%] ': currentPage === 3 && textIndex === (textContents[currentPage - 1].length),
-      'translate-y-[200%] translate-x-[200%] ': currentPage !== 3 || (currentPage === 3 && textIndex !== (textContents[currentPage - 1].length)),
-      
-    }"
-  >
+      'translate-y-[95%] translate-x-[30%] ':
+        currentPage === 3 && textIndex === textContents[currentPage - 1].length,
+      'translate-y-[200%] translate-x-[200%] ':
+        currentPage !== 3 ||
+        (currentPage === 3 &&
+          textIndex !== textContents[currentPage - 1].length),
+    }">
     <img src="images/story/earth.png" alt="earth" />
   </div>
   <!-- Trash -->
@@ -24,10 +25,9 @@
     class="fixed transition duration-1000 ease-in-out delay-50"
     [ngClass]="{
       'translate-y-[110%] -translate-x-[30%] ': currentPage === 4,
-      'translate-y-[200%] -translate-x-[200%] ': currentPage !== 4 || (currentPage === 4 && textIndex <= 1),
-      
-    }"
-  >
+      'translate-y-[200%] -translate-x-[200%] ':
+        currentPage !== 4 || (currentPage === 4 && textIndex <= 1),
+    }">
     <img src="images/story/trash.png" alt="trash" />
   </div>
   <!-- Tree -->
@@ -35,11 +35,11 @@
     *ngIf="currentPage !== 0"
     class="fixed transition duration-1000 ease-in-out delay-50"
     [ngClass]="{
-      'translate-y-[80%] translate-x-[40%] ': currentPage === 4 && textIndex >= 1,
-      'translate-y-[200%] translate-x-[200%] ': currentPage !== 4  || ( currentPage === 4 && textIndex === 0),
-      
-    }"
-  >
+      'translate-y-[80%] translate-x-[40%] ':
+        currentPage === 4 && textIndex >= 1,
+      'translate-y-[200%] translate-x-[200%] ':
+        currentPage !== 4 || (currentPage === 4 && textIndex === 0),
+    }">
     <img src="images/story/dead_tree.png" alt="dead_tree" />
   </div>
   <!-- Girl -->
@@ -49,9 +49,8 @@
     [ngClass]="{
       'translate-y-[80%]': currentPage === 4 || currentPage === 5,
       'translate-y-[200%] ': currentPage < 4,
-      'opacity-0 translate-y-[81%]': currentPage >= 6
-    }"
-  >
+      'opacity-0 translate-y-[81%]': currentPage >= 6,
+    }">
     <img src="images/story/girl.png" alt="girl" />
   </div>
 
@@ -62,9 +61,8 @@
     [ngClass]="{
       'scale-[25] duration-[5s] translate-y-[40%]': currentPage > maxPages,
       'opacity-100 translate-y-[40%]  duration-[1.1s]': currentPage >= 6,
-      'opacity-0 translate-y-[20%]  duration-[1.2s]': currentPage < 6
-    }"
-  >
+      'opacity-0 translate-y-[20%]  duration-[1.2s]': currentPage < 6,
+    }">
     <img src="images/story/hope.png" alt="hope" />
   </div>
 
@@ -72,7 +70,7 @@
   <div
     class="flex flex-col items-center z-10 justify-center h-screen w-[80%]"
     (click)="revealNextLine()"
-  >
+    aria-hidden="true">
     <div class="text-center" *ngIf="currentPage === 1">
       <ng-container *ngFor="let text of startContent; let i = index">
         <p
@@ -80,9 +78,8 @@
           class="p-1 text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
           [ngClass]="{
             'opacity-0 invisible': !(textIndex > i),
-            'opacity-100 visible': textIndex > i
-          }"
-        >
+            'opacity-100 visible': textIndex > i,
+          }">
           {{ text }}
         </p>
         <p
@@ -90,9 +87,8 @@
           class="p-1 text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
           [ngClass]="{
             'opacity-0 invisible': !(textIndex > i),
-            'opacity-100 visible': textIndex > i
-          }"
-        >
+            'opacity-100 visible': textIndex > i,
+          }">
           {{ text }}
           "<span class="text-blue-400">{{ name }}</span
           >"
@@ -106,8 +102,7 @@
         "
         [texts]="textContents[i]"
         [textIndex]="textIndex"
-        [currentPage]="i + 1"
-      ></story-text>
+        [currentPage]="i + 1"></story-text>
     </div>
     <div class="text-center" *ngIf="currentPage === maxPages">
       <ng-container *ngFor="let text of endContent; let i = index">
@@ -116,9 +111,8 @@
           class="p-1 text-lg transition-opacity duration-500 ease-in-out delay-150 opacity-0"
           [ngClass]="{
             'opacity-0 invisible': !(textIndex > i),
-            'opacity-100 visible': textIndex > i
-          }"
-        >
+            'opacity-100 visible': textIndex > i,
+          }">
           {{ text }}
         </p>
         <a
@@ -126,10 +120,9 @@
           class="p-3 text-lg text-gray-500 no-underline transition-opacity duration-500 ease-in-out delay-150 opacity-0 hover:no-underline"
           [ngClass]="{
             'opacity-0 invisible': !(textIndex > i),
-            'opacity-100 visible': textIndex > i
+            'opacity-100 visible': textIndex > i,
           }"
-          (click)="startAnimation()"
-        >
+          (click)="startAnimation()">
           {{ text }}
         </a>
       </ng-container>
@@ -137,11 +130,10 @@
   </div>
   <button
     [ngClass]="{
-      'opacity-0': currentPage >= maxPages
+      'opacity-0': currentPage >= maxPages,
     }"
     class="absolute z-10 text-gray-500 no-underline transition-opacity duration-500 delay-150 hover:no-underline btn btn-link bottom-10 animate-fade"
-    (click)="skip()"
-  >
+    (click)="skip()">
     SKIP
   </button>
   <svg-icon
@@ -149,13 +141,11 @@
     class="absolute left-0 p-4 text-white no-underline transform rotate-180 -translate-y-1/2 hover:no-underline top-1/2"
     (click)="previousPage()"
     src="icons/right-thin-chevron.svg"
-    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
-  ></svg-icon>
+    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"></svg-icon>
   <svg-icon
     *ngIf="currentPage >= 1 && currentPage < maxPages"
     class="absolute right-0 p-4 text-white no-underline transform -translate-y-1/2 top-1/2 hover:no-underline"
     (click)="nextPage()"
     src="icons/right-thin-chevron.svg"
-    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"
-  ></svg-icon>
+    [svgStyle]="{ 'width.px': 20, 'height.px': 20 }"></svg-icon>
 </div>

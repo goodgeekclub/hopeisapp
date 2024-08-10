@@ -5,6 +5,7 @@ import {
   Body,
   Param,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { QuizResultsService } from './quiz-results.service';
 import { CreateQuizResultDto } from './dto/create-quiz-result.dto';
@@ -12,6 +13,7 @@ import { QueryOptions } from 'src/decorators/query-options.decorator';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
 import { AuthRole, Public } from 'src/auth/auth.guard';
 import { Auth } from 'src/decorators/auth.docorator';
+import { isValidObjectId } from 'mongoose';
 
 @Auth(AuthRole.Admin)
 @Controller('quiz-results')
@@ -31,12 +33,14 @@ export class QuizResultsController {
 
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quizResultsService.findOne(id).then((profile) => {
-      if (!profile) {
-        throw new NotFoundException('QuizResult does not existed');
-      }
-      return profile;
-    });
+  async findOne(@Param('id') id: string) {
+    if(!isValidObjectId(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+    const profile = await this.quizResultsService.findOne(id);
+    if (!profile) {
+      throw new NotFoundException('QuizResult does not existed');
+    }
+    return profile;
   }
 }

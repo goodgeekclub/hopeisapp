@@ -13,6 +13,7 @@ import { ResultCharacterComponent } from './features/quiz/result/result-characte
 import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 import { AuthGuard } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { MissionComponent } from './features/mission/mission/mission.component';
 
 export const routes: Routes = [
   {
@@ -64,6 +65,11 @@ export const routes: Routes = [
   {
     path: 'story',
     component: StoryComponent,
+  },
+  {
+    path: 'mission',
+    component: MissionComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

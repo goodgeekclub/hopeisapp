@@ -12,11 +12,12 @@ import { ResultComponent } from './features/quiz/result/result.component';
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
 import { AdminConsoleComponent } from './features/admin-console/admin-console.component';
 import { AuthGuard } from './auth.guard';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: LandingPageComponent,
     pathMatch: 'full',
   },
   {

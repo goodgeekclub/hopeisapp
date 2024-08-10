@@ -3,37 +3,143 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light */
-@font-face {
-  font-family: "DB Helvethaica X Light";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Li Cond.ttf")
-    format("truetype");
-}
-
-/* Bold */
-@font-face {
-  font-family: "DB Helvethaica X Bold";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Bd v3.2.ttf")
-    format("truetype");
-}
-
 /* Thin */
 @font-face {
-  font-family: "DB Helvethaica X Thin";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Thin v3.2.ttf")
-    format("truetype");
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Thin.ttf') format('truetype');
+  font-weight: 100;
+}
+
+/* Thin Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-ThinItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Extra Light */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+}
+
+/* Extra Light Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-ExtraLightItalic.ttf')
+    format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+/* Light Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+/* Regular Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
 }
 
 /* Medium */
 @font-face {
-  font-family: "DB Helvethaica X Medium";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X Med v3.2.ttf")
-    format("truetype");
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Medium.ttf') format('truetype');
+  font-weight: 500;
 }
 
-/* Base */
+/* Medium Italic */
 @font-face {
-  font-family: "DB Helvethaica X";
-  src: url("/assets/fonts/DB_Font/DB Helvethaica X v3.2.ttf") 
-    format("truetype");
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
 }
+
+/* Semibold */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+}
+
+/* Semibold Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+/* Bold Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Extra Bold */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+}
+
+/* Extra Bold Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Black */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+/* Black Italic */
+@font-face {
+  font-family: 'Kanit';
+  src: url('/assets/fonts/DB_Font/Kanit-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Apply Font to whole project */
+* {
+  @apply font-primary;
+ }

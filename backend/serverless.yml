@@ -11,6 +11,7 @@ package:
     - '!*.md'
     - '!**.ts'
     - '!src/**'
+    - '!functions/**'
 
 provider:
   name: aws
@@ -48,21 +49,21 @@ custom:
     dev:
       quota:
         limit: 5000
-        period: MONTH
+        period: DAY
       throttle:
         burstLimit: 200
         rateLimit: 100
     uat:
       quota:
         limit: 5000
-        period: MONTH
+        period: DAY
       throttle:
         burstLimit: 200
         rateLimit: 100
     prod:
       quota:
-        limit: 50000
-        period: MONTH
+        limit: 100000
+        period: DAY
       throttle:
         burstLimit: 2000
         rateLimit: 1000

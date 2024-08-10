@@ -1,13 +1,12 @@
 <div
-  class="flex items-center justify-center w-full bg-center bg-no-repeat bg-cover bg-hopehome h-dvh"
->
+  class="flex items-center justify-center w-full duration-500 delay-150 bg-center bg-no-repeat bg-cover bg-hopehome h-dvh animate-fade"
+  (click)="toName()"
+  aria-hidden="true">
   <img
-    (click)="toName()"
-    class="hover:scale-[1.5] transition delay-150 duration-300 ease-in-out cursor-pointer"
+    class="hover:scale-[1.2] transition delay-150 duration-300 ease-in-out cursor-pointer"
     alt="Hope Logo"
     width="225"
     height="255"
     ngSrc="/assets/images/Logoforhomepage.png"
-    priority
-  />
+    priority />
 </div>

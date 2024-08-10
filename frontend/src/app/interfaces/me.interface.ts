@@ -1,5 +1,5 @@
 import { QuizResult } from './quiz-result.interface';
-import { CharacterData } from './character-data.interface';
+import { Character } from './character.interface';
 
 export interface Me {
   _id: string;
@@ -12,6 +12,6 @@ export interface Me {
   fcmToken?: string;
   photoUrl: string;
   firebaseId: string;
-  character: CharacterData;
+  character: Character;
   quizResult: QuizResult;
 }

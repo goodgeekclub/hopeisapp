@@ -3,9 +3,26 @@ import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
-import { Character } from '../../../../interfaces/character.interface';
 import { QuizResultService } from '../../../../services/quiz-result.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Character } from '../../../../interfaces/character.interface';
+import { Stats } from '../../../../interfaces/stats.interface';
+
+interface CharacterPreset {
+  backgroundColor: string[],
+  chipColor: string,
+  buttonColor: string,
+  nameColor: string,
+}
+// export interface CharacterDisplay {
+//   natures: string[];
+//   ability: string;
+//   photoUrl: string;
+//   title: string;
+//   description: string;
+//   quote: string;
+//   detail: string;
+// }
 
 @Component({
   selector: 'app-result-character',
@@ -20,113 +37,76 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./result-character.component.css'],
 })
 export class ResultCharacterComponent implements OnInit {
-  @Input() public character = '';
-  public displayName = '';
-  public characterData?: Character;
-  public isLoading = true;
-  public quizResultId: string | undefined;
-  public totalPlayer: number = 0;
+  displayName = '';
+  character?: Character;
+  isLoading = true;
+  totalPlayer = 0;
+  preset = this.getPreset();
 
-  constructor(
-    private quizResultService: QuizResultService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.quizResultId = params['id'];
-      this.setCharacterInfo();
-      this.getTotalPlayer();
-      console.log('Test ID:', this.quizResultId);
-    });
+    // console.log('Data:', this.route.snapshot.data);
+    if (!this.route.snapshot.data['quizResult']) {
+      this.router.navigate(['/notfound']);
+    }
+    const quizResult = this.route.snapshot.data['quizResult'];
+    const stats: Stats = this.route.snapshot.data['stats'];
+    this.preset = this.getPreset(quizResult.character.name);
+    this.character = quizResult.character;
+    this.displayName = quizResult.displayName;
+    this.totalPlayer = stats.totalResult;
+    this.isLoading = false;
   }
 
-  public getTotalPlayer(): void {
-    this.totalPlayer = 12700;
-  }
-
-  private setCharacterInfo(): void {
-    const characterBackgrounds: Record<string, string[]> = {
-      brave: ['bg-redupbg', 'bg-reddownbg'],
-      wisdom: ['bg-purpleupbg', 'bg-purpledownbg'],
-      planful: ['bg-blueupbg', 'bg-bluedownbg'],
-      harmonious: ['bg-yellowupbg', 'bg-yellowdownbg'],
-      sincere: ['bg-greenupbg', 'bg-greendownbg'],
-      esthetician: ['bg-orangeupbg', 'bg-orangedownbg'],
-    };
-
-    const characterChipColor: Record<string, string> = {
-      brave: 'bg-[#eb4d3d]',
-      wisdom: 'bg-[#b491d9]',
-      planful: 'bg-[#355dbd]',
-      harmonious: 'bg-[#ffd76b]',
-      sincere: 'bg-[#50eac6]',
-      esthetician: 'bg-[#ef8923]',
-    };
-
-    const buttonColors: Record<string, string> = {
-      brave: 'text-[#b06257]',
-      wisdom: 'text-[#80629f]',
-      planful: 'text-[#28468e]',
-      harmonious: 'text-[#bf9537]',
-      sincere: 'text-[#50a190]',
-      esthetician: 'text-[#bc8b4e]',
-    };
-
-    const displayNameColors: Record<string, string> = {
-      brave: 'text-[#ECB0A7]',
-      wisdom: 'text-[#E2D4F3]',
-      planful: 'text-[#B3DBFF]',
-      harmonious: 'text-[#FEFCA9]',
-      sincere: 'text-[#C2FDEE]',
-      esthetician: 'text-[#FAECBE]',
-    };
-
-    this.quizResultService.getQuizResultById(this.quizResultId).subscribe(
-      resultResponse => {
-        console.log('Fetched quiz result:', resultResponse);
-
-        // Fallback to mock data if needed
-        const resultCharacter = resultResponse.character || {};
-        const characterNameEn = resultCharacter.name || '';
-        const bgClass =
-          characterBackgrounds[characterNameEn.toLowerCase()] || '';
-
-        const attributesChipColor =
-          characterChipColor[characterNameEn.toLowerCase()] || '';
-
-        const buttonColor = buttonColors[characterNameEn.toLowerCase()] || '';
-
-        const displayNameColor =
-          displayNameColors[characterNameEn.toLowerCase()] || '';
-
-        this.characterData = {
-          attributesChipColor: attributesChipColor,
-          bgClass: bgClass,
-          buttonColor: buttonColor,
-          characterAttributes: resultCharacter.natures,
-          characterDescription: resultCharacter.ability,
-          characterImgLink: resultCharacter.photoUrl,
-          characterNameEn: this.capitalizeFirstLetter(resultCharacter.title),
-          characterNameTh: resultCharacter.description,
-          characterTitle: resultCharacter.quote,
-          displayNameColor: displayNameColor,
-          shinningMethod: resultCharacter.detail,
-        };
-        console.log(this.characterData);
-
-        this.displayName = resultResponse.displayName || '';
-
-        this.isLoading = false;
+  private getPreset(name?: string): CharacterPreset {
+    const presets: Record<string, CharacterPreset> = {
+      brave: {
+        backgroundColor: ['bg-redupbg', 'bg-reddownbg'],
+        chipColor: 'bg-[#eb4d3d]',
+        buttonColor: 'text-[#b06257]',
+        nameColor: 'text-[#ECB0A7]',
       },
-      resultError => {
-        console.error('Error fetching quiz result by ID:', resultError);
-        this.isLoading = false; // Set loading to false in case of an error
+      wisdom: {
+        backgroundColor: ['bg-purpleupbg', 'bg-purpledownbg'],
+        chipColor: 'bg-[#b491d9]',
+        buttonColor: 'text-[#80629f]',
+        nameColor: 'text-[#E2D4F3]',
+      },
+      planful: {
+        backgroundColor: ['bg-blueupbg', 'bg-bluedownbg'],
+        chipColor: 'bg-[#355dbd]',
+        buttonColor: 'bg-[#ffd76b]',
+        nameColor: 'text-[#bf9537]',
+      },
+      harmonious: {
+        backgroundColor: ['bg-yellowupbg', 'bg-yellowdownbg'],
+        chipColor: 'bg-[#ffd76b]',
+        buttonColor: 'text-[#bf9537]',
+        nameColor: 'text-[#FEFCA9]',
+      },
+      sincere: {
+        backgroundColor: ['bg-greenupbg', 'bg-greendownbg'],
+        chipColor: 'bg-[#50eac6]',
+        buttonColor: 'text-[#50a190]',
+        nameColor: 'text-[#C2FDEE]',
+      },
+      esthetician: {
+        backgroundColor: ['bg-orangeupbg', 'bg-orangedownbg'],
+        chipColor: 'bg-[#ef8923]',
+        buttonColor: 'text-[#bc8b4e]',
+        nameColor: 'text-[#FAECBE]',
       }
-    );
-  }
-
-  private capitalizeFirstLetter(word: string): string {
-    return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    if (name && presets.hasOwnProperty(name)) {
+      return presets[name];
+    } else {
+      return {
+        backgroundColor: ['text-white', 'text-white'],
+        chipColor: 'text-white',
+        buttonColor: 'text-black',
+        nameColor: 'text-white'
+      }
+    }
   }
 }

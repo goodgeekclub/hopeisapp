@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from } from 'rxjs';
+import { from, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IamService } from './iam.service';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
@@ -8,6 +8,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 })
 export class S3Service {
   constructor(private iamService: IamService) {}
+  // filePath: https://${enviment.aws.bucket}/user/:profile_id/mission/<activites-id>.png
   upload(filepath: string, filebody: File) {
     const client = this.setClient();
     const command = new PutObjectCommand({
@@ -16,7 +17,9 @@ export class S3Service {
       Key: filepath,
       ContentType: filebody.type,
     });
-    return from(client.send(command));
+    return from(client.send(command)).pipe(
+      map(() => `https://${environment.aws.bucket}/${filepath}`)
+    );
   }
 
   // Use STS Token

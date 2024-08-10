@@ -33,5 +33,5 @@ jobs:
         run: |
           aws s3 ls
       - name: Sync to S3
-        run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }}
+        run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }} --delete
 

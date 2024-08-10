@@ -4,7 +4,6 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
 import { Character } from '../../../../interfaces/character.interface';
-import { characterMockData } from '../../../../mocks/character';
 import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -21,11 +20,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./result-character.component.css'],
 })
 export class ResultCharacterComponent implements OnInit {
-  @Input() public character: string = '';
-  public displayName: string = '';
+  @Input() public character = '';
+  public displayName = '';
   public characterData?: Character;
-  public isLoading: boolean = true;
-  quizResultId: string | undefined;
+  public isLoading = true;
+  public quizResultId: string | undefined;
+  public totalPlayer: number = 0;
 
   constructor(
     private quizResultService: QuizResultService,
@@ -33,24 +33,29 @@ export class ResultCharacterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(params => {
       this.quizResultId = params['id'];
       this.setCharacterInfo();
+      this.getTotalPlayer();
       console.log('Test ID:', this.quizResultId);
     });
   }
 
+  public getTotalPlayer(): void {
+    this.totalPlayer = 12700;
+  }
+
   private setCharacterInfo(): void {
-    const characterBackgrounds: { [key: string]: string } = {
-      brave: '/images/red-bg-full.png',
-      wisdom: '/images/purple-bg-full.png',
-      planful: '/images/blue-bg-full.png',
-      harmonious: '/images/yellow-bg-full.png',
-      sincere: '/images/green-bg-full.png',
-      esthetician: '/images/orange-bg-full.png',
+    const characterBackgrounds: Record<string, string[]> = {
+      brave: ['bg-redupbg', 'bg-reddownbg'],
+      wisdom: ['bg-purpleupbg', 'bg-purpledownbg'],
+      planful: ['bg-blueupbg', 'bg-bluedownbg'],
+      harmonious: ['bg-yellowupbg', 'bg-yellowdownbg'],
+      sincere: ['bg-greenupbg', 'bg-greendownbg'],
+      esthetician: ['bg-orangeupbg', 'bg-orangedownbg'],
     };
 
-    const characterChipColor: { [key: string]: string } = {
+    const characterChipColor: Record<string, string> = {
       brave: 'bg-[#eb4d3d]',
       wisdom: 'bg-[#b491d9]',
       planful: 'bg-[#355dbd]',
@@ -59,39 +64,69 @@ export class ResultCharacterComponent implements OnInit {
       esthetician: 'bg-[#ef8923]',
     };
 
+    const buttonColors: Record<string, string> = {
+      brave: 'text-[#b06257]',
+      wisdom: 'text-[#80629f]',
+      planful: 'text-[#28468e]',
+      harmonious: 'text-[#bf9537]',
+      sincere: 'text-[#50a190]',
+      esthetician: 'text-[#bc8b4e]',
+    };
+
+    const displayNameColors: Record<string, string> = {
+      brave: 'text-[#ECB0A7]',
+      wisdom: 'text-[#E2D4F3]',
+      planful: 'text-[#B3DBFF]',
+      harmonious: 'text-[#FEFCA9]',
+      sincere: 'text-[#C2FDEE]',
+      esthetician: 'text-[#FAECBE]',
+    };
+
     this.quizResultService.getQuizResultById(this.quizResultId).subscribe(
-      (resultResponse) => {
+      resultResponse => {
         console.log('Fetched quiz result:', resultResponse);
 
         // Fallback to mock data if needed
         const resultCharacter = resultResponse.character || {};
         const characterNameEn = resultCharacter.name || '';
-        const bgLink =
+        const bgClass =
           characterBackgrounds[characterNameEn.toLowerCase()] || '';
 
         const attributesChipColor =
           characterChipColor[characterNameEn.toLowerCase()] || '';
 
+        const buttonColor = buttonColors[characterNameEn.toLowerCase()] || '';
+
+        const displayNameColor =
+          displayNameColors[characterNameEn.toLowerCase()] || '';
+
         this.characterData = {
-          bgLink: bgLink,
-          characterNameEn: resultCharacter.name,
-          characterNameTh: resultCharacter.quote,
-          characterTitle: resultCharacter.title,
-          characterImgLink: resultCharacter.photoUrl,
-          characterDescription: resultCharacter.detail,
-          characterAttributes: resultCharacter.natures,
           attributesChipColor: attributesChipColor,
-          shinningMethod: resultCharacter.ability,
+          bgClass: bgClass,
+          buttonColor: buttonColor,
+          characterAttributes: resultCharacter.natures,
+          characterDescription: resultCharacter.ability,
+          characterImgLink: resultCharacter.photoUrl,
+          characterNameEn: this.capitalizeFirstLetter(resultCharacter.title),
+          characterNameTh: resultCharacter.description,
+          characterTitle: resultCharacter.quote,
+          displayNameColor: displayNameColor,
+          shinningMethod: resultCharacter.detail,
         };
+        console.log(this.characterData);
 
         this.displayName = resultResponse.displayName || '';
 
         this.isLoading = false;
       },
-      (resultError) => {
+      resultError => {
         console.error('Error fetching quiz result by ID:', resultError);
         this.isLoading = false; // Set loading to false in case of an error
       }
     );
+  }
+
+  private capitalizeFirstLetter(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 }

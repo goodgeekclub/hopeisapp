@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -27,8 +27,8 @@ export class ResultComponent {
   public isClikedToShowText = false;
   public character = '';
   public characterData: any;
-  public displayName: string = '';
-  public quizResultId: string = '';
+  public displayName = '';
+  public quizResultId = '';
 
   constructor(
     private router: Router, // Inject Router service
@@ -37,9 +37,7 @@ export class ResultComponent {
     private quizResultService: QuizResultService // Inject QuizResultService
   ) {}
 
-  ngOnInit(): void {
-    this.getResult();
-  }
+  profile: any;
 
   public showResult(): void {
     if (this.displayIndex === 0) {
@@ -55,12 +53,13 @@ export class ResultComponent {
   private getResult(): void {
     const profile = this.profileService.getProfile();
     if (profile) {
+      console.log('Profile:', profile);
       this.character = profile.characterType.trim().toLowerCase();
       console.log('Profile character type:', this.character);
       this.hasResult = true;
 
       this.characterService.getCharacterByType(this.character).subscribe(
-        (response) => {
+        response => {
           console.log('Fetched character data:', response);
           const matchingCharacter = response.find(
             (char: any) => char.name.trim().toLowerCase() === this.character
@@ -70,6 +69,7 @@ export class ResultComponent {
             this.characterData = matchingCharacter.data;
             console.log('Character data assigned:', this.characterData);
 
+            console.log('matchingCharacter:', matchingCharacter);
             // Prepare the data to be POSTed
             const postData = {
               score: profile.characterScore,
@@ -77,6 +77,7 @@ export class ResultComponent {
               character: {
                 name: matchingCharacter.data.name,
                 title: matchingCharacter.data.title,
+                description: matchingCharacter.data.description,
                 quote: matchingCharacter.data.quote,
                 detail: matchingCharacter.data.detail,
                 photoUrl: matchingCharacter.data.photoUrl,
@@ -89,14 +90,14 @@ export class ResultComponent {
             let hasPosted = false;
 
             this.quizResultService.postQuizResult(postData).subscribe(
-              (postResponse) => {
+              postResponse => {
                 if (!hasPosted) {
                   console.log('POST response:', postResponse);
                   this.quizResultId = postResponse._id;
                   hasPosted = true;
                 }
               },
-              (postError) => {
+              postError => {
                 console.error('Error posting data:', postError);
               }
             );
@@ -104,7 +105,7 @@ export class ResultComponent {
             console.log('Character not found.');
           }
         },
-        (error) => {
+        error => {
           console.error('Error fetching character data:', error);
         }
       );

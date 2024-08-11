@@ -100,6 +100,14 @@ export class MeService {
       .pipe(tap(profile => this.profile.next(profile)));
   }
 
+  createProfile(quizResultId: string) {
+    const path = 'me/profile';
+    const uri = `${this.baseUrl}/${path}`;
+    return this.httpClient
+      .post<Me>(uri, { quizResultId })
+      .pipe(tap(profile => this.profile.next(profile)));
+  }
+
   getProfile(): Observable<Me> {
     return this.profile.asObservable();
   }

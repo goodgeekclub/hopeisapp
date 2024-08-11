@@ -19,6 +19,7 @@ export const stats: Handler = async (event: any, context: Context) => {
   } catch (e) {
     console.error(e);
     await DiscordService.error('CronStatsError', {
+      environment: process.env.ENVIRONMENT,
       name: e.name,
       message: e.message,
       stack: e.stack,
@@ -41,6 +42,7 @@ export const clearActivities: Handler = async (event: any, context: Context) => 
   } catch (e) {
     console.error(e);
     await DiscordService.error('CronClearActivitiesError', {
+      environment: process.env.ENVIRONMENT,
       name: e.name,
       message: e.message,
       stack: e.stack,

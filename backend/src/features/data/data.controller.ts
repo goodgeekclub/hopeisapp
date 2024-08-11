@@ -36,19 +36,26 @@ export class DataController {
   }
 
   @Public()
-  @Get('missions|stats|quizes|characters')
+  @Get('missions|quizes|characters')
   findAllByType(@Req() req) {
     const paths = req.originalUrl.split('/').filter((p: string) => !!p);
     const type: DataType = DataType[paths[1]];
+    console.log('data type:', type);
     return this.dataService.findAll(type);
   }
 
   @Public()
-  @Get('missions|stats|quizes|characters/:name')
+  @Get('stats')
+  findAllStats(@Req() req) {
+    return this.dataService.findAll(DataType.stats);
+  }
+
+  @Public()
+  @Get('missions|quizes|characters/:name')
   findAllByTypeName(@Req() req, @Param('name') name) {
     const paths = req.originalUrl.split('/').filter((p: string) => !!p);
     const type: DataType = DataType[paths[1]];
-    console.log(name);
+    console.log('data name:', name);
     return this.dataService.findAll(type, name);
   }
 

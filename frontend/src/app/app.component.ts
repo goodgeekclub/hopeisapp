@@ -1,4 +1,3 @@
-import { FcmService } from './services/fcm.service';
 import { Analytics, logEvent } from '@angular/fire/analytics';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -7,8 +6,6 @@ import { SvgIconComponent } from 'angular-svg-icon';
 import { AuthService } from './services';
 import { environment } from '../environments/environment';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { MeService } from './services/me.service';
-import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,34 +23,21 @@ import { filter, switchMap } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'frontend';
   private analytics = inject(Analytics);
-  constructor(
-    private authService: AuthService,
-    private fcmService: FcmService,
-    private meService: MeService,
-  ) {}
+  constructor(private authService: AuthService) {
+    if (environment.production) {
+      console.log = function () {};
+      console.error = function () {};
+      console.warn = function () {};
+    }
+  }
 
   ngOnInit(): void {
     logEvent(this.analytics, 'screen_view');
-    this.authService.getUserState().subscribe(async (user) => {
-      if (!environment.production) {
+    if (!environment.production) {
+      this.authService.getUserState().subscribe(async user => {
         console.log(user);
         console.log('accessToken', await user.getIdToken());
-      }
-      // FCM Store Token
-      const fcmToken = this.fcmService.getFcmToken();
-      this.meService
-        .fetchProfile()
-        .pipe(
-          filter((profile) => profile.fcmToken !== fcmToken),
-          switchMap(() => {
-            return this.meService.patchProfile({ fcmToken: fcmToken });
-          }),
-        )
-        .subscribe((profile) => {
-          if (!environment.production) {
-            console.log(profile);
-          }
-        });
-    });
+      });
+    }
   }
 }

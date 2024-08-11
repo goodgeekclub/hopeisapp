@@ -16,11 +16,26 @@ module.exports = {
       animation: {
         fade: "fadeIn .5s ease-in-out",
         lightup: "expand 4s ease-in-out",
+        customBounce: "customBounce 1s infinite",
       },
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
           to: { opacity: 1 },
+        },
+        customBounce : {
+          "0%" : {
+            transform: "translateY(-3%)",
+            "animation-timing-function": "cubic-bezier(0.8, 0, 1, 1)"
+          },
+          "50%" : {
+            transform: "translateY(0)",
+            "animation-timing-function": "cubic-bezier(0, 0, 0.2, 1)"
+          }, 
+          "100%" : {
+            transform: "translateY(-3%)",
+            "animation-timing-function": "cubic-bezier(0.8, 0, 1, 1)"
+          }
         },
         expand: {
           "0%": { transform: "scale(1)" },

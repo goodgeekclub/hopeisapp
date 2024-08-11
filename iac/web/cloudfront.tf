@@ -31,6 +31,7 @@ resource "aws_cloudfront_distribution" "distribution" {
     target_origin_id = aws_s3_bucket.buckets[each.key].bucket
 
     viewer_protocol_policy = "redirect-to-https"
+    compress = true
   }
 
   restrictions {

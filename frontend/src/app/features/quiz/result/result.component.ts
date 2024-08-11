@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -26,8 +26,6 @@ export class ResultComponent implements OnInit {
   public isClickedToShowResult = false;
   public isClikedToShowText = false;
   public character = '';
-  public characterData: any;
-  public displayName = '';
   public quizResultId = '';
 
   constructor(
@@ -36,13 +34,13 @@ export class ResultComponent implements OnInit {
     private characterService: CharacterService,
     private quizResultService: QuizResultService, // Inject QuizResultService
   ) {}
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
+  ngOnInit() {
+    this.getResult();
   }
 
-  profile: any;
-
   public showResult(): void {
+    console.log(this.quizResultId);
     if (this.displayIndex === 0) {
       this.isClikedToShowText = true;
       this.displayIndex++;
@@ -69,10 +67,6 @@ export class ResultComponent implements OnInit {
           );
 
           if (matchingCharacter) {
-            this.characterData = matchingCharacter.data;
-            console.log('Character data assigned:', this.characterData);
-
-            console.log('matchingCharacter:', matchingCharacter);
             // Prepare the data to be POSTed
             const postData = {
               score: profile.characterScore,

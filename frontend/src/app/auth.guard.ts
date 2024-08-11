@@ -1,12 +1,20 @@
+import { AuthService } from './services/auth.service';
 import { Injectable } from '@angular/core';
+import { User } from '@angular/fire/auth';
 import {
   CanActivate,
-  // ActivatedRouteSnapshot,
-  // RouterStateSnapshot,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
   Router,
+  UrlTree,
 } from '@angular/router';
-import { Auth, idToken } from '@angular/fire/auth';
-import { catchError, from, map } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
+
+export enum ROLE {
+  'ADMIN' = 'admin',
+  'SUPERUSER' = 'superuser',
+  'MEMBER' = 'member',
+}
 
 @Injectable({
   providedIn: 'root',
@@ -14,24 +22,43 @@ import { catchError, from, map } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly router: Router,
-    private readonly angularFireAuth: Auth,
+    private readonly authService: AuthService
   ) {}
 
   public canActivate(
-    // route: ActivatedRouteSnapshot,
-    // state: RouterStateSnapshot,
-  ) {
-    return from(idToken(this.angularFireAuth)).pipe(
-      map((token: string | null) => {
-        if (token === null) {
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    let url: string = state.url;
+    return this.checkAccess(next, url)
+  }
+
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.canActivate(next, state);
+  }
+
+  checkAccess(route: ActivatedRouteSnapshot, url: any) {
+    const accessRoles: string[] = route.data['roles'];
+    return this.authService.getUserState().pipe(
+      switchMap((user: User) => {
+        if (!user) {
           throw new Error('token is null');
+        }
+        return user.getIdTokenResult();
+      }),
+      map(result => {
+        const roles: string[] = (result.claims as any).roles;
+        if (accessRoles && !roles.some(r => accessRoles.findIndex(ar => ar === r) > -1)) {
+          throw new Error('Uauthorized');
         }
         return true;
       }),
       catchError((error) => {
-        console.error('AuthGuard.canActivate: ', error);
-        return this.router.navigate(['/test/login']);
-      }),
+        console.error('AuthGuardError: ', error);
+        this.router.navigate(['/']);
+        return of(false);
+      })
     );
   }
 }

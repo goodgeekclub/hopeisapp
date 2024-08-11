@@ -1,0 +1,60 @@
+<section>
+  <div
+    class="relative flex flex-col items-center justify-center bg-cover h-dvh bg-hopeone font-db-helvethaica-x-base max-md:bg-hopeone">
+    <label
+      class="flex items-center justify-center w-full max-w-xs form-control">
+      <div class="label">
+        <!-- <span class="label-text">What is your name?</span> -->
+      </div>
+      <input
+        type="text"
+        [formControl]="inputNameValue"
+        placeholder="อยากให้เราเรียกเธอว่า ?"
+        required
+        class="max-w-full p-2 m-2 text-xl text-center text-white bg-transparent border border-t-0 border-b-2 max-md:text-lg border-x-0 focus:outline-none" />
+      <div class="label"></div>
+    </label>
+    @if (inputNameValue.dirty && !inputNameValue.valid) {
+      <div class="text-center text-red-500 font-db-helvethaica-x-base">
+        กรุณาพิมพ์ชื่อไม่เกิน 10 ตัวอักษร
+      </div>
+    }
+    @if (inputNameValue.dirty) {
+      <button
+        class="flex flex-col items-center justify-center text-white"
+        (click)="saveToLocalStorage()"
+        [disabled]="!inputNameValue.touched && inputNameValue.valid">
+        ต่อไป
+      </button>
+    }
+  </div>
+
+  @if (showModal) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+      *ngIf="showModal">
+      <div
+        class="bg-white rounded-lg shadow-lg modal modal-open font-db-helvethaica-x-base">
+        <div class="bg-white border-2 modal-box border-white-500">
+          <h2 class="text-3xl font-bold text-black">ทำแบบทดสอบต่อ?</h2>
+          <p class="py-4 text-2xl text-black">
+            คุณมีเซสชั่นแบบทดสอบที่กำลังดำเนินอยู่
+            คุณต้องการดำเนินการต่อหรือเริ่มต้นใหม่?
+          </p>
+          <div class="modal-action">
+            <button
+              class="text-2xl font-normal text-white bg-blue-700 btn hover:bg-blue-800"
+              (click)="resumeQuiz()">
+              ทำต่อ
+            </button>
+            <button
+              class="text-2xl font-normal text-white btn btn-error bg-error hover:bg-red-800"
+              (click)="startNewSession()">
+              เริ่มต้นใหม่
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</section>

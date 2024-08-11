@@ -1,22 +1,31 @@
-<section class="w-full overflow-auto relative">
+<section class="relative w-full overflow-auto">
   <ng-container *ngIf="isLoading">
-    <div class="w-dvw h-dvh flex items-center justify-center bg-hopesix bg-cover bg-no-repeat bg-center">
+    <div
+      class="flex items-center justify-center bg-center bg-no-repeat bg-cover w-dvw h-dvh bg-hopesix">
       <div
         class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
         role="status">
         <span
-          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+          class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+          >Loading...</span
+        >
       </div>
     </div>
   </ng-container>
 
   <ng-container *ngIf="!isLoading">
-    <article class="flex flex-col items-center gap-4 pt-6 px-6 w-dvw h-fit bg-cover bg-no-repeat bg-bottom"
+    <article
+      class="flex flex-col items-center gap-4 px-6 pt-6 bg-bottom bg-no-repeat bg-cover w-dvw h-fit"
       [ngClass]="preset.backgroundColor[0]">
-      <div class="w-full flex items-center justify-between">
-        <img src="images/logo-light-hope-up.png" alt="Light Hope Up" width="75px" />
+      <div class="flex items-center justify-between w-full">
+        <img
+          src="images/logo-light-hope-up.png"
+          alt="Light Hope Up"
+          width="75px" />
         <div>
-          <svg-icon src="icons/share.svg" [svgStyle]="{ 'width.px':25 }"></svg-icon>
+          <svg-icon
+            src="icons/share.svg"
+            [svgStyle]="{ 'width.px': 25 }"></svg-icon>
         </div>
       </div>
       <p class="text-center text-[24px]" [ngClass]="preset.nameColor">
@@ -26,7 +35,9 @@
         <p class="text-center text-[60px] font-medium text-white">
           {{ character!.title | titlecase }}
         </p>
-        <p class="text-center text-[16px] font-extralight text-white -mt-4"> {{ character!.description }}</p>
+        <p class="text-center text-[16px] font-extralight text-white -mt-4">
+          {{ character!.description }}
+        </p>
         <p class="text-center text-[20px] text-white">
           {{ character!.quote }}
         </p>
@@ -35,7 +46,9 @@
       <p class="text-center text-[18px] font-light text-white">
         {{ character!.ability }}
       </p>
-      <app-character-attributes class="py-6" [characterAttributes]="character!.natures"
+      <app-character-attributes
+        class="py-6"
+        [characterAttributes]="character!.natures"
         [color]="preset.chipColor"></app-character-attributes>
       <p class="text-center text-[18px] font-medium text-white">
         วิธีการเปล่งประกาย
@@ -44,29 +57,42 @@
         {{ character!.detail }}
       </p>
     </article>
-    <article class="flex flex-col items-center gap-4 pt-6 px-6 -mt-1 w-dvw h-fit bg-cover bg-no-repeat bg-top"
+    <article
+      class="flex flex-col items-center gap-4 px-6 pt-6 -mt-1 bg-top bg-no-repeat bg-cover w-dvw h-fit"
       [ngClass]="preset.backgroundColor[1]">
-      <div class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-12">
+      <div
+        class="bg-[#0000002B] rounded-3xl flex flex-col justify-center items-center p-6 gap-12">
         <div>
-          <p class="text-center text-[60px] font-medium text-white">{{totalPlayer | number }} คน</p>
+          <p class="text-center text-[60px] font-medium text-white">
+            {{ totalPlayer | number }} คน
+          </p>
           <p class="text-center text-[16px] font-light text-white">
             กำลังเปล่งประกายแสงแห่งความหวังร่วมกัน
           </p>
         </div>
-        <button class="px-6 py-2 text-[18px] rounded-full bg-white"
-          [ngClass]="preset.buttonColor">เข้าร่วมกับเรา</button>
+        <button
+          class="px-6 py-2 text-[18px] rounded-full bg-white"
+          [ngClass]="preset.buttonColor"
+          (click)="signUp()">
+          เข้าร่วมกับเรา
+        </button>
         <p class="text-center text-[18px] text-white">
-          เพื่อรวบรวมทุนสนับสนุน<br>มอบให้กับมูลนิธิผู้พิการ
+          เพื่อรวบรวมทุนสนับสนุน<br />มอบให้กับมูลนิธิผู้พิการ
         </p>
       </div>
-      <div class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3">
+      <div
+        class="bg-[#0000002B] rounded-3xl flex flex-row justify-center items-center p-6 gap-3">
         <img src="images/youthtalk.png" alt="Youthtalk" width="100px" />
-        <div class="flex flex-col justify-center items-center gap-3">
+        <div class="flex flex-col items-center justify-center gap-3">
           <p class="text-[18px] text-white">
-            ฟังเสียงแห่งความหวัง<br>จากแสงที่ออกเดินทางจริง<br>ณ หอศิลป์ (BACC)
+            ฟังเสียงแห่งความหวัง<br />จากแสงที่ออกเดินทางจริง<br />ณ หอศิลป์
+            (BACC)
           </p>
-          <button class="w-full px-6 py-2 text-[18px] text-[#b06257] rounded-full bg-white"
-            [ngClass]="preset.buttonColor">BUY TICKET</button>
+          <button
+            class="w-full px-6 py-2 text-[18px] text-[#b06257] rounded-full bg-white"
+            [ngClass]="preset.buttonColor">
+            BUY TICKET
+          </button>
         </div>
       </div>
       <app-footer class="w-full"></app-footer>

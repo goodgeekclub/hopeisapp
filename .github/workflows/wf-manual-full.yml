@@ -3,6 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        type: choice
+        options:
+        - dev
+        - uat
+        - prod
         required: true
         default: dev
 

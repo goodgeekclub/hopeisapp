@@ -52,7 +52,7 @@ jobs:
           INVALIDATION_STATUS=$(echo "$INVALIDATION" | jq -r '.Invalidation.Status')
           echo -e "INVALIDATION_ID:" $INVALIDATION_ID
           echo -e ${{env.CYAN}}"INVALIDATION_STATUS: "${{env.RESET}} "$INVALIDATION_STATUS"
-          while [ $"INVALIDATION_STATUS" -eq "Complete" ]
+          while [ "$INVALIDATION_STATUS" -eq "Complete" ]
           do
             INVALIDATION=$(aws cloudfront get-invalidation --id $INVALIDATION_ID --distribution-id ${{ vars.CLOUDFRONT_ID }})
             INVALIDATION_STATUS=$(echo "$INVALIDATION" | jq -r '.Invalidation.Status')

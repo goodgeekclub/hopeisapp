@@ -6,7 +6,8 @@ locals {
 
 locals {
   common_tags = {
-    project-name = local.project_name
+    Project = local.project_name
+    Environment = var.environment
   }
 
   buckets = {
@@ -32,9 +33,15 @@ locals {
 
   allowed_origins = var.environment == "dev" ? concat(local.dev_origins, local.common_origins) : local.common_origins
 
-  cloudfront_comments = {
-    asset = "${local.project_name}-asset-${var.environment}"
-    web   = "${local.project_name}-website-${var.environment}"
+  cloudfront_configs = {
+    asset = {
+      comment = "${local.project_name}-asset-${var.environment}"
+      alias   = [aws_s3_bucket.buckets["asset"].bucket]
+    }
+    web = {
+      comment = "${local.project_name}-website-${var.environment}"
+      alias   = var.environment == "prod" ? concat([aws_s3_bucket.buckets["web"].bucket], ["hopeis.us"]) : [aws_s3_bucket.buckets["web"].bucket]
+    }
   }
 
   cloudfront_error_response = [400, 403, 404, 405, 500, 502, 503, 504]

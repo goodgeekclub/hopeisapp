@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ProfileService } from '../../../services/profile.service';
 import { LocalStorageService } from '../../../services/localstorage.service';
 import {
@@ -43,10 +43,11 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     this.currentQuestionId = this.profileService.getCurrentQuestionId();
     this.id = this.currentQuestionId.toString();
+    this.totalQuestions = 30;
 
     this.route.paramMap
       .pipe(
-        switchMap((params) => {
+        map((params) => {
           const id = params.get('id');
           if (id) {
             this.currentQuestionId = +id;
@@ -59,7 +60,7 @@ export class QuestionComponent implements OnInit {
         }),
       )
       .subscribe((total) => {
-        this.totalQuestions = total;
+        // console.log(total);
       });
   }
 
@@ -93,7 +94,7 @@ export class QuestionComponent implements OnInit {
     } else {
       this.profileService.setCurrentQuestionId(nextQuestionId);
       this.selectedOption = { title: '', score: 0, type: '' };
-      this.router.navigate(['/quiz/question', nextQuestionId]);
+      this.router.navigate(['/quiz/question', nextQuestionId], { replaceUrl: true });
     }
   }
 

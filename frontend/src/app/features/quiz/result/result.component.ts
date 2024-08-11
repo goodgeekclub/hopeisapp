@@ -37,6 +37,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit() {
     this.getResult();
+    this.showResult();
   }
 
   public showResult(): void {
@@ -92,6 +93,7 @@ export class ResultComponent implements OnInit {
                   console.log('POST response:', postResponse);
                   this.quizResultId = postResponse._id;
                   hasPosted = true;
+                  // this.router.navigate(['', this.quizResultId])
                 }
               },
               postError => {

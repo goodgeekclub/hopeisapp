@@ -21,7 +21,7 @@ import { Mission } from 'src/models/mission.model';
 import { ListActivityQuery } from './dto/list-activity-query';
 import { Data } from 'src/schemas';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom, from, tap } from 'rxjs';
+import { firstValueFrom, from, switchMap, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { profile } from 'console';
 @Injectable()
@@ -83,6 +83,7 @@ export class ProfileActivitiesService {
     if (!activity) {
       throw new NotFoundException('ProfileActivity does not existed');
     }
+    return activity;
   }
 
   ListbyPId(pid: string, query?: any) {
@@ -117,7 +118,9 @@ export class ProfileActivitiesService {
     return from(
       this.model.findByIdAndUpdate(id, updateProfileActivityDto),
     ).pipe(
+      switchMap(() => this.findOne(id)),
       tap(async (data) => {
+        if (data.status !== ActivityStatus.PENDING) { return }
         return this.hookUpdatePayload(data).then((payload) =>
           firstValueFrom(
             this.httpService.post(
@@ -157,7 +160,7 @@ export class ProfileActivitiesService {
           {
             title: data.mission.name,
             description: data.mission.description,
-            url: this.configService.get('FRONTEND_URL') + '/admin-console',
+            url: this.configService.get('FRONTEND_URL') + '/admin/console/panel',
             color: 16776960,
             fields: [
               {

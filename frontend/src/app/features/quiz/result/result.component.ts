@@ -54,6 +54,7 @@ export class ResultComponent implements OnInit {
   private getResult(): Observable<any> {
     const profile = this.profileService.getProfile();
     if (!profile) {
+      this.router.navigate(['/home']);
       return of(null);
     }
     this.character = profile.characterType.trim().toLowerCase();

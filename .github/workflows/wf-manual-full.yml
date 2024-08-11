@@ -3,6 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        type: choice
+        options:
+        - dev
+        - uat
+        - prod
         required: true
         default: dev
 
@@ -19,6 +24,7 @@ jobs:
     uses: ./.github/workflows/tpl-angular-deploy.yml
     with:
       environment: ${{ inputs.environment }}
+      refreshCached: true
     secrets: inherit
   
   sls-build:

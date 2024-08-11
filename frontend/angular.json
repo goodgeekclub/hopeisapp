@@ -29,6 +29,7 @@
                 "glob": "**/*",
                 "input": "public"
               },
+              "src/assets/svg",
               "src/assets/images",
               "src/assets/fonts",
               "src/assets/firebase-messaging-sw.js"

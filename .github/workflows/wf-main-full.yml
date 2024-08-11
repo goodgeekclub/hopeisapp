@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/tpl-angular-deploy.yml
     with:
       environment: dev
+      refreshCached: true
     secrets: inherit
 
   sls-build:

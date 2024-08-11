@@ -9,7 +9,7 @@ export function authInjectInterceptor(
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const user = inject(AuthService).getCurrentUser();
-  console.log('Interceptor');
+  console.log('Interceptor:', req.url);
   const noAuthReq = req.clone({
     setHeaders: {
       'x-api-key': `${environment.backend.apiKey}`,

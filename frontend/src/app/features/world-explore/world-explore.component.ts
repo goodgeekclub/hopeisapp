@@ -19,6 +19,7 @@ export class WorldExploreComponent implements OnInit {
   app: PIXI.Application | undefined;
   rocket: PIXI.Sprite | undefined;
   trail: PIXI.Graphics | undefined;
+  blueLinePath: PIXI.Graphics | undefined;
 
   stars: PIXI.Sprite[] = [];
   users: User[] = [];
@@ -29,6 +30,7 @@ export class WorldExploreComponent implements OnInit {
   batchSize = 2;
   displayLimit = 0;
   rocketSpeed = 1;
+  isMoving = true;
 
   selectedUser: User | null = null;
   selectedUserImage: string | null = null;
@@ -40,9 +42,13 @@ export class WorldExploreComponent implements OnInit {
   }
 
   private async initializePixiApp() {
+    const aspectRatio = 425 / 824; // Original aspect ratio of your canvas
+    const appHeight = window.innerHeight;
+    const appWidth = appHeight * aspectRatio; // Calculate width based on height
+
     const app = new PIXI.Application();
     this.app = app;
-    const numberOfUsers = 500;
+    const numberOfUsers = 5000;
     for (let i = 1; i <= numberOfUsers; i++) {
       this.users.push({
         id: i,
@@ -51,37 +57,49 @@ export class WorldExploreComponent implements OnInit {
       });
     }
 
-    app.init({ resizeTo: window }).then(async () => {
-      document.body.appendChild(app.canvas);
+    app
+      .init({
+        width: appWidth,
+        height: appHeight,
+        resizeTo: window,
+      })
+      .then(async () => {
+        document.body.appendChild(app.canvas);
 
-      await this.loadAssets();
+        await this.loadAssets();
 
-      const BackgroundTexture = await PIXI.Assets.load('background');
-      const layer1Texture = await PIXI.Assets.load('layer1');
+        const BackgroundTexture = await PIXI.Assets.load('background');
+        const layer1Texture = await PIXI.Assets.load('layer1');
 
-      this.setupBackground(BackgroundTexture);
-      const layer1 = this.setupLayer1(layer1Texture);
+        this.setupBackground(BackgroundTexture);
+        this.setupLayer1(layer1Texture);
 
-      this.rocket = await this.createRocket();
-      this.trail = new PIXI.Graphics();
-      app.stage.addChild(this.trail);
-      app.stage.setChildIndex(this.trail, app.stage.children.length - 1);
+        this.rocket = await this.createRocket();
+        this.trail = new PIXI.Graphics();
+        app.stage.addChild(this.trail);
+        app.stage.setChildIndex(this.trail, app.stage.children.length - 1);
 
-       app.canvas.addEventListener('click', () => {
-         if (!this.isRocketMoving) {
-           this.isRocketMoving = true;
-           this.processUserBatches();
-         }
-       });
+        app.canvas.addEventListener('click', async () => {
+          if (!this.isRocketMoving) {
+            this.isRocketMoving = true;
 
-      this.createNextBatch();
-    });
+            const RocketTexture = await PIXI.Assets.load('rocketwithengine');
+            if (this.rocket) {
+              this.rocket.texture = RocketTexture;
+            }
+
+            this.processUserBatches();
+          }
+        });
+        this.createNextBatch();
+      });
   }
 
   private async loadAssets() {
     PIXI.Assets.add({ alias: 'star1', src: './assets/images/star1.png' });
     PIXI.Assets.add({ alias: 'star2', src: './assets/images/star2.png' });
     PIXI.Assets.add({ alias: 'star3', src: './assets/images/star3.png' });
+
     await PIXI.Assets.add({
       alias: 'rocket',
       src: './assets/images/Rocket.png',
@@ -94,6 +112,10 @@ export class WorldExploreComponent implements OnInit {
       alias: 'background',
       src: './assets/images/BG-39.png',
     });
+    await PIXI.Assets.add({
+      alias: 'rocketwithengine',
+      src: './assets/images/rocketwithengine.png',
+    });
 
     await PIXI.Assets.backgroundLoad([
       'star1',
@@ -102,6 +124,7 @@ export class WorldExploreComponent implements OnInit {
       'rocket',
       'layer1',
       'background',
+      'rocketwithengine',
     ]);
 
     PIXI.Assets.load('star1');
@@ -111,38 +134,43 @@ export class WorldExploreComponent implements OnInit {
 
   private setupBackground(texture: PIXI.Texture) {
     const background = new PIXI.Sprite(texture);
-    // Set background scaling and position based on window width
-    if (window.innerWidth < 1900 && window.innerWidth > 900) {
-      background.scale.set(0.4);
-      background.x = 230;
-    } else if (window.innerWidth < 900) {
-      background.scale.set(0.3);
-      background.x = 1;
-    } else if (window.innerWidth < 800) {
-      background.scale.set(0.2);
-      background.x = 1;
+
+    // Get the current width and height of the application
+    const appWidth = this.app?.screen.width ?? 425;
+    const appHeight = this.app?.screen.height ?? 824;
+
+    // Calculate aspect ratio
+    const textureRatio = texture.width / texture.height;
+    const canvasRatio = appWidth / appHeight;
+
+    if (canvasRatio > textureRatio) {
+      // Fill based on height
+      background.height = appHeight;
+      background.width = appHeight * textureRatio * 1.1; // Optional scaling factor
     } else {
-      background.scale.set(0.3);
-      background.x = 800;
+      // Fill based on width
+      background.width = appWidth;
+      background.height = appWidth / textureRatio; // Optional scaling factor
     }
+
+    // Center the background dynamically
+    background.x = (appWidth - background.width) / 2;
+    background.y = (appHeight - background.height) / 2;
+
     this.app?.stage.addChild(background);
   }
 
   private setupLayer1(texture: PIXI.Texture) {
     const layer1 = new PIXI.Sprite(texture);
-    if (window.innerWidth < 1900 && window.innerWidth > 600) {
-      layer1.scale.set(0.9);
-      layer1.x = 200;
-      layer1.y = 1300;
-    } else if (window.innerWidth < 900) {
-      layer1.scale.set(0.5);
-      layer1.x = -30;
-      layer1.y = 700;
-    } else {
-      layer1.scale.set(0.6);
-      layer1.x = 800;
-      layer1.y = 870;
-    }
+
+    // Scale the layer
+    layer1.scale.set(0.5);
+
+    const appHeight = this.app?.screen.height ?? 824;
+    layer1.y = appHeight - 150;
+
+    layer1.x = -10;
+
     this.app?.stage.addChild(layer1);
     return layer1;
   }
@@ -157,19 +185,86 @@ export class WorldExploreComponent implements OnInit {
     rocket.scale.set(0.3);
     rocket.anchor.set(0.5);
     rocket.x = (this.app.screen.width ?? 0) / 2;
-    rocket.y = 700;
+
+    const appHeight = this.app.screen.height ?? 824;
+    rocket.y = appHeight - 150;
+
     rocket.zIndex = 1000;
     this.app?.stage.addChild(rocket);
     return rocket;
   }
 
+  private calculateSumCoin(users: User[]): number {
+    return users.reduce((sum, user) => sum + user.score, 0);
+  }
+
+  private async createText(message: string, xOffset: number, yOffset: number) {
+    const textContainer = document.getElementById('text-container');
+
+    if (!textContainer) return;
+
+    // Create a new div element for the text
+    const textElement = document.createElement('div');
+    textElement.innerHTML = message;
+    textElement.style.position = 'absolute';
+    textElement.style.opacity = '1'; // Start fully visible
+    textElement.style.transition = 'opacity 1s ease-out'; // Smooth fade out
+
+    // Append the text element to the container
+    textContainer.appendChild(textElement);
+
+    // Position the text relative to the rocket's position
+    const updateTextPosition = () => {
+      if (!this.rocket) return;
+
+      const rocketX = this.rocket.x + xOffset;
+      const rocketY = this.rocket.y + yOffset;
+      textElement.style.left = `${rocketX}px`;
+      textElement.style.top = `${rocketY}px`;
+    };
+
+    updateTextPosition(); // Initial position update
+
+    // Animate the text to fade out after a delay
+    setTimeout(() => {
+      textElement.style.opacity = '0'; // Start fading out
+      setTimeout(() => {
+        textContainer.removeChild(textElement); // Remove the text element after fading out
+      }, 1000); // Match this delay with the transition duration
+    }, 1200); // Short delay before starting to fade out
+  }
+
   private processUserBatches() {
     const waypoints = [
       { x: 80, y: 550 },
-      { x: 100, y: 525 },
-      { x: 250, y: 400 },
-      { x: 340, y: 320 },
-      { x: 200, y: 200 },
+      {
+        x: 100,
+        y: 525,
+        displayText: 'สำเร็จแล้ว<br/>200,000 coins',
+        xOffset: 50,
+        yOffset: -30,
+        minCoin: 200000,
+      },
+      {
+        x: 340,
+        y: 320,
+      },
+      {
+        x: 320,
+        y: 300,
+        displayText: 'สำเร็จแล้ว<br/>300,000 coins',
+        xOffset: -180,
+        yOffset: -20,
+        minCoin: 300000,
+      },
+      {
+        x: 200,
+        y: 190,
+        displayText: 'สำเร็จแล้ว<br/>400,000 coins',
+        xOffset: 70,
+        yOffset: -40,
+        minCoin: 400000,
+      },
     ];
 
     let currentWaypoint = 0;
@@ -189,9 +284,10 @@ export class WorldExploreComponent implements OnInit {
     };
 
     let speed = this.rocketSpeed;
+    const stopDuration = 1000; // Duration to stop at each waypoint in milliseconds
 
     const moveRocket = () => {
-      if (!this.rocket || !this.trail) return;
+      if (!this.rocket || !this.trail || !this.app) return;
 
       speed += 0.005;
 
@@ -210,16 +306,98 @@ export class WorldExploreComponent implements OnInit {
       this.rocket.rotation += angleDiff * 0.1;
 
       const progress = currentWaypoint / totalWaypoints;
-      const minSize = 0.15;
-      const maxSize = 0.2;
+      const minSize = 0.5;
+      const maxSize = 0.6;
       const newSize = maxSize - (maxSize - minSize) * progress;
       this.rocket.scale.set(newSize);
 
       this.rocket.x += dirX * speed;
       this.rocket.y += dirY * speed;
 
+    //  const graphics = new PIXI.Graphics();
+    //  this.app.stage.addChild(graphics);
+
+    //  // Adjust sprayDensity dynamically, e.g., based on rocket speed or distance to the target
+    //  const distanceToTarget = Math.hypot(
+    //    target.x - this.rocket.x,
+    //    target.y - this.rocket.y
+    //  );
+    //  const maxSprayDensity = 100; // Maximum number of spray particles
+    //  const minSprayDensity = 10; // Minimum number of spray particles
+    //  const sprayDensity = Math.max(
+    //    minSprayDensity,
+    //    maxSprayDensity * (distanceToTarget / 100)
+    //  ); // Scale density based on distance
+
+    //  const sprayRadius = 5; // Radius of the spray spread
+
+    //  for (let i = 0; i < sprayDensity; i++) {
+    //    const randomAngle = Math.random() * Math.PI * 2; // Random angle in radians
+    //    const randomRadius = Math.random() * sprayRadius; // Random radius within spray spread
+
+    //    const sprayX =
+    //      this.rocket.x - dirX * speed + Math.cos(randomAngle) * randomRadius;
+    //    const sprayY =
+    //      this.rocket.y - dirY * speed + Math.sin(randomAngle) * randomRadius;
+
+    //    // Start at the spray point
+    //    graphics.moveTo(sprayX, sprayY);
+
+    //    // Random offset for spray particle end point
+    //    const offsetX = Math.random() * 2 - 1; // Random offset between -1 and 1
+    //    const offsetY = Math.random() * 2 - 1; // Random offset between -1 and 1
+
+    //    // Set opacity and draw the spray particle
+    //   //  const alpha = 0.5; // Opacity value (0.0 - 1.0)
+    //    graphics.lineStyle(100, 0x00007f); // Thinner line (1px) with opacity
+    //    graphics.lineTo(sprayX + offsetX, sprayY + offsetY);
+    //    graphics.stroke();
+    //  }
+
       if (distance < speed) {
-        currentWaypoint++;
+        // Calculate the sum score of users
+        const sumCoin = this.calculateSumCoin(unusedUsers);
+
+        // Check if the score is below the minimum required for the next waypoint
+        if (currentWaypoint < totalWaypoints - 1) {
+          const nextWaypoint = waypoints[currentWaypoint + 1];
+          if (nextWaypoint.minCoin && sumCoin < nextWaypoint.minCoin) {
+            // Stop the rocket and do not proceed to the next waypoint
+            this.isMoving = false;
+            if (target.displayText) {
+              this.createText(
+                target.displayText,
+                target.xOffset || 0,
+                target.yOffset || 0
+              );
+            }
+            return; // Exit to stop further movement
+          }
+        }
+
+        // If there is a displayText for the current waypoint
+        if (target.displayText) {
+          this.isMoving = false;
+
+          this.createText(
+            target.displayText,
+            target.xOffset || 0,
+            target.yOffset || 0
+          ); // Show the text if the waypoint has one
+          currentWaypoint++;
+
+          // Wait for the specified duration before continuing to the next waypoint
+          if (currentWaypoint < totalWaypoints) {
+            setTimeout(() => {
+              this.isMoving = true; // Allow the rocket to move again
+              moveRocket(); // Continue moving to the next waypoint
+            }, stopDuration);
+            return; // Exit the function to wait
+          }
+        } else {
+          // If there's no displayText, just move to the next waypoint
+          currentWaypoint++;
+        }
       }
 
       fadeLayer1();
@@ -227,14 +405,6 @@ export class WorldExploreComponent implements OnInit {
       if (currentWaypoint >= waypoints.length) {
         return;
       }
-
-      this.trail?.clear();
-      this.trail?.lineStyle(5, 0x0000ff, 100);
-      this.trail?.moveTo(this.rocket.x, this.rocket.y);
-      this.trail?.lineTo(
-        this.rocket.x + dirX * speed,
-        this.rocket.y + dirY * speed
-      );
 
       const createUniqueStar = () => {
         if (unusedUsers.length === 0) return;
@@ -319,8 +489,8 @@ export class WorldExploreComponent implements OnInit {
     star.alpha = 0;
 
     const progress = this.angle / (Math.PI * 2);
-    const maxOffset = 65;
-    const minOffset = 5;
+    const maxOffset = 50;
+    const minOffset = 10;
     const randomFactor = Math.random() * 1.5 + 0.5;
 
     const currentOffset = maxOffset - (maxOffset - minOffset) * progress;
@@ -331,7 +501,7 @@ export class WorldExploreComponent implements OnInit {
       const offsetY = (Math.random() - 0.5) * extendedOffset * 2;
 
       star.x = this.rocket.x + offsetX;
-      star.y = this.rocket.y + this.rocket.height / 1.5 + offsetY;
+      star.y = this.rocket.y + this.rocket.height / 2.5 + offsetY;
     }
 
     app.stage.addChild(star);
@@ -369,7 +539,6 @@ export class WorldExploreComponent implements OnInit {
 
     ticker.start();
   }
-
   closeProfile() {
     this.selectedUser = null;
     this.selectedUserImage = null;

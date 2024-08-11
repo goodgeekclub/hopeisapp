@@ -7,6 +7,15 @@ on:
       buildPath:
         type: string
         default: dist/frontend
+      refreshCached:
+        type: boolean
+        default: false
+
+env:
+  RED: "\e[31m"
+  GREEN: "\e[32m"
+  CYAN: "\e[36m"
+  RESET: "\e[0m"
 
 jobs:
   Deploy-S3:
@@ -34,4 +43,22 @@ jobs:
           aws s3 ls
       - name: Sync to S3
         run: aws s3 sync ${{ inputs.buildPath }} ${{ vars.CODE_BUCKET }} --delete
-
+      - name: Refresh CloundFront Cached
+        if: ${{ inputs.refreshCached }}
+        run: |
+          echo -e ${{env.GREEN}}"Create Invalidate Cloudfront"${{env.RESET}}
+          INVALIDATION="$(aws cloudfront create-invalidation --distribution-id  ${{ vars.CLOUDFRONT_ID }} --path '/*')"
+          INVALIDATION_ID="$(echo "$INVALIDATION" | jq -r '.Invalidation.Id')"
+          INVALIDATION_STATUS=$(echo "$INVALIDATION" | jq -r '.Invalidation.Status')
+          echo -e "INVALIDATION_ID:" $INVALIDATION_ID
+          echo -e ${{env.CYAN}}"INVALIDATION_STATUS: "${{env.RESET}} "$INVALIDATION_STATUS"
+          while [ "$INVALIDATION_STATUS" != "Completed" ]
+          do
+            INVALIDATION=$(aws cloudfront get-invalidation --id $INVALIDATION_ID --distribution-id ${{ vars.CLOUDFRONT_ID }})
+            # INVALIDATION=$(aws cloudfront get-invalidation --id $INVALIDATION_ID --distribution-id ${{ vars.CLOUDFRONT_ID }})
+            INVALIDATION_STATUS=$(echo "$INVALIDATION" | jq -r '.Invalidation.Status')
+            echo -e ${{env.CYAN}}"INVALIDATION_STATUS: "${{env.RESET}} "$INVALIDATION_STATUS"
+            if [ $INVALIDATION_STATUS != "Completed" ]; then
+              sleep 15
+            fi;
+          done

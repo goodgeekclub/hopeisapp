@@ -1,5 +1,4 @@
 <section
-  *ngIf="!hasResult || !isClickedToShowResult; else result"
   class="flex items-center justify-center bg-center bg-no-repeat bg-cover w-dvw h-dvh bg-hopelogin"
   (click)="showResult()"
   aria-hidden="true">
@@ -22,6 +21,3 @@
     </div>
   </article>
 </section>
-<ng-template #result>
-  <!-- <app-result-character [character]="character"></app-result-character> -->
-</ng-template>

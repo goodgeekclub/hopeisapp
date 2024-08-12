@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { Model, Mongoose } from "mongoose";
+import { Model, Mongoose } from 'mongoose';
 
 export enum ActivityStatus {
   TODO = 'TODO',
@@ -22,24 +22,27 @@ export class ActivityService {
     console.log(DateTime.utc().toISO());
     return this.model.find({
       status: {
-        $in: ['DOING', 'PENDING']
+        $in: ['DOING', 'PENDING'],
       },
       createdAt: {
-        $lte: DateTime.utc().toJSDate()
-      }
-    })
+        $lte: DateTime.utc().toJSDate(),
+      },
+    });
   }
 
   async setExpired() {
-    return this.model.updateMany({
-      status: {
-        $in: [ActivityStatus.DOING, ActivityStatus.PENDING]
+    return this.model.updateMany(
+      {
+        status: {
+          $in: [ActivityStatus.DOING, ActivityStatus.PENDING],
+        },
+        createdAt: {
+          $lte: DateTime.utc().toJSDate(),
+        },
       },
-      createdAt: {
-        $lte: DateTime.utc().toJSDate()
-      }
-    }, {
-      status: ActivityStatus.FAILED
-    })
+      {
+        status: ActivityStatus.FAILED,
+      },
+    );
   }
 }

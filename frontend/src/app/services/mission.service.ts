@@ -7,7 +7,13 @@ import { IProfileActivities } from '../interfaces/mission.interface';
   providedIn: 'root',
 })
 export class MissionService {
+  private readonly baseUrl = `${environment.backend.backendUrl}/profile-activities`
   constructor(private http: HttpClient) {}
+
+  get(id: string) {
+    const url = `${this.baseUrl}/${id}`
+    return this.http.get<IProfileActivities>(url)
+  }
 
   getMission(status?: string, limit?: number): Observable<IProfileActivities[]> {
     let params = new HttpParams();

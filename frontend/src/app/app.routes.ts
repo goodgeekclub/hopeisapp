@@ -10,7 +10,7 @@ import { QuizComponent } from './features/quiz/quiz.component';
 import { StoryComponent } from './features/story/story.component';
 import { ResultComponent } from './features/quiz/result/result.component';
 import { ResultCharacterComponent } from './features/quiz/result/result-character/result-character.component';
-import { AdminConsoleComponent } from './features/admin/admin-console/admin-console.component';
+import { AdminPanelComponent } from './features/admin/admin-panel/admin-panel.component';
 import { AuthGuard, ROLE } from './auth.guard';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { MissionComponent } from './features/mission/mission/mission.component';
@@ -45,7 +45,11 @@ export const routes: Routes = [
       },
       {
         path: 'console/panel',
-        component: AdminConsoleComponent,
+        component: AdminPanelComponent,
+      },
+      {
+        path: 'console/panel/:id',
+        component: AdminPanelComponent,
       },
     ]
   },

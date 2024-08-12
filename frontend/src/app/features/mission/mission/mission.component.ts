@@ -71,6 +71,7 @@ export class MissionComponent implements OnInit {
         return;
       }
       const activity = res[0];
+      console.log(activity)
       this.missionId = activity._id;
       this.missionTitle = activity.mission.description;
       if (activity.status === 'DOING') {
@@ -84,6 +85,7 @@ export class MissionComponent implements OnInit {
         this.missionType = 'finishMission';
       }
       this.missionTime = this.calculateHourLeft();
+      this.missionType = 'getMission' // test
     });
   }
 

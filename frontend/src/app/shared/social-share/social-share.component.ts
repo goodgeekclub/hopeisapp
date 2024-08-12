@@ -1,7 +1,7 @@
 import { Component, ViewChild, type ElementRef } from '@angular/core';
 import html2canvas from 'html2canvas-pro';
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, PLATFORM_ID } from '@angular/core';
+import { Inject, PLATFORM_ID, AfterViewInit } from '@angular/core';
 /**
  * NOTE: Web Share API is not supported in all browsers.
  * Check the compatibility here: https://caniuse.com/web-share
@@ -27,15 +27,15 @@ import { Inject, PLATFORM_ID } from '@angular/core';
   templateUrl: './social-share.component.html',
   styleUrl: './social-share.component.css',
 })
-export class SocialShareComponent {
+export class SocialShareComponent implements AfterViewInit {
   @ViewChild('toBeShare') toBeShare?: ElementRef;
 
   file: File | null = null;
   isBrowser: boolean;
   clicked = false;
 
-  title: string = 'YouthTalk_Hope_is';
-  text: string = 'character.title';
+  title = 'YouthTalk_Hope_is';
+  text = 'character.title';
 
   constructor(@Inject(PLATFORM_ID) platformId: string) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -81,7 +81,7 @@ export class SocialShareComponent {
     if (this.isBrowser) {
       html2canvas(this.toBeShare?.nativeElement).then(async (canvas) => {
         const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, 'image/png')
+          canvas.toBlob(resolve, 'image/png'),
         );
         const fileName = 'hope-is-' + new Date().getTime() + '.png';
         this.file = new File([blob!], fileName, {

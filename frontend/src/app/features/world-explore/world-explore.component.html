@@ -1,1 +1,11 @@
-<div></div>
+<!-- world-explore.component.html -->
+<div class="profile-window" *ngIf="selectedUser">
+  <div class="profile-content">
+    <button class="close-btn" (click)="closeProfile()">Close</button>
+    <h2>{{ selectedUser.name }}</h2>
+    <p>Score: {{ selectedUser.score }}</p>
+    <img [src]="selectedUserImage" alt="{{ selectedUser.name }}" />
+    <!-- Add more user details here as needed -->
+  </div>
+</div>
+<div id="text-container" class="text-white text-sm pointer-events-none font-normal"></div>

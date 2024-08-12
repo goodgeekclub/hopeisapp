@@ -79,6 +79,7 @@ export const routes: Routes = [
       },
     ],
   },
+
   {
     path: 'world-explore',
     component: WorldExploreComponent,

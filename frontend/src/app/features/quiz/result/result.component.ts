@@ -33,7 +33,7 @@ export class ResultComponent implements OnInit {
     private router: Router, // Inject Router service
     private profileService: ProfileService,
     private characterService: CharacterService,
-    private quizResultService: QuizResultService // Inject QuizResultService
+    private quizResultService: QuizResultService, // Inject QuizResultService
   ) {}
 
   ngOnInit() {

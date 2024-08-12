@@ -8,8 +8,9 @@ import { MeService } from '../../../services/me.service';
 import { signOut, Auth } from '@angular/fire/auth';
 import type { Stats } from '../../../interfaces/stats.interface';
 import { DateTime } from 'luxon';
-import { LoadingBarModule, LoadingBarService } from '@ngx-loading-bar/core';
 import { MissionMoonComponent, MoonStats } from './mission-moon/mission-moon.component';
+import { Image } from 'image-js';
+
 
 type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' | 'pendingMission' | 'finishMission';
 
@@ -29,6 +30,11 @@ export class MissionComponent implements OnInit {
     totalCoins: 0,
     coins: 0,
     totalMember: 0,
+  }
+
+  uploadFileConfig ={
+    width: 640,
+    height: 640,
   }
 
   missionType: MissionType = 'getMission';
@@ -139,13 +145,26 @@ export class MissionComponent implements OnInit {
     this.missionType = 'noMission';
   }
 
-  public handleFileInput(event: any) {
+  public async handleFileInput(event: any) {
     const file: File = event.target.files[0];
-
     if (file) {
-      this.file = file;
-      this.fileSrc = URL.createObjectURL(file);
+      const resize = await this.resizeImage(file);
+      this.file = resize;
+      this.fileSrc = URL.createObjectURL(resize);
     }
+  }
+
+  async resizeImage(file: File) {
+    let image = await Image.load(URL.createObjectURL(file));
+    let resize = image.clone();
+    if (resize.height > this.uploadFileConfig.height) {
+      resize = resize.resize({ height: this.uploadFileConfig.height});
+    }
+    if (resize.width > this.uploadFileConfig.width) {
+      resize = resize.resize({ width: this.uploadFileConfig.width});
+    }
+    const modified = new File([await resize.toBlob()], file.name, {type: file.type})
+    return modified;
   }
 
   public signOut() {

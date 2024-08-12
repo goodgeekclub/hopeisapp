@@ -6,6 +6,7 @@ import { ProfilesModule } from '../profiles/profiles.module';
 import { DataModule } from '../data/data.module';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     DataModule,
     HttpModule,
     ConfigModule,
+    MailModule,
   ],
   controllers: [ProfileActivitiesController],
   providers: [ProfileActivitiesService],

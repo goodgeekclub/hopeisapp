@@ -1,0 +1,19 @@
+<style>
+    a:hover {
+        cursor: pointer
+    }
+</style>
+
+<body>
+    <h3>สวัสดี <%= name %>,</h3>
+    <h4>Mission Completed</h4>
+    <p>มิชชั่นของคุณสำเร็จแล้ว ขณะนี้ คุถที coin สะสมทั้งหมด <%= coin %> coin สามารถเริ่มทำมิชชั่นใหม่ในวันถัดไป</p>
+    <img src="<%= imgUrl %>" alt="mission-image">
+
+    <div style="margin-top: 8px;">
+        <a href="<%= profileUrl %>">
+            <button
+                style="background-color: #2C58A1; color: white; padding: 8px 24px; border-radius: 8px; border-width: 0;">ดูโปรไฟล์</button>
+        </a>
+    </div>
+</body>

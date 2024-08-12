@@ -4,7 +4,9 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "tsConfigPath": "tsconfig.nest.build.json"
+    "tsConfigPath": "tsconfig.nest.build.json",
+    "assets": ["features/mail/templates/**/*"],
+    "watchAssets": true
   },
   "entryFile": "server"
 }

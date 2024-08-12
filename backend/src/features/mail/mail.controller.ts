@@ -10,4 +10,9 @@ export class MailController {
   create(@Body() createMailDto: CreateMailDto) {
     return this.mailService.send(createMailDto);
   }
+
+  @Post('templates')
+  sendTemplate(@Body() body: any) {
+    return this.mailService.sendTemplate();
+  }
 }

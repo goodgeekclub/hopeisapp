@@ -23,6 +23,7 @@ import { Data } from 'src/schemas';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, from, switchMap, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import { MailService } from '../mail/mail.service';
 @Injectable()
 export class ProfileActivitiesService {
   constructor(
@@ -32,6 +33,7 @@ export class ProfileActivitiesService {
     private dataService: DataService,
     private httpService: HttpService,
     private configService: ConfigService,
+    private mailService: MailService,
   ) {}
   async create(dto: CreateProfileActivityDto) {
     const { date, status, profileId, missionId } = dto;
@@ -121,17 +123,33 @@ export class ProfileActivitiesService {
     ).pipe(
       switchMap(() => this.findOne(id)),
       tap(async (data) => {
-        if (data.status !== ActivityStatus.PENDING) {
-          return;
-        }
-        return this.hookUpdatePayload(data).then((payload) =>
-          firstValueFrom(
-            this.httpService.post(
-              this.configService.get('DISCORD_HOOK'),
-              payload,
+        if (data.status === 'PENDING') {
+          return this.hookUpdatePayload(data).then((payload) =>
+            firstValueFrom(
+              this.httpService.post(
+                this.configService.get('DISCORD_HOOK'),
+                payload,
+              ),
             ),
-          ),
-        );
+          );
+        }
+        if (data.status === 'SUCCESS' || data.status === 'FAILED') {
+          return this.profilesService
+            .findOne(data.profile.toString())
+            .then(async (profile) => {
+              const to = profile.email;
+              const template =
+                data.status === 'SUCCESS' ? 'approve' : 'disapprove';
+              const stats = await this.getProfileStats(profile._id.toString());
+              const context = {
+                name: profile.displayName,
+                imgUrl: data.photoUrl,
+                coin: stats.coin,
+              };
+              return this.mailService.sendProveTemplate(to, template, context);
+            });
+        }
+        return;
       }),
     );
   }

@@ -1,8 +1,16 @@
-import axios from 'axios';
 import { DateTime } from 'luxon';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 
+@Injectable()
 export class DiscordService {
-  static notify(title: string, data: any) {
+  constructor(
+    private httpService: HttpService,
+    private configService: ConfigService,
+  ) {}
+
+  public notify(title: string, data: any) {
     if (!process.env.DISCORD_TRACK) {
       throw new Error('DISCORD_TRACK url is empty');
     }
@@ -14,16 +22,16 @@ export class DiscordService {
           description: '```json\n' + JSON.stringify(data, null, 2) + '\n```',
           color: 16750848,
           footer: {
-            text: process.env.ENV || 'Local',
+            text: this.configService.get('ENV') || 'Local',
           },
           timestamp: DateTime.now().toISO(),
         },
       ],
     };
-    return axios.post(process.env.DISCORD_TRACK, payload);
+    return this.httpService.post(process.env.DISCORD_TRACK, payload);
   }
 
-  static error(title: string, data: any) {
+  public error(title: string, data: any) {
     if (!process.env.DISCORD_TRACK) {
       throw new Error('DISCORD_TRACK url is empty');
     }
@@ -38,12 +46,12 @@ export class DiscordService {
             '\n```',
           color: 13969770,
           footer: {
-            text: process.env.ENV || 'Local',
+            text: this.configService.get('ENV') || 'Local',
           },
           timestamp: DateTime.now().toISO(),
         },
       ],
     };
-    return axios.post(process.env.DISCORD_TRACK, payload);
+    return this.httpService.post(process.env.DISCORD_TRACK, payload);
   }
 }

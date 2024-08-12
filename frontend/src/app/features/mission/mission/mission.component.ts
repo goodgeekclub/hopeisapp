@@ -8,14 +8,16 @@ import { MeService } from '../../../services/me.service';
 import { signOut, Auth } from '@angular/fire/auth';
 import type { Stats } from '../../../interfaces/stats.interface';
 import { DateTime } from 'luxon';
-import { LoadingBarModule, LoadingBarService } from '@ngx-loading-bar/core';
+import { MissionMoonComponent, MoonStats } from './mission-moon/mission-moon.component';
+import { Image } from 'image-js';
+
 
 type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' | 'pendingMission' | 'finishMission';
 
 @Component({
   selector: 'app-mission',
   standalone: true,
-  imports: [CommonModule, SharedModule, SvgIconComponent, RouterModule],
+  imports: [CommonModule, SharedModule, SvgIconComponent, RouterModule, MissionMoonComponent],
   templateUrl: './mission.component.html',
   styleUrl: './mission.component.css',
 })
@@ -24,6 +26,16 @@ export class MissionComponent implements OnInit {
   coins = 0;
   totalCoins = 0;
   totalMember = 0;
+  moonStats: MoonStats = {
+    totalCoins: 0,
+    coins: 0,
+    totalMember: 0,
+  }
+
+  uploadFileConfig ={
+    width: 640,
+    height: 640,
+  }
 
   missionType: MissionType = 'getMission';
 
@@ -50,17 +62,22 @@ export class MissionComponent implements OnInit {
     const stats: Stats = this.route.snapshot.data['stats'];
     this.totalCoins = stats.totalCoin;
     this.totalMember = stats.totalResult;
+    this.moonStats.totalCoins = stats.totalCoin;
+    this.moonStats.totalMember = stats.totalResult;
+
     this.me.fetchProfile().subscribe(res => {
       this.displayName = res.displayName;
     });
     this.me.getMissionStats().subscribe(res => {
       this.coins = res.coin;
+      this.moonStats.coins = res.coin;
     })
     this.me.getMission().subscribe(res => {
       if (res.length === 0) {
         return;
       }
       const activity = res[0];
+      console.log(activity)
       this.missionId = activity._id;
       this.missionTitle = activity.mission.description;
       if (activity.status === 'DOING') {
@@ -72,8 +89,11 @@ export class MissionComponent implements OnInit {
       } else if (activity.status === 'SUCCESS') {
         this.missionImgUrl = activity.photoUrl;
         this.missionType = 'finishMission';
+      } else if (activity.status === 'FAILED') {
+        this.missionType = 'noMission';
       }
       this.missionTime = this.calculateHourLeft();
+      // this.missionType = 'getMission' // test
     });
   }
 
@@ -125,13 +145,26 @@ export class MissionComponent implements OnInit {
     this.missionType = 'noMission';
   }
 
-  public handleFileInput(event: any) {
+  public async handleFileInput(event: any) {
     const file: File = event.target.files[0];
-
     if (file) {
-      this.file = file;
-      this.fileSrc = URL.createObjectURL(file);
+      const resize = await this.resizeImage(file);
+      this.file = resize;
+      this.fileSrc = URL.createObjectURL(resize);
     }
+  }
+
+  async resizeImage(file: File) {
+    let image = await Image.load(URL.createObjectURL(file));
+    let resize = image.clone();
+    if (resize.height > this.uploadFileConfig.height) {
+      resize = resize.resize({ height: this.uploadFileConfig.height});
+    }
+    if (resize.width > this.uploadFileConfig.width) {
+      resize = resize.resize({ width: this.uploadFileConfig.width});
+    }
+    const modified = new File([await resize.toBlob()], file.name, {type: file.type})
+    return modified;
   }
 
   public signOut() {

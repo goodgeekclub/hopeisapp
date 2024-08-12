@@ -83,9 +83,11 @@ export class MissionComponent implements OnInit {
       } else if (activity.status === 'SUCCESS') {
         this.missionImgUrl = activity.photoUrl;
         this.missionType = 'finishMission';
+      } else if (activity.status === 'FAILED') {
+        this.missionType = 'noMission';
       }
       this.missionTime = this.calculateHourLeft();
-      this.missionType = 'getMission' // test
+      // this.missionType = 'getMission' // test
     });
   }
 

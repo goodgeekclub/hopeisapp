@@ -5,8 +5,11 @@
       <img src="/images/logo-light-hope-up.png" alt="logo" width="100px" />
     </div>
     <!-- getmision -->
-    <div *ngIf="missionType === 'getMission'" class="z-10 flex justify-center flex-grow mt-12 btn btn-link lg:h-64">
-      <img src="/images/mission/rocket.png" alt="rocket" (click)="getMission()" aria-hidden="true" />
+    <div *ngIf="missionType === 'getMission'" class="z-10 mt-12">
+      <div class="w-screen flex flex-row justify-center">
+        <img src="/images/mission/rocket.png" alt="rocket" (click)="getMission()" aria-hidden="true" />
+      </div>
+      <app-mission-moon [stats]="moonStats"></app-mission-moon>
     </div>
     <!-- show mission -->
      <div *ngIf="missionType === 'showMission'">

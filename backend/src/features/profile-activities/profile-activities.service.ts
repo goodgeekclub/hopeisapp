@@ -1,4 +1,3 @@
-import { query } from 'express';
 import {
   BadRequestException,
   Injectable,
@@ -11,7 +10,7 @@ import {
   ProfileActivity,
 } from 'src/schemas/profile-activity.schema';
 import { COLLECTION_NAME } from 'src/configs/mongoose.config';
-import mongoose, { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { QueryOptionsDto } from 'src/dto/query-options.dto';
 import { DateTime } from 'luxon';
@@ -21,7 +20,7 @@ import { Mission } from 'src/models/mission.model';
 import { ListActivityQuery } from './dto/list-activity-query';
 import { Data } from 'src/schemas';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom, from, switchMap, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { MailService } from '../mail/mail.service';
 @Injectable()
@@ -159,7 +158,7 @@ export class ProfileActivitiesService {
   }
 
   getToday(profileId?: string) {
-    const today = DateTime.now();
+    const today = DateTime.now().setZone('UTC+7');
     let query = this.model.find({
       status: {
         $in: ['DOING', 'PENDING', 'SUCCESS', 'FAILED'],

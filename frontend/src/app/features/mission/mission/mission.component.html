@@ -72,9 +72,11 @@
           id="upload-zone"
           (change)="handleFileInput($event)" />
         <button
+          [disabled]="this.loading"
           class="px-10 py-2 m-3 text-2xl text-white border border-white btn btn-ghost rounded-3xl"
           (click)="uploadMission()">
-          ส่ง
+          <span *ngIf="loading">กำลังส่ง</span>
+          <span *ngIf="!loading">ส่ง</span>
         </button>
       </div>
     </div>

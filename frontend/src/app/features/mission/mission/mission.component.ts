@@ -8,6 +8,7 @@ import { MeService } from '../../../services/me.service';
 import { signOut, Auth } from '@angular/fire/auth';
 import type { Stats } from '../../../interfaces/stats.interface';
 import { DateTime } from 'luxon';
+import { LoadingBarModule, LoadingBarService } from '@ngx-loading-bar/core';
 
 type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' | 'pendingMission' | 'finishMission';
 
@@ -19,6 +20,7 @@ type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' 
   styleUrl: './mission.component.css',
 })
 export class MissionComponent implements OnInit {
+  loading = false;
   coins = 0;
   totalCoins = 0;
   totalMember = 0;
@@ -41,7 +43,7 @@ export class MissionComponent implements OnInit {
     private router: Router,
     private me: MeService,
     private readonly auth: Auth,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -55,13 +57,11 @@ export class MissionComponent implements OnInit {
       this.coins = res.coin;
     })
     this.me.getMission().subscribe(res => {
-      console.log('res:', res);
       if (res.length === 0) {
         return;
       }
       const activity = res[0];
       this.missionId = activity._id;
-      console.log('activity:', res);
       this.missionTitle = activity.mission.description;
       if (activity.status === 'DOING') {
         this.missionImgUrl = activity.mission.photoUrl;
@@ -82,7 +82,6 @@ export class MissionComponent implements OnInit {
   }
 
   public getMission() {
-    console.log('get mission');
     this.me.createDailyMission().subscribe({
       next: res => {
         this.missionId = res._id;
@@ -115,8 +114,10 @@ export class MissionComponent implements OnInit {
     if (!this.file) {
       return;
     }
+    this.loading = true;
     this.me.uploadMission(this.missionId, this.file!).subscribe(() => {
       this.missionType = 'pendingMission';
+      this.loading = false;
     });
   }
 

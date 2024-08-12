@@ -7,6 +7,9 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { MeService } from '../../../services/me.service';
 import { signOut, Auth } from '@angular/fire/auth';
 import type { Stats } from '../../../interfaces/stats.interface';
+import { DateTime } from 'luxon';
+
+type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' | 'pendingMission' | 'finishMission';
 
 @Component({
   selector: 'app-mission',
@@ -16,16 +19,16 @@ import type { Stats } from '../../../interfaces/stats.interface';
   styleUrl: './mission.component.css',
 })
 export class MissionComponent implements OnInit {
-  coins = '1,000';
-  totalCoins = '0';
-  totalMember = '0';
+  coins = 0;
+  totalCoins = 0;
+  totalMember = 0;
 
-  missionType = 'getMission';
+  missionType: MissionType = 'getMission';
 
   missionId = 'hello';
   missionImgUrl = '/images/mission/rocket.png';
   missionTitle = 'Mission 1';
-  missionTime = '1';
+  missionTime = 0;
 
   testindex = 0;
 
@@ -42,38 +45,40 @@ export class MissionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const stats: Stats = this.route.snapshot.data['stats'];
+    this.totalCoins = stats.totalCoin;
+    this.totalMember = stats.totalResult;
+    this.me.fetchProfile().subscribe(res => {
+      this.displayName = res.displayName;
+    });
+    this.me.getMissionStats().subscribe(res => {
+      this.coins = res.coin;
+    })
     this.me.getMission().subscribe(res => {
+      console.log('res:', res);
       if (res.length === 0) {
         return;
       }
-      this.missionId = res[0]._id;
-      this.missionTitle = res[0].mission.description;
-      this.missionImgUrl = res[0].mission.photoUrl;
-      this.missionType = 'showMission';
-    });
-    this.missionTime = this.calculateHourLeft();
-    const stats: Stats = this.route.snapshot.data['stats'];
-    this.coins = this.numberFormat(4242);
-    this.totalCoins = this.numberFormat(stats.totalCoin);
-    this.totalMember = this.numberFormat(stats.totalResult);
-    this.me.fetchProfile().subscribe({
-      next: res => {
-        this.displayName = res.displayName;
-      },
+      const activity = res[0];
+      this.missionId = activity._id;
+      console.log('activity:', res);
+      this.missionTitle = activity.mission.description;
+      if (activity.status === 'DOING') {
+        this.missionImgUrl = activity.mission.photoUrl;
+        this.missionType = 'showMission';
+      } else if (activity.status === 'PENDING') {
+        this.missionImgUrl = activity.photoUrl;
+        this.missionType = 'pendingMission';
+      } else if (activity.status === 'SUCCESS') {
+        this.missionImgUrl = activity.photoUrl;
+        this.missionType = 'finishMission';
+      }
+      this.missionTime = this.calculateHourLeft();
     });
   }
 
   private calculateHourLeft() {
-    // calculate hour left til the end of the day
-    const now = new Date();
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-    const diff = end.getTime() - now.getTime();
-    return Math.floor(diff / (1000 * 60 * 60)).toString();
-  }
-
-  private numberFormat(num: number): string {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return Math.floor(DateTime.now().endOf('day').diffNow().as('hour'));
   }
 
   public getMission() {
@@ -107,13 +112,11 @@ export class MissionComponent implements OnInit {
   }
 
   public uploadMission() {
-    console.log('upload mission');
-    // this.missionType = 'finishMission';
     if (!this.file) {
       return;
     }
     this.me.uploadMission(this.missionId, this.file!).subscribe(() => {
-      this.missionType = 'finishMission';
+      this.missionType = 'pendingMission';
     });
   }
 

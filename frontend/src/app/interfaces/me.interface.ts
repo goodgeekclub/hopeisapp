@@ -15,3 +15,9 @@ export interface Me {
   character: Character;
   quizResult: QuizResult;
 }
+
+export interface MeStat {
+  total: number;
+  success: number;
+  coin: number;
+}

@@ -1,0 +1,33 @@
+<div class="flex flex-col justify-end text-center bg-center bg-cover bg-hopemoon w-screen">
+  <div class="p-2">
+    <p class="text-[35px] font-bold text-[#F29E23]">{{ stats.coins | number:'1.0':'en-US' }}</p>
+    <p class="text-lg text-white">
+      coins จากการส่งมิชชั่นด้วยความตั้งใจของเธอ
+    </p>
+  </div>
+  <div class="p-2">
+    <p class="text-[35px] font-bold text-[#F29E23]">{{ stats.totalCoins | number:'1.0':'en-US' }}</p>
+    <p class="text-lg text-white">
+      coins จาก HopeRaiser Team ที่ตั้งใจทำภารกิจ
+    </p>
+    <p class="text-lg text-white">
+      เพื่อรวบรวมทุนสนับสนุนให้กับมูลนิธิคนพิการ
+    </p>
+  </div>
+  <div class="p-2">
+    <p class="text-[35px] font-bold text-[#F29E23]">{{ stats.totalMember | number:'1.0':'en-US' }}</p>
+    <p class="text-lg text-white">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team</p>
+    <p class="text-lg text-white">
+      ซึ่งกำลังเปล่งประกายแห่งความหวังร่วมกัน
+    </p>
+  </div>
+  <div>
+    <button class="text-lg text-[#92A5C4] no-underline btn btn-link hover:no-underline" type="button"
+      (click)="goToExplore()">
+      สำรวจแสงแห่งความหวังที่นี่
+    </button>
+  </div>
+  <div class="p-2">
+    <p class="text-lg text-white">รู้จัก Youth Talk: Hope is</p>
+  </div>
+</div>

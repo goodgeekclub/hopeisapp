@@ -9,13 +9,14 @@ import { signOut, Auth } from '@angular/fire/auth';
 import type { Stats } from '../../../interfaces/stats.interface';
 import { DateTime } from 'luxon';
 import { LoadingBarModule, LoadingBarService } from '@ngx-loading-bar/core';
+import { MissionMoonComponent, MoonStats } from './mission-moon/mission-moon.component';
 
 type MissionType = 'noMission' | 'getMission' | 'showMission' | 'uploadMission' | 'pendingMission' | 'finishMission';
 
 @Component({
   selector: 'app-mission',
   standalone: true,
-  imports: [CommonModule, SharedModule, SvgIconComponent, RouterModule],
+  imports: [CommonModule, SharedModule, SvgIconComponent, RouterModule, MissionMoonComponent],
   templateUrl: './mission.component.html',
   styleUrl: './mission.component.css',
 })
@@ -24,6 +25,11 @@ export class MissionComponent implements OnInit {
   coins = 0;
   totalCoins = 0;
   totalMember = 0;
+  moonStats: MoonStats = {
+    totalCoins: 0,
+    coins: 0,
+    totalMember: 0,
+  }
 
   missionType: MissionType = 'getMission';
 
@@ -50,11 +56,15 @@ export class MissionComponent implements OnInit {
     const stats: Stats = this.route.snapshot.data['stats'];
     this.totalCoins = stats.totalCoin;
     this.totalMember = stats.totalResult;
+    this.moonStats.totalCoins = stats.totalCoin;
+    this.moonStats.totalMember = stats.totalResult;
+
     this.me.fetchProfile().subscribe(res => {
       this.displayName = res.displayName;
     });
     this.me.getMissionStats().subscribe(res => {
       this.coins = res.coin;
+      this.moonStats.coins = res.coin;
     })
     this.me.getMission().subscribe(res => {
       if (res.length === 0) {

@@ -17,9 +17,9 @@ provider:
   name: aws
   stage: ${opt:stage, "dev"}
   region: ap-southeast-1
-  runtime: nodejs20.x
-  memorySize: 512
-  timeout: 10
+  runtime: nodejs18.x
+  memorySize: 1024
+  timeout: 29
   architecture: x86_64
   deploymentMethod: direct
   cfnRole: arn:aws:iam::907877978309:role/hopeisapp-cloudformation-deployment-role

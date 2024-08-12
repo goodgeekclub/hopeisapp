@@ -11,7 +11,8 @@ export class DiscordService {
   ) {}
 
   public notify(title: string, data: any) {
-    if (!process.env.DISCORD_TRACK) {
+    const url = this.configService.get('DISCORD_TRACK');
+    if (!url) {
       throw new Error('DISCORD_TRACK url is empty');
     }
     const payload = {
@@ -28,11 +29,12 @@ export class DiscordService {
         },
       ],
     };
-    return this.httpService.post(process.env.DISCORD_TRACK, payload);
+    return this.httpService.post(url, payload);
   }
 
   public error(title: string, data: any) {
-    if (!process.env.DISCORD_TRACK) {
+    const url = this.configService.get('DISCORD_TRACK');
+    if (!url) {
       throw new Error('DISCORD_TRACK url is empty');
     }
     const payload = {
@@ -52,6 +54,6 @@ export class DiscordService {
         },
       ],
     };
-    return this.httpService.post(process.env.DISCORD_TRACK, payload);
+    return this.httpService.post(url, payload);
   }
 }

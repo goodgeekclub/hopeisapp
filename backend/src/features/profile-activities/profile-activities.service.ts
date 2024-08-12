@@ -118,13 +118,12 @@ export class ProfileActivitiesService {
   }
 
   update(id: string, updateProfileActivityDto: UpdateProfileActivityDto) {
-    return from(
-      this.model.findByIdAndUpdate(id, updateProfileActivityDto),
-    ).pipe(
-      switchMap(() => this.findOne(id)),
-      tap(async (data) => {
+    return this.model
+      .findByIdAndUpdate(id, updateProfileActivityDto)
+      .then(() => this.findOne(id))
+      .then(async (data) => {
         if (data.status === 'PENDING') {
-          return this.hookUpdatePayload(data).then((payload) =>
+          await this.hookUpdatePayload(data).then((payload) =>
             firstValueFrom(
               this.httpService.post(
                 this.configService.get('DISCORD_HOOK'),
@@ -134,7 +133,7 @@ export class ProfileActivitiesService {
           );
         }
         if (data.status === 'SUCCESS' || data.status === 'FAILED') {
-          return this.profilesService
+          await this.profilesService
             .findOne(data.profile.toString())
             .then(async (profile) => {
               const to = profile.email;
@@ -146,12 +145,13 @@ export class ProfileActivitiesService {
                 imgUrl: data.photoUrl,
                 coin: stats.coin,
               };
-              return this.mailService.sendProveTemplate(to, template, context);
+              console.log('Send Email');
+              await this.mailService.sendProveTemplate(to, template, context);
+              return data;
             });
         }
-        return;
-      }),
-    );
+        return data;
+      });
   }
 
   remove(id: string) {

@@ -2,31 +2,23 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from './localstorage.service';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Me } from '../interfaces/me.interface';
+import { Me, MeStat } from '../interfaces/me.interface';
 import { map, catchError, Observable, Subject, tap, switchMap } from 'rxjs';
 import { S3Service } from './s3.service';
+import { Character } from '../interfaces/character.interface';
 
 export interface Activity {
   _id: string;
   status: string;
   coinValue: number;
   date: Date;
+  photoUrl: string;
   profile: string;
   mission: Mission;
   character: Character;
   createdAt: Date;
   updatedAt: Date;
   __v: number;
-}
-
-export interface Character {
-  name: string;
-  title: string;
-  quote: string;
-  detail: string;
-  photoUrl: string;
-  ability: string;
-  natures: string[];
 }
 
 export interface Mission {
@@ -75,7 +67,19 @@ export class MeService {
 
   getMission() {
     return this.httpClient
-      .get<Activity[]>(`${this.URL}/activities/active`)
+      .get<Activity[]>(`${this.URL}/activities/today`)
+      .pipe(
+        map(res => res),
+        catchError(error => {
+          throw error;
+        })
+      );
+  }
+
+  getMissionStats() {
+    const url = `${this.URL}/activities/stats`;
+    return this.httpClient
+      .get<MeStat>(url)
       .pipe(
         map(res => res),
         catchError(error => {

@@ -32,6 +32,7 @@
         alt="missionImg" />
       <button class="z-10 mt-auto btn btn-link" (click)="sendMission()">
         <img
+          *ngIf="missionType === 'showMission'"
           src="/images/mission/send_mission.png"
           alt="send_mission"
           class="h-12 max-h-12" />
@@ -79,7 +80,7 @@
     </div>
     <!-- send rocket -->
     <div
-      *ngIf="missionType === 'finishMission'"
+      *ngIf="missionType === 'finishMission' || missionType === 'pendingMission'"
       class="relative grid flex-grow px-10 justify-items-center lg:h-64">
       <div
         class="z-10 text-center absolute w-10/12 h-fit pb-10 to-[#232E48] bg-gradient-to-b from-[#30384F] rounded-3xl">
@@ -89,12 +90,33 @@
           X
         </button>
         <div class="p-4 pt-20 text-[#FCC462] text-3xl font-black">
-          <h2>กระสวยอวกาศ</h2>
-          <h2>กำลังนำความหวังไปส่ง!</h2>
+          <div *ngIf="missionType === 'pendingMission'">
+            <h2>กระสวยอวกาศ</h2>
+            <h2>กำลังนำความหวังไปส่ง!</h2>
+          </div>
+          <div *ngIf="missionType === 'finishMission'">
+            <h2>กระสวยอวกาศ</h2>
+            <h2>ส่งความหวังไปถึงดวงดาวแล้ว</h2>
+          </div>
         </div>
-        <div>
-          <img src="/images/mission/finish.png" alt="rocket" />
+        <div class="flex justify-center items-center">
+          <img
+            *ngIf="missionType === 'pendingMission'" 
+            src="/images/mission/finish.png"
+            alt="rocket" />
+          <img
+            *ngIf="missionType === 'finishMission'" 
+            class="w-72 h-48 object-cover rounded-md"
+            src="{{missionImgUrl}}"
+            alt="rocket" />
         </div>
+        <!-- <button
+          *ngIf="missionType === 'finishMission'" 
+          class="text-lg text-[#92A5C4] no-underline btn btn-link hover:no-underline mt-2"
+          type="button"
+          (click)="goToExplore()">
+          สำรวจแสงแห่งความหวังที่นี่
+        </button> -->
       </div>
     </div>
     <!-- no more mission -->
@@ -115,13 +137,13 @@
           'pt-14': missionType === 'getMission' || missionType === 'noMission',
           'pt-6': missionType === 'showMission',
         }">
-        <p class="text-[35px] font-bold text-[#F29E23]">{{ coins }}</p>
+        <p class="text-[35px] font-bold text-[#F29E23]">{{ coins | number:'1.0':'en-US' }}</p>
         <p class="text-lg text-white">
           coins จากการส่งมิชชั่นด้วยความตั้งใจของเธอ
         </p>
       </div>
       <div class="p-2">
-        <p class="text-[35px] font-bold text-[#F29E23]">{{ totalCoins }}</p>
+        <p class="text-[35px] font-bold text-[#F29E23]">{{ totalCoins | number:'1.0':'en-US' }}</p>
         <p class="text-lg text-white">
           coins จาก HopeRaiser Team ที่ตั้งใจทำภารกิจ
         </p>
@@ -130,7 +152,7 @@
         </p>
       </div>
       <div class="p-2">
-        <p class="text-[35px] font-bold text-[#F29E23]">{{ totalMember }}</p>
+        <p class="text-[35px] font-bold text-[#F29E23]">{{ totalMember | number:'1.0':'en-US' }}</p>
         <p class="text-lg text-white">คนได้เป็นส่วนหนึ่งของ HopeRaiser Team</p>
         <p class="text-lg text-white">
           ซึ่งกำลังเปล่งประกายแห่งความหวังร่วมกัน

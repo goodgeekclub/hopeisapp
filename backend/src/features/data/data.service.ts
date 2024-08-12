@@ -6,6 +6,8 @@ import { Data, DataType } from 'src/schemas/data.schema';
 import { CreateDataDto } from './dto/create-data.dto';
 import { UpdateDataDto } from './dto/update-data.dto';
 import { from } from 'rxjs';
+import nodemailer from 'nodemailer';
+
 @Injectable()
 export class DataService {
   constructor(

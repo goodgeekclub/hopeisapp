@@ -23,7 +23,6 @@ import { Data } from 'src/schemas';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, from, switchMap, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import { profile } from 'console';
 @Injectable()
 export class ProfileActivitiesService {
   constructor(
@@ -67,10 +66,10 @@ export class ProfileActivitiesService {
   findAll(options?: QueryOptionsDto, query?: ListActivityQuery) {
     let find = this.model.find();
     if (query.date) {
-      find = find.where({ date: DateTime.fromISO(query.date).toISODate() })
+      find = find.where({ date: DateTime.fromISO(query.date).toISODate() });
     }
     if (query.status) {
-      find = find.where({ status: query.status.split(',') })
+      find = find.where({ status: query.status.split(',') });
     }
     find.limit(options?.limit || 5);
     find.skip(options?.skip);
@@ -97,16 +96,18 @@ export class ProfileActivitiesService {
     return this.model.aggregate([
       {
         $group: {
-          _id: "$profile",
-          total: { $sum: "$status" }
-        }
-      }
+          _id: '$profile',
+          total: { $sum: '$status' },
+        },
+      },
     ]);
   }
 
   async getProfileStats(profileId: string) {
-    const query = this.model.find({ profile: profileId })
-    const success = await query.clone().where({ status: ActivityStatus.SUCCESS })
+    const query = this.model.find({ profile: profileId });
+    const success = await query
+      .clone()
+      .where({ status: ActivityStatus.SUCCESS });
     return {
       total: await query.clone().countDocuments(),
       success: success.length,
@@ -120,7 +121,9 @@ export class ProfileActivitiesService {
     ).pipe(
       switchMap(() => this.findOne(id)),
       tap(async (data) => {
-        if (data.status !== ActivityStatus.PENDING) { return }
+        if (data.status !== ActivityStatus.PENDING) {
+          return;
+        }
         return this.hookUpdatePayload(data).then((payload) =>
           firstValueFrom(
             this.httpService.post(
@@ -146,12 +149,13 @@ export class ProfileActivitiesService {
       date: today.toISODate(),
     });
     if (profileId) {
-      query = query.where({ profile: profileId })
+      query = query.where({ profile: profileId });
     }
     return query;
   }
 
   private hookUpdatePayload(data: ProfileActivity) {
+    const url = `${this.configService.get('FRONTEND_URL')}/admin/console/panel/${data!._id}`;
     return this.profilesService
       .findOne(data.profile.toString())
       .then(async (profile) => ({
@@ -160,7 +164,7 @@ export class ProfileActivitiesService {
           {
             title: data.mission.name,
             description: data.mission.description,
-            url: this.configService.get('FRONTEND_URL') + '/admin/console/panel',
+            url,
             color: 16776960,
             fields: [
               {
@@ -170,7 +174,9 @@ export class ProfileActivitiesService {
               },
               {
                 name: 'PENDING',
-                value: await this.model.find({ status: 'PENDING' }).countDocuments(),
+                value: await this.model
+                  .find({ status: 'PENDING' })
+                  .countDocuments(),
                 inline: true,
               },
             ],
@@ -179,9 +185,9 @@ export class ProfileActivitiesService {
               icon_url: profile.photoUrl,
             },
             footer: {
-              text: 'Timestamp',
+              text: this.configService.get('ENV') || 'Local',
             },
-            timestamp: data.date,
+            timestamp: DateTime.now(),
             image: {
               url: data.photoUrl,
             },

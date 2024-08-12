@@ -4,6 +4,8 @@ import { Character } from 'src/models/character.model';
 import { HydratedDocument, Schema as mSchema } from 'mongoose';
 import { Profile } from './profile.schema';
 import { Mission } from 'src/models/mission.model';
+import { Optional } from '@nestjs/common';
+import { IsMongoId } from 'class-validator';
 
 export enum ActivityStatus {
   TODO = 'TODO',
@@ -17,6 +19,10 @@ export enum ActivityStatus {
   timestamps: true,
 })
 export class ProfileActivity {
+  @IsMongoId()
+  @Optional()
+  _id?: string;
+
   @Prop({ enum: ActivityStatus, required: true })
   @ApiProperty()
   status: ActivityStatus;

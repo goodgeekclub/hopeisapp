@@ -44,8 +44,7 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
   totalPlayer = 0;
   preset = this.getPreset();
   isToast = false;
-  onSharing = false;
-  shareData?: string;
+  toastMessage = '';
 
   googleAuthProvider: GoogleAuthProvider;
 
@@ -80,10 +79,11 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
       const blob =  await htmlToImage.toBlob(this.article?.nativeElement);
       const url = `${environment.domainURL}/${this.router.url}`
       console.log(this.router.url);
+      this.isToast = true;
       if (navigator.share) {
         await navigator.share({
-          title: 'Hope is Us: ',
-          url: 'https://hopeis.us',
+          title: `Hope is Us: ${this.displayName}`,
+          url: this.router.url,
           text: `
             ${this.displayName} คือ 
             ${this.character?.title} ${this.character?.description}
@@ -92,12 +92,10 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
             new File([blob!], `${this.character?.name}.png`, { type: 'image/png'})
           ],
         });
+        this.showToast('Shared');
       } else {
         navigator.clipboard.writeText(url);
-        this.isToast = true;
-        setTimeout(() => {
-          this.isToast = false;
-        }, 2000);
+        this.showToast('Copied');
       }
   }
 
@@ -109,6 +107,14 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
     ctx!.drawImage(img, 0, 0);
     var base64 = canvas.toDataURL("image/png");
     return base64;
+  }
+
+  showToast(msg: string) { 
+    this.toastMessage = msg;
+    this.isToast = true;
+    setTimeout(() => {
+      this.isToast = false;
+    }, 2000);
   }
 
   private getPreset(name?: string): CharacterPreset {

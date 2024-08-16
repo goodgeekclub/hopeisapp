@@ -1,14 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CharacterAttributesComponent } from './character-attributes/character-attributes.component';
-import { QuizResultService } from '../../../../services/quiz-result.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '../../../../interfaces/character.interface';
 import { Stats } from '../../../../interfaces/stats.interface';
 import { signInWithPopup, Auth, GoogleAuthProvider } from '@angular/fire/auth';
 import { MeService } from '../../../../services/me.service';
+import { QuizResult } from '../../../../interfaces/quiz-result.interface';
+import * as htmlToImage from 'html-to-image';
+import Image from 'image-js';
+import html2canvas from 'html2canvas-pro';
+import { Location, LocationStrategy } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 interface CharacterPreset {
   backgroundColor: string[];
@@ -16,15 +21,6 @@ interface CharacterPreset {
   buttonColor: string;
   nameColor: string;
 }
-// export interface CharacterDisplay {
-//   natures: string[];
-//   ability: string;
-//   photoUrl: string;
-//   title: string;
-//   description: string;
-//   quote: string;
-//   detail: string;
-// }
 
 @Component({
   selector: 'app-result-character',
@@ -38,12 +34,18 @@ interface CharacterPreset {
   templateUrl: './result-character.component.html',
   styleUrls: ['./result-character.component.css'],
 })
-export class ResultCharacterComponent implements OnInit {
+export class ResultCharacterComponent implements OnInit, AfterViewInit {
+  @ViewChild('article') article?: ElementRef;
+
   displayName = '';
+  characterImg?: string;
   character?: Character;
   isLoading = true;
   totalPlayer = 0;
   preset = this.getPreset();
+  isToast = false;
+  onSharing = false;
+  shareData?: string;
 
   googleAuthProvider: GoogleAuthProvider;
 
@@ -51,24 +53,62 @@ export class ResultCharacterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private auth: Auth,
-
-    private me: MeService
+    private me: MeService,
   ) {
     this.googleAuthProvider = new GoogleAuthProvider();
   }
 
   ngOnInit(): void {
-    // console.log('Data:', this.route.snapshot.data);
     if (!this.route.snapshot.data['quizResult']) {
       this.router.navigate(['/notfound']);
     }
     const quizResult = this.route.snapshot.data['quizResult'];
+    console.log('quizResult:', quizResult);
     const stats: Stats = this.route.snapshot.data['stats'];
     this.preset = this.getPreset(quizResult.character.name);
     this.character = quizResult.character;
+    this.characterImg = this.character?.photoUrl;
     this.displayName = quizResult.displayName;
     this.totalPlayer = stats.totalResult;
     this.isLoading = false;
+    this.characterImg = 'assets/images/characters/' + this.character?.photoUrl.split('/').pop();
+  }
+
+  async ngAfterViewInit() {}
+
+  async onShare() {
+      const blob =  await htmlToImage.toBlob(this.article?.nativeElement);
+      const url = `${environment.domainURL}/${this.router.url}`
+      console.log(this.router.url);
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Hope is Us: ',
+          url: 'https://hopeis.us',
+          text: `
+            ${this.displayName} คือ 
+            ${this.character?.title} ${this.character?.description}
+          `,
+          files: [
+            new File([blob!], `${this.character?.name}.png`, { type: 'image/png'})
+          ],
+        });
+      } else {
+        navigator.clipboard.writeText(url);
+        this.isToast = true;
+        setTimeout(() => {
+          this.isToast = false;
+        }, 2000);
+      }
+  }
+
+  getBase64Image(img: Image) {
+    let canvas = document.createElement("canvas");
+    canvas.width = img!.width;
+    canvas.height = img!.height;
+    var ctx = canvas.getContext("2d");
+    ctx!.drawImage(img, 0, 0);
+    var base64 = canvas.toDataURL("image/png");
+    return base64;
   }
 
   private getPreset(name?: string): CharacterPreset {
@@ -120,10 +160,6 @@ export class ResultCharacterComponent implements OnInit {
         nameColor: 'text-white',
       };
     }
-  }
-
-  private capitalizeFirstLetter(word: string): string {
-    return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
   public async signUp() {

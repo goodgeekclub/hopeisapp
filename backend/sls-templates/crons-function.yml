@@ -9,7 +9,7 @@ crons-stats:
         name: ${self:service}-stats-${sls:stage}
         rate: ${self:custom.crons.${sls:stage}.rate}
         # rate: rate(1 minute)
-        enabled: true
+        enabled: ${self:custom.crons.${sls:stage}.enabled}
 
 crons-clear-activities:
   name: ${self:service}-clear-activities-${sls:stage}
@@ -18,4 +18,14 @@ crons-clear-activities:
     - schedule:
         name: ${self:service}-clear-activities-${sls:stage}
         rate: cron(1 17 * * ? *)
-        enabled: true
+        enabled: ${self:custom.crons.${sls:stage}.enabled}
+
+crons-approve-activities:
+  name: ${self:service}-approve-activities-${sls:stage}
+  handler: build/crons.approveActivities
+  events:
+    - schedule:
+        name: ${self:service}-approve-activities-${sls:stage}
+        rate: cron(1 17 * * ? *)
+        enabled: ${self:custom.crons.${sls:stage}.enabled}
+

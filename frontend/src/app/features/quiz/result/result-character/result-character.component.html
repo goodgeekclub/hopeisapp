@@ -12,17 +12,17 @@
       </div>
     </div>
   </ng-container>
-
   <ng-container *ngIf="!isLoading">
     <article
+      #article
       class="flex flex-col items-center gap-4 px-6 pt-6 bg-bottom bg-no-repeat bg-cover w-dvw h-fit"
       [ngClass]="preset.backgroundColor[0]">
-      <div class="flex items-center justify-between w-full">
+      <div class="flex items-center justify-between w-full" *ngIf="!onSharing">
         <img
           src="images/logo-light-hope-up.png"
           alt="Light Hope Up"
           width="75px" />
-        <div>
+        <div (click)="onShare()" class="hover:cursor-pointer" *ngIf="!onSharing">
           <svg-icon
             src="icons/share.svg"
             [svgStyle]="{ 'width.px': 25 }"></svg-icon>
@@ -42,7 +42,7 @@
           {{ character!.quote }}
         </p>
       </div>
-      <img [src]="[character!.photoUrl]" alt="Light Hope Up" width="300px" />
+      <img #characterImage id="characterImage" [src]="[characterImg]" alt="Light Hope Up" width="300px"/>
       <p class="text-center text-[18px] font-light text-white">
         {{ character!.ability }}
       </p>
@@ -98,4 +98,9 @@
       <app-footer class="w-full"></app-footer>
     </article>
   </ng-container>
+  <div class="toast">
+    <div *ngIf="isToast === true" class="bg-green-600 alert-info alert">
+      <span>Copied</span>
+    </div>
+  </div>
 </section>

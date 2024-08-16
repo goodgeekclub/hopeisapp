@@ -34,7 +34,7 @@ export class ActivityService {
     return this.model.updateMany(
       {
         status: {
-          $in: [ActivityStatus.DOING, ActivityStatus.PENDING],
+          $in: [ActivityStatus.DOING],
         },
         createdAt: {
           $lte: DateTime.utc().toJSDate(),
@@ -42,6 +42,22 @@ export class ActivityService {
       },
       {
         status: ActivityStatus.FAILED,
+      },
+    );
+  }
+
+  async setApprove() {
+    return this.model.updateMany(
+      {
+        status: {
+          $in: [ActivityStatus.PENDING],
+        },
+        createdAt: {
+          $lte: DateTime.utc().toJSDate(),
+        },
+      },
+      {
+        status: ActivityStatus.SUCCESS,
       },
     );
   }

@@ -40,10 +40,13 @@ provider:
 custom:
   crons:
     dev:
+      enabled: false
       rate: rate(6 hours)
     uat:
+      enabled: false
       rate: rate(6 hours)
     prod:
+      enabled: true
       rate: rate(1 hour)
   usagePlans:
     dev:

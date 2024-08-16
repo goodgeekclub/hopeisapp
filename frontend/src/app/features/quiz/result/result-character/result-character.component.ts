@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { SharedModule } from '../../../../shared/shared.module';
@@ -8,11 +8,7 @@ import { Character } from '../../../../interfaces/character.interface';
 import { Stats } from '../../../../interfaces/stats.interface';
 import { signInWithPopup, Auth, GoogleAuthProvider } from '@angular/fire/auth';
 import { MeService } from '../../../../services/me.service';
-import { QuizResult } from '../../../../interfaces/quiz-result.interface';
 import * as htmlToImage from 'html-to-image';
-import Image from 'image-js';
-import html2canvas from 'html2canvas-pro';
-import { Location, LocationStrategy } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 
 interface CharacterPreset {
@@ -34,25 +30,25 @@ interface CharacterPreset {
   templateUrl: './result-character.component.html',
   styleUrls: ['./result-character.component.css'],
 })
-export class ResultCharacterComponent implements OnInit, AfterViewInit {
+export class ResultCharacterComponent implements OnInit {
   @ViewChild('article') article?: ElementRef;
 
-  displayName = '';
-  characterImg?: string;
-  character?: Character;
-  isLoading = true;
-  totalPlayer = 0;
-  preset = this.getPreset();
-  isToast = false;
-  toastMessage = '';
+  public displayName = '';
+  public characterImg?: string;
+  public character?: Character;
+  public isLoading = true;
+  public totalPlayer = 0;
+  public preset = this.getPreset();
+  public isToast = false;
+  public toastMessage = '';
 
-  googleAuthProvider: GoogleAuthProvider;
+  private googleAuthProvider: GoogleAuthProvider;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private auth: Auth,
-    private me: MeService,
+    private me: MeService
   ) {
     this.googleAuthProvider = new GoogleAuthProvider();
   }
@@ -62,7 +58,6 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/notfound']);
     }
     const quizResult = this.route.snapshot.data['quizResult'];
-    console.log('quizResult:', quizResult);
     const stats: Stats = this.route.snapshot.data['stats'];
     this.preset = this.getPreset(quizResult.character.name);
     this.character = quizResult.character;
@@ -70,46 +65,53 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
     this.displayName = quizResult.displayName;
     this.totalPlayer = stats.totalResult;
     this.isLoading = false;
-    this.characterImg = 'assets/images/characters/' + this.character?.photoUrl.split('/').pop();
+    this.characterImg =
+      'assets/images/characters/' + this.character?.photoUrl.split('/').pop();
   }
 
-  async ngAfterViewInit() {}
-
-  async onShare() {
-      const blob =  await htmlToImage.toBlob(this.article?.nativeElement);
-      const url = `${environment.domainURL}/${this.router.url}`
-      console.log(this.router.url);
-      this.isToast = true;
-      if (navigator.share) {
-        await navigator.share({
-          title: `Hope is Us: ${this.displayName}`,
-          url: this.router.url,
-          text: `
+  public async onShare() {
+    const blob = await htmlToImage.toBlob(this.article?.nativeElement);
+    const url = `${environment.domainURL}/${this.router.url}`;
+    this.isToast = true;
+    if (navigator.share) {
+      await navigator.share({
+        title: `Hope is Us: ${this.displayName}`,
+        url: this.router.url,
+        text: `
             ${this.displayName} คือ 
             ${this.character?.title} ${this.character?.description}
-          `,
-          files: [
-            new File([blob!], `${this.character?.name}.png`, { type: 'image/png'})
-          ],
-        });
-        this.showToast('Shared');
-      } else {
-        navigator.clipboard.writeText(url);
-        this.showToast('Copied');
-      }
+            `,
+        files: [
+          new File([blob!], `${this.character?.name}.png`, {
+            type: 'image/png',
+          }),
+        ],
+      });
+      this.showToast('Shared');
+    } else {
+      navigator.clipboard.writeText(url);
+      this.showToast('Copied');
+    }
   }
 
-  getBase64Image(img: Image) {
-    let canvas = document.createElement("canvas");
-    canvas.width = img!.width;
-    canvas.height = img!.height;
-    var ctx = canvas.getContext("2d");
-    ctx!.drawImage(img, 0, 0);
-    var base64 = canvas.toDataURL("image/png");
-    return base64;
+  public async signUp() {
+    const user = await signInWithPopup(this.auth, this.googleAuthProvider);
+    if (user) {
+      const quizResultId = this.route.snapshot.data['quizResult']._id;
+      this.me.createProfile(quizResultId).subscribe({
+        next: () => {
+          this.router.navigate(['/mission']);
+        },
+        error: error => {
+          if (error.status === 400) {
+            this.router.navigate(['/mission']);
+          }
+        },
+      });
+    }
   }
 
-  showToast(msg: string) { 
+  private showToast(msg: string) {
     this.toastMessage = msg;
     this.isToast = true;
     setTimeout(() => {
@@ -165,23 +167,6 @@ export class ResultCharacterComponent implements OnInit, AfterViewInit {
         buttonColor: 'text-black',
         nameColor: 'text-white',
       };
-    }
-  }
-
-  public async signUp() {
-    const user = await signInWithPopup(this.auth, this.googleAuthProvider);
-    if (user) {
-      const quizResultId = this.route.snapshot.data['quizResult']._id;
-      this.me.createProfile(quizResultId).subscribe({
-        next: () => {
-          this.router.navigate(['/mission']);
-        },
-        error: error => {
-          if (error.status === 400) {
-            this.router.navigate(['/mission']);
-          }
-        },
-      });
     }
   }
 }

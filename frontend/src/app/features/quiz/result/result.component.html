@@ -1,21 +1,17 @@
-<section
-  class="flex items-center justify-center bg-center bg-no-repeat bg-cover w-dvw h-dvh bg-hopelogin"
-  (click)="showResult()"
-  aria-hidden="true">
-  <article
-    *ngIf="isClikedToShowText"
-    class="flex flex-col items-center justify-between w-full h-full">
+<section class="flex items-center justify-center bg-center bg-no-repeat bg-cover w-dvw h-dvh bg-hopelogin"
+  (click)="showResult()" aria-hidden="true">
+  <article *ngIf="isClikedToShowText" class="flex flex-col items-center justify-between w-full h-full">
     <div class="flex flex-col justify-center h-full mt-24">
-      <p class="text-center text-[18px] text-white">จริง ๆ แล้ว</p>
-      <p class="text-center text-[18px] text-white">แสงแห่งความหวัง</p>
-      <p class="text-center text-[18px] text-white mt-8">เปล่งประกายขึ้นมา</p>
-      <p class="text-center text-[18px] text-white">
+      <p class="text-center text-[18px] text-white animate-fade">จริง ๆ แล้ว</p>
+      <p class="text-center text-[18px] text-white animate-fade">แสงแห่งความหวัง</p>
+      <p class="text-center text-[18px] text-white mt-8 animate-fade">เปล่งประกายขึ้นมา</p>
+      <p class="text-center text-[18px] text-white animate-fade">
         ตั้งแต่คิดอยากจะเปลี่ยนโลกนี้
       </p>
-      <p class="text-center text-[18px] text-white">ให้ดีขึ้นแล้วล่ะ</p>
+      <p class="text-center text-[18px] text-white animate-fade">ให้ดีขึ้นแล้วล่ะ</p>
     </div>
     <div>
-      <p class="text-center text-[18px] text-white opacity-50 mb-48">
+      <p class="text-center text-[18px] text-white opacity-50 mb-48 delay-500 animate-fade transition-opacity duration-300">
         มาดูแสงแห่งความหวังที่เป็นตัวคุณกัน
       </p>
     </div>

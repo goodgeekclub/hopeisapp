@@ -7,7 +7,7 @@ import { ResultCharacterComponent } from './result-character/result-character.co
 import { ProfileService } from '../../../services/profile.service';
 import { CharacterService } from '../../../services/character.service';
 import { QuizResultService } from '../../../services/quiz-result.service'; // Import QuizResultService
-import { EMPTY, map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-result',
@@ -33,16 +33,16 @@ export class ResultComponent implements OnInit {
     private router: Router, // Inject Router service
     private profileService: ProfileService,
     private characterService: CharacterService,
-    private quizResultService: QuizResultService, // Inject QuizResultService
+    private quizResultService: QuizResultService // Inject QuizResultService
   ) {}
 
   ngOnInit() {
-    this.getResult().pipe(
-      switchMap(result => this.quizResultService.postQuizResult(result))
-    ).subscribe(response => {
-      this.isClikedToShowText = true;
-      this.quizResultId = response._id;
-    })
+    this.getResult()
+      .pipe(switchMap(result => this.quizResultService.postQuizResult(result)))
+      .subscribe(response => {
+        this.isClikedToShowText = true;
+        this.quizResultId = response._id;
+      });
   }
 
   public showResult(): void {
@@ -67,8 +67,8 @@ export class ResultComponent implements OnInit {
           score: profile.characterScore,
           displayName: profile.user,
           character: matchingCharacter.data,
-        }
+        };
       })
-    )
+    );
   }
 }

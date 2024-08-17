@@ -5,7 +5,6 @@ import { MemberTestComponent } from './member-test/member-test.component';
 import { NameInputComponent } from '../quiz/name-input/name-input.component';
 import { AuthGuard, ROLE } from '../../auth.guard';
 import { UploadFileComponent } from './upload-file/upload-file.component';
-import { ResultTestComponent } from './result-test/result-test.component';
 
 export const testRoutes: Routes = [
   {
@@ -32,10 +31,6 @@ export const testRoutes: Routes = [
       {
         path: 'upload-file',
         component: UploadFileComponent,
-      },
-      {
-        path: 'result',
-        component: ResultTestComponent,
       },
     ],
   },

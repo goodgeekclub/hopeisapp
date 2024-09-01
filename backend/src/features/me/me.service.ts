@@ -71,21 +71,33 @@ export class MeService {
     });
   }
 
-  async createActivity(profile: Profile) {
+  async createActivityByDate(profile: Profile) {
     const today = await this.getTodayActivity((profile as any)._id);
     if (today.length > 0) {
       throw new BadRequestException(
         `Activity has been active in ${today[0]._id.toString()} status ${today[0].status}`,
       );
     }
-    const relevantMissions = await this.dataService.getModel().find({
-      type: 'MISSION',
-      'data.characterNames': {
-        $eq: profile.character.name,
-      },
-    });
-    const ranIdx = Math.floor(Math.random() * relevantMissions.length);
-    const mission = relevantMissions.at(ranIdx);
+    const date = DateTime.now().setZone('UTC+7');
+    const mission = await this.getMissionByDate(profile, date.toISODate());
+    // return mission;
+    const body: CreateProfileActivityDto = {
+      profileId: (profile as any)._id,
+      missionId: mission._id.toString(),
+      status: ActivityStatus.DOING,
+      coinValue: 0,
+    };
+    return this.activitiesService.create(body);
+  }
+
+  async createActivityByCharacter(profile: Profile) {
+    const today = await this.getTodayActivity((profile as any)._id);
+    if (today.length > 0) {
+      throw new BadRequestException(
+        `Activity has been active in ${today[0]._id.toString()} status ${today[0].status}`,
+      );
+    }
+    const mission = await this.getMissionByProfile(profile);
     const body: CreateProfileActivityDto = {
       profileId: (profile as any)._id,
       missionId: mission._id.toString(),
@@ -114,5 +126,30 @@ export class MeService {
 
   getTodayActivity(profileId: string) {
     return this.activitiesService.getToday(profileId);
+  }
+
+  async getMissionByProfile(profile: Profile) {
+    const relevantMissions = await this.dataService.getModel().find({
+      type: 'MISSION',
+      'data.characterNames': {
+        $eq: profile.character.name,
+      },
+    });
+    const ranIdx = Math.floor(Math.random() * relevantMissions.length);
+    const mission = relevantMissions.at(ranIdx);
+    return mission;
+  }
+
+  async getMissionByDate(profile: Profile, date: string) {
+    let relevantMissions = await this.dataService.getModel().find({
+      type: 'MISSION',
+      'data.date': date,
+    });
+    if (relevantMissions && relevantMissions.length > 0) {
+      const ranIdx = Math.floor(Math.random() * relevantMissions.length);
+      const mission = relevantMissions.at(ranIdx);
+      return mission;
+    }
+    return this.getMissionByProfile(profile);
   }
 }

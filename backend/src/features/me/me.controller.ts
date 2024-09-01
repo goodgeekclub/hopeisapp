@@ -55,7 +55,7 @@ export class MeController {
   @Post('activities')
   @UseInterceptors(FbProfilesInterceptor)
   createActivity(@ProfileUser() profile) {
-    return this.meService.createActivity(profile);
+    return this.meService.createActivityByDate(profile);
   }
 
   @Get('activities/today')

@@ -3,7 +3,9 @@ import {
   ArrayMinSize,
   ArrayUnique,
   IsArray,
+  IsDateString,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -15,6 +17,11 @@ export class Mission {
   @ApiProperty()
   @IsString()
   description?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsDateString()
+  date?: string;
 
   @ApiProperty()
   @IsNumber()

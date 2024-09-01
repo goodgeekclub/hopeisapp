@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/auth';
 import { MeService } from '../../services/me.service';
 import { from } from 'rxjs';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'app-landing-page',
@@ -38,7 +39,8 @@ export class LandingPageComponent {
   constructor(
     private auth: Auth,
     private me: MeService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) {
     this.googleProvider = new GoogleAuthProvider();
   }
@@ -78,44 +80,44 @@ export class LandingPageComponent {
   }
 
   public signIn() {
-    const user = this.auth.currentUser;
-    console.log(user);
-    if (user) {
-      this.me.fetchProfile().subscribe({
-        next: profile => {
-          if (profile) {
-            this.router.navigate(['/mission']);
-          } else {
+    this.authService.getUserState().subscribe(user => {
+      if (user) {
+        this.me.fetchProfile().subscribe({
+          next: profile => {
+            if (profile) {
+              this.router.navigate(['/mission']);
+            } else {
+              this.router.navigate(['/home']);
+            }
+          },
+          error: () => {
+            signOut(this.auth);
             this.router.navigate(['/home']);
-          }
-        },
-        error: () => {
-          signOut(this.auth);
-          this.router.navigate(['/home']);
-        },
-      });
-    } else {
-      from(signInWithPopup(this.auth, this.googleProvider)).subscribe({
-        next: () => {
-          this.me.fetchProfile().subscribe({
-            next: profile => {
-              if (profile) {
-                this.router.navigate(['/mission']);
-              } else {
+          },
+        });
+      } else {
+        from(signInWithPopup(this.auth, this.googleProvider)).subscribe({
+          next: () => {
+            this.me.fetchProfile().subscribe({
+              next: profile => {
+                if (profile) {
+                  this.router.navigate(['/mission']);
+                } else {
+                  signOut(this.auth);
+                  this.router.navigate(['/home']);
+                }
+              },
+              error: () => {
                 signOut(this.auth);
                 this.router.navigate(['/home']);
-              }
-            },
-            error: () => {
-              signOut(this.auth);
-              this.router.navigate(['/home']);
-            },
-          });
-        },
-        error: err => {
-          console.error(err);
-        },
-      });
-    }
+              },
+            });
+          },
+          error: err => {
+            console.error(err);
+          },
+        });
+      }
+    });
   }
 }
